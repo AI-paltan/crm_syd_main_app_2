@@ -18,6 +18,7 @@ class getNotesDataTables:
         self.max_main_page = max_main_page
         self.ocr_line_df_dict:dict = {}
         self.notes_span_df = pd.DataFrame()
+        self.cropped_table_dict :Dict = {}
 
     def trigger_job(self):
         self.prepare_ocr_line_df()
@@ -102,16 +103,21 @@ class getNotesDataTables:
                 # print(table_list,row_numbers)
                 append_table_list = []
                 append_row_num_list = []
+                append_tableid_list = []
                 for table,row_number in zip(table_list,row_numbers):
                     if table.tableid not in processed_tables:
                         table_df = pd.read_html(table.html_string)[0]
                         unique_rows = list(np.array(list(set(row_number)))-1)
-                        cropped_df = table_df.iloc[unique_rows]
-                        cropped_df = cropped_df.reset_index(drop=True)
-                        processed_tables.append(table.tableid)
-                        append_table_list.append(table)
-                        append_row_num_list.append(unique_rows)
-                self.notes_span_df.at[idx, 'tableid'] = append_table_list
+                        if len(unique_rows) > 1:
+                            cropped_df = table_df.iloc[unique_rows]
+                            cropped_df = cropped_df.reset_index(drop=True)
+                            processed_tables.append(table.tableid)
+                            append_table_list.append(table)
+                            append_row_num_list.append(unique_rows)
+                            append_tableid_list.append(table.tableid)
+                            self.cropped_table_dict[str(table.tableid)] = cropped_df
+                self.notes_span_df.at[idx, 'tableslist'] = append_table_list
+                self.notes_span_df.at[idx,'tableid'] = append_tableid_list
                 self.notes_span_df.at[idx, 'row_numbers'] = append_row_num_list
 
 

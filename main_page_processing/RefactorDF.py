@@ -42,6 +42,7 @@ class RefactorCBS:
         temp_df["data_end_y"] = data_end_y
         temp_df["particulars_y"] = particulars_y
         temp_df["headers"] = headers
+        temp_df["total_columns"] = 4
         return standard_df, temp_df
 
     def non_ideal_format_without_notes_processing(self):
@@ -61,9 +62,11 @@ class RefactorCBS:
         temp_df["data_end_y"] = data_end_y
         temp_df["particulars_y"] = particulars_y
         temp_df["headers"] = headers
+        temp_df["total_columns"] = 3
         return standard_df , temp_df
 
     def non_ideal_format_processing(self):
         self.df = self.df.iloc[:,4]  # select first 4 columns
         standard_df,temp_df = self.ideal_format_processing()
+        temp_df["total_columns"] = 6
         return standard_df,temp_df

@@ -44,6 +44,7 @@ class mainPageProcess:
         self.final_notes_dict :dict = {}
         self.notes_ref_dict: Dict = {}
         self.notes_region_meta_data = pd.DataFrame()
+        self.cropped_table_dict : Dict = {}
 
     def process_main_pages(self,fileid:str):
         self.fileid=fileid
@@ -55,7 +56,7 @@ class mainPageProcess:
         self.get_note_data_tables()
         self.standardize_notes_data()
         self.save_logs_in_db()
-        return self.cbs_df_dict,self.cpl_df_dict,self.ccf_df_dict,self.meta_dict,self.final_notes_dict,self.notes_ref_dict, self.notes_region_meta_data
+        return self.cbs_df_dict,self.cpl_df_dict,self.ccf_df_dict,self.meta_dict,self.final_notes_dict,self.notes_ref_dict, self.notes_region_meta_data, self.cropped_table_dict
 
     def get_standardize_main_pages(self):
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid).order_by(db_models.FileLogs.time.desc()).first()
@@ -170,6 +171,7 @@ class mainPageProcess:
         obj_notes_data = getNotesDataTables(fileid=self.fileid,notes_dict=self.final_notes_dict,max_main_page=self.max_main_page)
         obj_notes_data.trigger_job()
         self.notes_region_meta_data = obj_notes_data.notes_span_df
+        self.cropped_table_dict = obj_notes_data.cropped_table_dict
         self.remove_empty_rows_from_notes_meta_data()
         self.add_raw_note_to_notes_meta_data()
 
