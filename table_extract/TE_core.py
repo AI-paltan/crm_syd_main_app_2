@@ -1,6 +1,6 @@
 from .analyzer.TableExtract import TableExtract
 from ..database.database import get_db, get_db1
-from . import db_models
+from ..database import db_models
 from typing import List,Dict
 from .config import core_settings
 import cv2

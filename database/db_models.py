@@ -134,3 +134,23 @@ class RowColLogs(Base):
                         nullable=False, server_default=text('now()'))
     
 
+class CRM_nlp_bucketing(Base):
+    __tablename__ = "CRM_nlp_bucketing"
+    id = Column(Integer, primary_key=True, nullable=False)
+    statement_type = Column(String)
+    statement_section = Column(String)
+    statement_sub_section = Column(String)
+    primary_keywords = Column(String)
+    target_keyword = Column(String)
+    fetch_type = Column(String)
+    note_keyword = Column(String)
+    flag_model_training = Column(String)
+    field_tage = Column(String)
+    meta_keyword = Column(String)
+    custom_formula = Column(String)
+    remarks = Column(String)
+    ref_notes_key = Column(String)
+    template_row_map = Column(String)
+    sequence_view = Column(String)
+    match_type = Column(String)
+    cdm_keyword_name = Column(String)

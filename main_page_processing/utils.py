@@ -7,7 +7,7 @@ from typing import List
 from datetime import date
 from functools import reduce
 from typing import Optional
-
+from fuzzywuzzy import fuzz
 
 def find_column_numbers(df):
     col_len = len(df.columns)
@@ -107,9 +107,9 @@ def get_years_and_positions_without_notes(df):
 def get_data_chunk_span_with_notes(df,notes_indices,years_indices):
     notes_x = notes_indices[0]
     notes_y = notes_indices[1]
-    max_year_x = max(years_indices,key=max)[0]
-    min_year_y = min(years_indices,key=min)[1]
-    max_year_y = max(years_indices,key=max)[1]
+    max_year_x = list(np.max(np.array(years_indices),axis=0))[0]#max(years_indices,key=max)[0]
+    min_year_y = list(np.min(np.array(years_indices),axis=0))[1]#min(years_indices,key=min)[1]
+    max_year_y = list(np.max(np.array(years_indices),axis=0))[1]#max(years_indices,key=max)[1]
     max_header = max([notes_x,max_year_x])
     data_start_x = -1
     particulars_y = -1
@@ -126,9 +126,9 @@ def get_data_chunk_span_with_notes(df,notes_indices,years_indices):
     
 
 def get_data_chunk_span_without_notes(df,years_indices):
-    max_year_x = max(years_indices,key=max)[0]
-    min_year_y = min(years_indices,key=min)[1]
-    max_year_y = max(years_indices,key=max)[1]
+    max_year_x = list(np.max(np.array(years_indices),axis=0))[0]#max(years_indices,key=max)[0]
+    min_year_y = list(np.min(np.array(years_indices),axis=0))[1]#min(years_indices,key=min)[1]
+    max_year_y = list(np.max(np.array(years_indices),axis=0))[1]#max(years_indices,key=max)[1]
     max_header = max_year_x
     data_start_x = -1
     particulars_y = -1
@@ -249,7 +249,7 @@ def number_data_processing(df,data_start_x,data_start_y,data_end_y):
     def split_merge_rows(row):
         pass
     for i in range(data_start_y,data_end_y+1):
-        df.iloc[data_start_x:,i] = df.iloc[data_start_x:,i].apply(clean_number).apply(pd.to_numeric , errors='coerce')
+        df.iloc[data_start_x:,i] = df.iloc[data_start_x:,i].apply(clean_number).apply(pd.to_numeric , errors='coerce').fillna(0)
 #     for idx,row in df.iterrows()
     return df
 
@@ -259,3 +259,20 @@ def set_headers(df,data_start_x,data_end_y,headers):
     subset_df.columns = headers
     subset_df = subset_df.reset_index(drop=True)
     return subset_df
+
+
+def check_and_remove_duplicate_column(nte_df):
+    cnt = 0
+    row_duplicate = 0
+    ratio_duplicate = 0
+    # if particular_end_col > 0 and particular_end_col==1:
+    for idx,row in nte_df.iterrows():
+        if not pd.isnull(row[1]):
+            if (fuzz.partial_ratio(str(row[1]),str(row[0])) > 95):
+                row_duplicate = row_duplicate+1
+            cnt=cnt+1
+    if row_duplicate > 0:
+        ratio_duplicate = (row_duplicate/cnt)*100
+        if ratio_duplicate > 90:
+            nte_df = nte_df.drop(nte_df.columns[1], axis=1).T.reset_index(drop=True).T
+    return nte_df

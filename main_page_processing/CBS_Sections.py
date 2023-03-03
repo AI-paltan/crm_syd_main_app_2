@@ -1,8 +1,8 @@
 import pandas as pd
-from TechMagicFuzzy import TechMagicFuzzy
+from .TechMagicFuzzy import TechMagicFuzzy
 import re
 from fuzzywuzzy import fuzz
-from main_page_config import main_page_core_settings
+from .main_page_config import main_page_core_settings
 import os
 import string
 

@@ -15,6 +15,7 @@ from utils import *
 from CBS_Sections import CBSsections
 from CCF_Sections import CCFsections
 from getNotesData import getNotesDataTables
+from noteStandardise import NoteStandardised
 
 from collections import defaultdict
 
@@ -45,6 +46,9 @@ class mainPageProcess:
         self.notes_ref_dict: Dict = {}
         self.notes_region_meta_data = pd.DataFrame()
         self.cropped_table_dict : Dict = {}
+        self.standardised_cropped_dict : Dict = {}
+        self.standard_note_meta_dict = {}
+        self.transformed_standardised_cropped_dict : Dict = {}
 
     def process_main_pages(self,fileid:str):
         self.fileid=fileid
@@ -179,17 +183,22 @@ class mainPageProcess:
         self.notes_region_meta_data = self.notes_region_meta_data[self.notes_region_meta_data['start_page'].str.len()>0].reset_index(drop=True)
 
     def add_raw_note_to_notes_meta_data(self):
-        self.notes_region_meta_data['raw_note_number'] = None
+        self.notes_region_meta_data['raw_note_number'] = [[] for _ in range(len(self.notes_region_meta_data))]
         for statement,value in self.notes_ref_dict.items():
             for dct  in value:
                 note = dct.get('main_note_number')[0]
                 subnote = dct.get('subnote_number')[0] 
                 index_to_add_arr = self.notes_region_meta_data[(self.notes_region_meta_data['note']==str(note)) & (self.notes_region_meta_data['subnote']==str(subnote))].index.values
                 if len(index_to_add_arr)>0:
-                    self.notes_region_meta_data.at[index_to_add_arr[0],'raw_note_number'] = dct.get('raw_note_no')
+                    self.notes_region_meta_data.at[index_to_add_arr[0],'raw_note_number'].append(dct.get('raw_note_no'))
 
     def standardize_notes_data(self):
-        pass
+        obj_noteStandardise = NoteStandardised(self.cropped_table_dict)
+        obj_noteStandardise.trigger_job()
+        self.standardised_cropped_dict = obj_noteStandardise.standard_note_df
+        self.standard_note_meta_dict = obj_noteStandardise.standard_note_meta_dict
+        self.transformed_standardised_cropped_dict = obj_noteStandardise.transformed_standardised_cropped_dict
+    # def transform_standardised_notes_data():
 
     def save_logs_in_db(self):
         pass

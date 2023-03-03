@@ -3,8 +3,8 @@ import os
 import pandas as pd
 import numpy as np
 import re
-from database import get_db, get_db1
-import db_models
+from ..database import get_db, get_db1
+from ..database import db_models
 from typing import Dict,List,Any,Optional
 from note_utils import *
 
@@ -115,7 +115,9 @@ class getNotesDataTables:
                             append_table_list.append(table)
                             append_row_num_list.append(unique_rows)
                             append_tableid_list.append(table.tableid)
-                            self.cropped_table_dict[str(table.tableid)] = cropped_df
+                            # self.cropped_table_dict[str(table.tableid)] = cropped_df
+                            tbale_combo_key = str(row["note"])+"_"+str(row["subnote"])+"_"+str(table.tableid)
+                            self.cropped_table_dict[tbale_combo_key] = cropped_df
                 self.notes_span_df.at[idx, 'tableslist'] = append_table_list
                 self.notes_span_df.at[idx,'tableid'] = append_tableid_list
                 self.notes_span_df.at[idx, 'row_numbers'] = append_row_num_list
