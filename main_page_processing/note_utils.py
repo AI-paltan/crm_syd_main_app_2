@@ -7,7 +7,7 @@ import numpy as np
 
 
 def note_end_testing(note_pattern,text_line):
-    flag = bool(re.match(r"([A-Za-z]*)(\s*)({})([^0-9]+|\s+)".format(note_pattern),text_line.lower()))
+    flag = bool(re.match(r"([A-Za-z]*)(\s*)({})([^0-9]+|\s+)".format(re.escape(note_pattern)),text_line))  #removing lowering of text line and adding re.escape
     return flag
 
 
@@ -92,7 +92,7 @@ def get_first_note_occurance(notes_pages,notes_bbox,max_main_page):
     return final_page,final_bbox
 
 
-def refinement(page_list,bbox_list):
+def refinement(page_list,bbox_list,max_main_page):
     filtered_pages = []
     filtered_bbox = []
     final_page = []
@@ -102,7 +102,7 @@ def refinement(page_list,bbox_list):
             filtered_pages.append(page)
             filtered_bbox.append(bbox)
     if len(filtered_pages)>1:
-        filtered_pages,filtered_bbox = get_first_note_occurance(filtered_pages,filtered_bbox)
+        filtered_pages,filtered_bbox = get_first_note_occurance(filtered_pages,filtered_bbox,max_main_page)
     return filtered_pages,filtered_bbox
 
 
