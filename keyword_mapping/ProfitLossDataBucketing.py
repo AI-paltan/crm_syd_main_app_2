@@ -1,11 +1,11 @@
 import pandas as pd
 # from flask import current_app as app
 from nltk.stem import PorterStemmer
-from main_page_config import keyword_mapping_settings
+from .main_page_config import keyword_mapping_settings
 # from src.modules.data_processing.DataBucketingGeneric import DataBucketingGeneric
 import os
-from TechMagicFuzzy import TechMagicFuzzy
-from DataBucketingUtils import *
+from .TechMagicFuzzy import TechMagicFuzzy
+from .DataBucketingUtils import *
 
 
 

@@ -1,6 +1,6 @@
-from CBS_mapping import CBSMapping
-from CPL_mapping import CPLMapping
-from CCF_mapping import CCFMapping
+from .CBS_mapping import CBSMapping
+from .CPL_mapping import CPLMapping
+from .CCF_mapping import CCFMapping
 
 
 

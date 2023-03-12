@@ -1,6 +1,6 @@
 from ..database import get_db, get_db1
 from ..database import db_models
-from BalanceSheetDataBucketing import BalanceSheetDataBucketing
+from .BalanceSheetDataBucketing import BalanceSheetDataBucketing
 import pandas as pd
 
 db = get_db1()

@@ -1,6 +1,6 @@
 from ..database import get_db, get_db1
 from ..database import db_models
-from CashFlowDataBucketing import CashFlowDataBucketing
+from .CashFlowDataBucketing import CashFlowDataBucketing
 import pandas as pd
 
 db = get_db1()

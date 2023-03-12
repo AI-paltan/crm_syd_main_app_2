@@ -6,7 +6,7 @@ import re
 from ..database import get_db, get_db1
 from ..database import db_models
 from typing import Dict,List,Any,Optional
-from note_utils import *
+from .note_utils import *
 
 db = get_db1()
 

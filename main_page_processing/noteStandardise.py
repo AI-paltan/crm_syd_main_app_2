@@ -1,4 +1,4 @@
-from note_standardise_utils import *
+from .note_standardise_utils import *
 from typing import Dict
 
 

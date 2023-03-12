@@ -1,0 +1,18 @@
+date: 12 March 2023
+Adding target keywords for main page in table for P&L statement_section
+
+1. SG&A Expense
+target_keywords: other expenses
+
+Indian CRM code reference: sga_total_sga_expenses  | get_total_other_expense()
+
+Query: 
+
+2. Other operating Other Operating Income
+target_keywords: other operating 
+
+Indian CRM code reference: smr_others_opr_income  | get_other_operating_income()
+
+Query: 
+
+
