@@ -18,6 +18,26 @@ def get_notes_pages_keyowrds(df_nlp_bucket_master,df_meta_keyword):
     list_target_keywords = bucket_row['note_keyword'].values[0].split('|')
     return list_target_keywords
 
+def get_main_page_exclude_keywords(df_nlp_bucket_master,df_meta_keyword):
+    bucket_row  = df_nlp_bucket_master[df_nlp_bucket_master['meta_keyword']==df_meta_keyword]
+    # list_target_keywords = []
+    # for idx,row in bucket_row.iterrows():
+    list_target_keywords = bucket_row['exclude_target_keyword'].values[0].split('|')
+    return list_target_keywords
+
+def get_notes_pages_exclude_keyowrds(df_nlp_bucket_master,df_meta_keyword):
+    bucket_row  = df_nlp_bucket_master[df_nlp_bucket_master['meta_keyword']==df_meta_keyword]
+    list_target_keywords = bucket_row['exclude_note_keyword'].values[0].split('|')
+    return list_target_keywords
+
+def get_section_subsection_matchType(df_nlp_bucket_master,df_meta_keyword):
+    bucket_row  = df_nlp_bucket_master[df_nlp_bucket_master['meta_keyword']==df_meta_keyword]
+    section = bucket_row['statement_section'].values[0]
+    subsection = bucket_row['statement_sub_section'].values[0]
+    match_type = bucket_row['match_type'].values[0]
+    return section,subsection,match_type
+
+
 def strip_string_bullets(str_txt,obj_techfuzzy):
         strip_string_bullets_str = obj_techfuzzy.strip_string_bullets(str_txt)
         # remove multi space between words              
@@ -25,7 +45,7 @@ def strip_string_bullets(str_txt,obj_techfuzzy):
         return strip_string_bullets_str
 
 def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_score_thresh,match_type='partial'):
-    best_match = {'data_index': [], 'score': 0, 'value': 0, 'label': [],'note_numbers':[]}
+    best_match = {'data_index': [], 'score': 0, 'value': 0, 'line_item_label': [],'note_numbers':[],'line_item_value':[]}
     for data_index, data_row in df_datasheet.iterrows():
             # skip if data value is already found for bucketing
             # app.logger.debug(data_row["Particulars"])
@@ -48,7 +68,8 @@ def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_
                 # if len(data_row['Notes']) > 1:
                 (best_match['note_numbers']).append(data_row['Notes'])
                 # self.cbs_drilldown_items(bucket_row, data_row)
-                (best_match['label']).append(data_row[str("Particulars")])
+                (best_match['line_item_label']).append(data_row[str("Particulars")])
+                (best_match['line_item_value']).append(float(data_row[curr_year]))
 
     return best_match
 
@@ -64,7 +85,7 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
     tableid_list_main = []
     prcoessed_tabelids = []
     # print(notes_region_meta_data)
-    for account,note_nums in zip(main_page_best_match.get('label'),main_page_best_match.get('note_numbers')):
+    for account,note_nums in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers')):
         # print(f"account: {account} and note= {note_nums}")
         # if len(note_nums) >= 1:
         reference_notes_dict = notes_reference_dict.get(statement_type)
@@ -143,7 +164,7 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
     
     # converted_standardised_df["rows"] = 
 
-def get_notes_pages_line_items(transformed_standardised_note_df,standardised_note_df,keywords,obj_techfuzzy,conf_score_thresh,match_type="partial"):
+def get_notes_pages_line_items(transformed_standardised_note_df,keywords,obj_techfuzzy,conf_score_thresh,match_type="partial"):
     ## tis function will match the given keyword (both included and excluded keyword) and return the indices,value and year and label
     best_match = {'data_index': [], 'score': [], 'value': [], 'label': [],'year':[],'colname_found':[]}
     for data_index, data_row in transformed_standardised_note_df.iterrows():
@@ -169,7 +190,7 @@ def get_notes_pages_line_items(transformed_standardised_note_df,standardised_not
                     # if len(data_row['Notes']) > 1:
                     # (best_match['note_numbers']).append(data_row['Notes'])
                     # self.cbs_drilldown_items(bucket_row, data_row)
-                    (best_match['label']).append(data_row[str("Particulars")])
+                    (best_match['label']).append(data_row[col])
                     (best_match['colname_found']).append(col)
 
     return best_match
@@ -180,6 +201,34 @@ def filter_notes_row_indices(included_keyword_best_match,excluded_keyword_best_m
     remaining_data_indices = list(included_data_indices - excluded_keyowrd_data_indices)
     return remaining_data_indices
 
+def get_notes_dfDict_after_filtering_keywords(note_number_list,subnote_number_list,tableid_list,filtered_transformed_standardised_tables_dict,obj_techfuzzy,conf_score,match_type='partial',notes_include_keywords=[],notes_exclude_keywords=[]):
+    repsonse_notes_dict = {}
+    # print(notes_include_keywords,notes_exclude_keywords)
+    if "NULL" in notes_include_keywords:
+        notes_include_keywords.remove("NULL")
+    if "NULL" in notes_exclude_keywords:
+        notes_exclude_keywords.remove("NULL")
+    # print(notes_include_keywords,notes_exclude_keywords)
+    for note,subnote,tableid in zip(note_number_list,subnote_number_list,tableid_list):
+        combo_key = str(note)+"_"+str(subnote)+"_"+str(tableid)
+        for key,value in filtered_transformed_standardised_tables_dict.items():
+            # _df = filtered_transformed_standardised_tables_dict.get(tableid)
+            if key == combo_key:
+                _df = value
+                if len(notes_include_keywords)>0:
+                    include_best_match = get_notes_pages_line_items(transformed_standardised_note_df=_df,keywords=notes_include_keywords,obj_techfuzzy=obj_techfuzzy,conf_score_thresh=conf_score,match_type=match_type)
+                    if len(notes_exclude_keywords) > 0:
+                        exclude_best_match = get_notes_pages_line_items(transformed_standardised_note_df=_df,keywords=notes_exclude_keywords,obj_techfuzzy=obj_techfuzzy,conf_score_thresh=conf_score,match_type=match_type)
+                        data_indices = filter_notes_row_indices(included_keyword_best_match=include_best_match,excluded_keyword_best_match=exclude_best_match)
+                    else:
+                        data_indices = include_best_match.get('data_index')
+                    remain_notes_df = _df.iloc[data_indices]
+                    repsonse_notes_dict[combo_key] = remain_notes_df
+                else:
+                    repsonse_notes_dict[combo_key] = _df
+
+    return repsonse_notes_dict
+
 def prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,tableid_list,filtered_transformed_standardised_tables_dict):
     temp_df = pd.DataFrame(columns=["raw_note_no","note_no","subnote_no","line_item","year","value"])
     for raw_note,note,subnote,tableid in zip(raw_note_list,note_number_list,subnote_number_list,tableid_list):
@@ -189,9 +238,10 @@ def prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,ta
             # _df = filtered_transformed_standardised_tables_dict.get(tableid)
             if key == combo_key:
                 _df = value
-                std_df["line_item"] =  _df[["columns","rows"]].fillna('').apply(" ".join, axis=1)
-                std_df["year"] = _df["year"]
-                std_df["value"] = _df["value"]
+                if len(_df)>0:
+                    std_df["line_item"] =  _df[["columns","rows"]].fillna('').apply(" ".join, axis=1)
+                    std_df["year"] = _df["year"]
+                    std_df["value"] = _df["value"]
         std_df["raw_note_no"]=raw_note
         std_df["note_no"]=note
         std_df["subnote_no"]=subnote

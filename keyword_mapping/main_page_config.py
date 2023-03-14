@@ -14,14 +14,14 @@ class Settings(BaseSettings):
 class Main_Page_CoreSettings(BaseSettings):
     file_storage :str=os.path.join(path.dirname(__file__),'../..','FILE_DB/FILES')
     page_storage: str= os.path.join(path.dirname(__file__),'../..','FILE_DB/PAGES')
-    cbs_statement_sections : str =os.path.join(path.dirname(__file__),'keywords_library/cbs_statement_sections.tsv')
-    cbs_refactor_sections : str =os.path.join(path.dirname(__file__),'keywords_library/cbs_refactor_sections.tsv')
-    cbs_refactor_subsections : str =os.path.join(path.dirname(__file__),'keywords_library/cbs_refactor_subsections.tsv')
-    ccf_refactor_sections:str=os.path.join(path.dirname(__file__),'keywords_library/ccf_refactor_sections.tsv')
-    ccf_refactor_subsections:str=os.path.join(path.dirname(__file__),'keywords_library/ccf_refactor_subsections.tsv')
+    cbs_statement_sections : str =os.path.join(path.dirname(__file__),'../assets/keywords_library/cbs_statement_sections.tsv')
+    cbs_refactor_sections : str =os.path.join(path.dirname(__file__),'../assets/keywords_library/cbs_refactor_sections.tsv')
+    cbs_refactor_subsections : str =os.path.join(path.dirname(__file__),'../assets/keywords_library/cbs_refactor_subsections.tsv')
+    ccf_refactor_sections:str=os.path.join(path.dirname(__file__),'../assets/keywords_library/ccf_refactor_sections.tsv')
+    ccf_refactor_subsections:str=os.path.join(path.dirname(__file__),'../assets/keywords_library/ccf_refactor_subsections.tsv')
 
 class Keyword_mapping_Settings(BaseSettings):
-    ccf_section_subtotal_keywords :str = os.path.join(path.dirname(__file__),'keywords_library/ccf_section_subtotal_keywords.tsv')
+    ccf_section_subtotal_keywords :str = os.path.join(path.dirname(__file__),'../assets/keywords_library/ccf_section_subtotal_keywords.tsv')
 
 
 settings = Settings()

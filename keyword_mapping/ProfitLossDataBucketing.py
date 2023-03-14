@@ -30,7 +30,7 @@ class ProfitLossDataBucketing():
         # self.record_dtls = record_dtls
         self.obj_techfuzzy = TechMagicFuzzy()
         self.list_drilldown_flags = {}
-        self.bs_bucketing_dict = {}
+        self.pl_bucketing_dict = {}
 
 
     def fetch_report(self):
@@ -48,7 +48,7 @@ class ProfitLossDataBucketing():
         self.get_MINORITY_INTEREST()
         self.get_EXTRAORDINARY_GAIN_LOSS()
         self.get_OTHERS()
-        self.get_EXTRAORDINARY_GAIN_LOSS()
+        
 
 
 
@@ -66,24 +66,60 @@ class ProfitLossDataBucketing():
         years_list.sort()
         self.years_list = [str(i) for i in years_list]
 
-    def get_cdm_item_data_buckets(self,main_page_targat_keywords):
+    # def get_cdm_item_data_buckets(self,main_page_targat_keywords):
+    #     notes_table_df = pd.DataFrame(columns=["raw_note_no","note_no","subnote_no","line_item","year","value"])
+    #     main_page_data_indices = []
+    #     main_page_year_total_lst = []
+    #     main_page_raw_note_list = []
+    #     for year in self.years_list:
+    #         # print(year)
+    #         main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh)
+    #         # print(f"main_page_best_match:= {main_page_best_match}")
+    #         # main_page_data_indices.append(main_page_best_match.get("data_index"))
+    #         main_page_data_indices = main_page_best_match.get("data_index")
+    #         main_page_year_total_lst.append(main_page_best_match.get("value"))
+    #         # print(list(main_page_best_match.get("label")))
+    #     # print(f"main_page_best_match:= {main_page_best_match}")
+    #     filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cbs")
+    #     # print(f"1.raw_note_list: {raw_note_list},note_number_list: {note_number_list},sbnoue: {subnote_number_list},tableid:{tableid_list}")
+    #     # print(f"len of std dict {len(filtered_standardised_tables_dict)} and len of trasnformed std dict: {len(filtered_transformed_standardised_tables_dict)}")
+    #     temp_df = prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,tableid_list,filtered_transformed_standardised_tables_dict)
+    #     notes_table_df = pd.concat([notes_table_df,temp_df],ignore_index=True)
+    #     main_page_raw_note_list = raw_note_list
+    #         # get_notes_pages_line_items()
+    #     temp_dict ={}
+    #     temp_dict["main_page_row_indices"] = main_page_data_indices
+    #     temp_dict["main_page_year_total"] =main_page_year_total_lst
+    #     temp_dict["main_page_raw_note"] =main_page_raw_note_list
+    #     temp_dict["notes_table_df"] = notes_table_df
+    #     return temp_dict
+
+    def get_cdm_item_data_buckets(self,main_page_targat_keywords,match_type,note_page_include_keywords=[],notes_page_exclude_keywords=[]):
         notes_table_df = pd.DataFrame(columns=["raw_note_no","note_no","subnote_no","line_item","year","value"])
         main_page_data_indices = []
         main_page_year_total_lst = []
         main_page_raw_note_list = []
+        main_page_particular_text_list = []
+        main_page_value_list = []
         for year in self.years_list:
             # print(year)
-            main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh)
+            main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh,match_type=match_type)
             # print(f"main_page_best_match:= {main_page_best_match}")
             # main_page_data_indices.append(main_page_best_match.get("data_index"))
             main_page_data_indices = main_page_best_match.get("data_index")
             main_page_year_total_lst.append(main_page_best_match.get("value"))
+            main_page_particular_text_list = main_page_best_match.get("line_item_label")
+            main_page_value_list.append(main_page_best_match.get("line_item_value"))
             # print(list(main_page_best_match.get("label")))
         # print(f"main_page_best_match:= {main_page_best_match}")
-        filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cbs")
+        filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cpl")
         # print(f"1.raw_note_list: {raw_note_list},note_number_list: {note_number_list},sbnoue: {subnote_number_list},tableid:{tableid_list}")
         # print(f"len of std dict {len(filtered_standardised_tables_dict)} and len of trasnformed std dict: {len(filtered_transformed_standardised_tables_dict)}")
-        temp_df = prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,tableid_list,filtered_transformed_standardised_tables_dict)
+        noted_dict_respnse_after_filtering_keywrods = get_notes_dfDict_after_filtering_keywords(note_number_list=note_number_list,subnote_number_list=subnote_number_list,tableid_list=tableid_list,filtered_transformed_standardised_tables_dict=filtered_transformed_standardised_tables_dict,obj_techfuzzy=self.obj_techfuzzy,conf_score=self.conf_score_thresh,match_type='partial',notes_include_keywords=note_page_include_keywords,notes_exclude_keywords=notes_page_exclude_keywords)
+        # temp_df = prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,tableid_list,filtered_transformed_standardised_tables_dict)
+        # print("new meta dict")
+        # print(noted_dict_respnse_after_filtering_keywrods)
+        temp_df = prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,tableid_list,noted_dict_respnse_after_filtering_keywrods)
         notes_table_df = pd.concat([notes_table_df,temp_df],ignore_index=True)
         main_page_raw_note_list = raw_note_list
             # get_notes_pages_line_items()
@@ -91,38 +127,145 @@ class ProfitLossDataBucketing():
         temp_dict["main_page_row_indices"] = main_page_data_indices
         temp_dict["main_page_year_total"] =main_page_year_total_lst
         temp_dict["main_page_raw_note"] =main_page_raw_note_list
+        temp_dict["main_page_particular_text_list"] = main_page_particular_text_list
+        temp_dict["main_page_value_list"] = main_page_value_list
         temp_dict["notes_table_df"] = notes_table_df
         return temp_dict
   
 
 
     def get_REVENUES(self):
-        pass
+        meta_keywrods = "smr_sales"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+
     def get_COST_OF_SALES(self):
-        pass
+        meta_keywrods = "cost_of_sales"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+
     def get_SGNA_EXPENSE(self):
-        pass
+        meta_keywrods = "sga_total_sga_expenses"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+    
     def get_RENT(self):
-        pass
+        meta_keywrods = "smr_rent"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+
     def get_OTHER_OPR_INCOME(self):
-        pass
+        meta_keywrods = "smr_others_opr_income"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+
     def get_INTEREST_INCOME(self):
-        pass
+        meta_keywrods = "smr_interest_income"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+    
     def get_INTEREST_EXPENSE(self):
-        pass
+        meta_keywrods = "smr_interest_expense"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+
     def get_NON_OPR_INCOME_EXPENSE(self):
-        pass
+        meta_keywrods = "noie_oi_or_exp"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+    
     def get_OTHER_INCOME_EXPENSE(self):
-        pass
+        meta_keywrods = "oie_oi"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+    
     def get_TAXES(self):
-        pass
+        meta_keywrods = "smr_taxes"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+    
     def get_MINORITY_INTEREST(self):
-        pass
+        meta_keywrods = "smr_minority_interest"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+
     def get_EXTRAORDINARY_GAIN_LOSS(self):
-        pass
+        meta_keywrods = "smr_extraordinary_gain_loss"
+        main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+
+        self.pl_bucketing_dict[meta_keywrods] = temp_dict
+
     def get_OTHERS(self):
         pass
-    def get_EXTRAORDINARY_GAIN_LOSS(self):
-        pass
+
 
   

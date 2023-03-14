@@ -1,18 +1,87 @@
-date: 12 March 2023
+date: 14 March 2023
 Adding target keywords for main page in table for P&L statement_section
 
-1. SG&A Expense
-target_keywords: other expenses
+1. Cost of Sales : cost_of_sales
+included main page keywords = 'purchase of stock-in-trade|expense|expenditure|total expenses|total expenditure|cost of sales'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='purchase of stock-in-trade|expense|expenditure|total expenses|total expenditure|cost of sales'
+	WHERE meta_keyword='cost_of_sales';
+
+2. SG&A Expense : sga_total_sga_expenses
+main_page_include_keywords: other expenses| depreciation
+
+note_page_include_keywords= 'consum|power|machinery|charges|research|analytical|equipment|exchange|loss on|donation|csr|social|miscellaneous|loss allowance'
 
 Indian CRM code reference: sga_total_sga_expenses  | get_total_other_expense()
 
-Query: 
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other expenses| depreciation' , note_keyword='consum|power|machinery|charges|research|analytical|equipment|exchange|loss on|donation|csr|social|miscellaneous|loss allowance'
+	WHERE meta_keyword='sga_total_sga_expenses';
 
-2. Other operating Other Operating Income
+3. Other operating : smr_others_opr_income
 target_keywords: other operating 
 
 Indian CRM code reference: smr_others_opr_income  | get_other_operating_income()
 
-Query: 
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other operating ' 
+	WHERE meta_keyword='smr_others_opr_income';
+
+4. Interest Income : smr_interest_income
+main_page_include_keywords: other income|finance income
+
+note_page_include_keywords= 'interest'
+
+query:  UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other income|finance income', note_keyword='interest'
+	WHERE meta_keyword='smr_interest_income';
+
+5. Interest expenses : smr_interest_expense
+main_page_include_keywords: finance cost
+
+note_page_include_keywords= 'loan|debt|debenture|cash credit|borrowings|bank facilities|bonds|interest'
+
+query:  UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='finance cost', note_keyword='loan|debt|debenture|cash credit|borrowings|bank facilities|bonds|interest'
+	WHERE meta_keyword='smr_interest_expense';
+
+6. Non Operating Income (Expense) : noie_oi_or_exp
+main_page_include_keywords: 
+
+note_page_include_keywords= 
+
+query: 
+
+
+7. Taxes : smr_taxes  : already avaialble in db
+main_page_include_keywords: 'current tax|deferred tax|minimum alternate tax credit entitlement|amount transferred to retained earnings|provision for taxation previous year|earlier year|prior year'
+
+note_page_include_keywords= 
+
+query: 
+
+8. Minority Interest : smr_minority_interest
+main_page_include_keywords: 'share of|share in'
+
+note_page_include_keywords= 
+
+query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='share of|share in'
+	WHERE meta_keyword='smr_minority_interest';
+
+9. Extraordinary Gain/loss : smr_extraordinary_gain_loss
+main_page_include_keywords: 'exceptional|prior period'
+
+note_page_include_keywords= 
+
+query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='exceptional|prior period'
+	WHERE meta_keyword='smr_extraordinary_gain_loss';
+
+
+
+
+
 
 

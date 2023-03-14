@@ -21,7 +21,7 @@ class KeywordMappingCore:
 
     def CBS_bucketing(self):
         if len(self.cbs_main_page_dict)>0:
-            for key,val in self.cbs_main_page_dict:
+            for key,val in self.cbs_main_page_dict.items():
                 cbs_df = val
                 cbs_df.columns = cbs_df.columns.map(str)
                 obj_cbsMapping = CBSMapping(cbs_df=cbs_df,notes_ref_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standard_note_meta_dict=self.standard_note_meta_dict,standardised_cropped_dict=self.standardised_cropped_dict,transformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict)
@@ -30,16 +30,16 @@ class KeywordMappingCore:
     
     def CPL_bucketing(self):
         if len(self.cpl_main_page_dict)>0:
-            for key,val in self.cpl_main_page_dict:
+            for key,val in self.cpl_main_page_dict.items():
                 cpl_df = val
                 cpl_df.columns = cpl_df.columns.map(str)
-                obj_cbsMapping = CBSMapping(cpl_df=cpl_df,notes_ref_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standard_note_meta_dict=self.standard_note_meta_dict,standardised_cropped_dict=self.standardised_cropped_dict,transformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict)
+                obj_cbsMapping = CPLMapping(cpl_df=cpl_df,notes_ref_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standard_note_meta_dict=self.standard_note_meta_dict,standardised_cropped_dict=self.standardised_cropped_dict,transformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict)
                 obj_cbsMapping.trigger_job()
                 self.cpl_bucket_response_dict[key] = obj_cbsMapping.pl_bucket_dict
 
     def CCF_bucketing(self):
         if len(self.ccf_main_page_dict)>0:
-            for key,value in self.ccf_main_page_dict:
+            for key,value in self.ccf_main_page_dict.items():
                 ccf_df = value
                 ccf_df.columns = ccf_df.columns.map(str)
                 obj_ccfmapping = CCFMapping(ccf_df=ccf_df)

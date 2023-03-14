@@ -17,7 +17,7 @@ class CashFlowDataBucketing():
 
         self.df_datasheet = df_datasheet
         self.df_nlp_bucket_master = df_nlp_bucket_master
-        # print(df_nlp_bucket_master)
+        # print(self.df_datasheet )
         self.ps = PorterStemmer()
 
         self.conf_score_thresh = 80
@@ -139,7 +139,7 @@ class CashFlowDataBucketing():
     def get_section_subtotal(self):
 
         subtotal_keywords = self.get_keywords_library(keyword_mapping_settings.ccf_section_subtotal_keywords)
-
+        # print(subtotal_keywords)
         # SEARCH FOR NET SUBTOTAL SECTION-WISE
         for section_key, list_keywords in subtotal_keywords.items():
             self.section_subtotal[section_key] = {}
@@ -253,7 +253,7 @@ class CashFlowDataBucketing():
         net_bucket_total = {}
 
         for curr_year in self.years_list:
-            print(f'FINANCIAL_YEAR : {curr_year}')
+            # print(f'FINANCIAL_YEAR : {curr_year}')
 
             # GET CURRENT YEAR SUM
             if curr_year in self.section_subtotal[section_key]:
@@ -272,7 +272,7 @@ class CashFlowDataBucketing():
 
             # OUTER LOOP : BUCKET DATAFRAME
             for bucket_index, bucket_row in df_bucket.iterrows():
-                print(f'Bucket Keyword : {bucket_row[str("primary_keywords")]}')
+                # print(f'Bucket Keyword : {bucket_row[str("primary_keywords")]}')
 
                 if bucket_row['field_tage'] == 'balancing_value':
                     index_balancing_column = bucket_index
@@ -286,7 +286,7 @@ class CashFlowDataBucketing():
                 else:
                     continue
 
-                print(f'BEST MATCH: {best_match}')
+                # print(f'BEST MATCH: {best_match}')
                 if len(best_match['data_index']) > 0:
                     df_bucket.at[bucket_index, str(curr_year)] = float(best_match['value'])
                     df_bucket.at[bucket_index, 'score'] = best_match['score']
@@ -296,7 +296,7 @@ class CashFlowDataBucketing():
                     if bucket_row['fetch_type'] == 'Direct':
                         for df_idx in best_match['data_index']:
                             df_data.at[df_idx, 'flg_processed'] = True
-                    print(f'MATCH FOUND {best_match}')
+                    # print(f'MATCH FOUND {best_match}')
                 else:
                     pass
                     # print(f'NO MATCH FOUND')
@@ -304,27 +304,27 @@ class CashFlowDataBucketing():
                 # print('-----------')
 
             # CALCULATE BALANCING FIGURE MANUALLY - FOR THE YEAR
-            print(f'BALANCING INDEX FOUND AT: {index_balancing_column}')
+            # print(f'BALANCING INDEX FOUND AT: {index_balancing_column}')
             if index_balancing_column:
                 df_bucket.at[index_balancing_column, str(curr_year)] = curr_year_sum - value_adjusted
                 df_bucket.at[index_balancing_column, 'score'] = 95
 
             # SET TOTAL FIGURE MANUALLY - FOR THE YEAR
-            print(f'SUBTOTAL INDEX FOUND AT: {index_subtotal_column}')
+            # print(f'SUBTOTAL INDEX FOUND AT: {index_subtotal_column}')
             if index_subtotal_column:
                 df_bucket.at[index_subtotal_column, str(curr_year)] = curr_year_sum
                 df_bucket.at[index_subtotal_column, 'score'] = 95
                 net_bucket_total[curr_year] = curr_year_sum
 
-            print(
-                f'TOTAL SUM: {curr_year_sum} | VALUE ADJUSTED: {value_adjusted} | BALANCING FIGURE : {curr_year_sum - value_adjusted}')
-            print('-------------------------')
+            # print(
+            #     f'TOTAL SUM: {curr_year_sum} | VALUE ADJUSTED: {value_adjusted} | BALANCING FIGURE : {curr_year_sum - value_adjusted}')
+            # print('-------------------------')
 
             self.list_drilldown_flags[section_key] = True
 
-        print('=========================================================')
-        print(f'NET SUBTOTAL : {net_bucket_total}')
-        print(f'----- AFTER PROCESSING BUCKET DATA ----- \n{df_bucket}')
+        # print('=========================================================')
+        # print(f'NET SUBTOTAL : {net_bucket_total}')
+        # print(f'----- AFTER PROCESSING BUCKET DATA ----- \n{df_bucket}')
 
         df_bucket = self.formula_datafetch(df_bucket)
 
