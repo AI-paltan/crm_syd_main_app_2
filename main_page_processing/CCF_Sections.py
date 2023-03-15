@@ -51,6 +51,7 @@ class CCFsections:
 
         curr_section = None
         curr_subsection = None
+        self.cbs_dataframe['Particulars'] = self.cbs_dataframe['Particulars'].astype('str')
         for df_index, df_row in self.cbs_dataframe.iterrows():
 
             # CHOOSE MAIN SECTION
