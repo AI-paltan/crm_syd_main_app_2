@@ -102,7 +102,7 @@ class BalanceSheetDataBucketing():
         main_page_value_list = []
         for year in self.years_list:
             # print(year)
-            main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh,match_type=match_type)
+            main_page_best_match= get_main_page_line_items(df_datasheet=df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh,match_type=match_type)
             # print(f"main_page_best_match:= {main_page_best_match}")
             # main_page_data_indices.append(main_page_best_match.get("data_index"))
             main_page_data_indices = main_page_best_match.get("data_index")
@@ -115,17 +115,21 @@ class BalanceSheetDataBucketing():
         # print(f"1.raw_note_list: {raw_note_list},note_number_list: {note_number_list},sbnoue: {subnote_number_list},tableid:{tableid_list}")
         # print(f"len of std dict {len(filtered_standardised_tables_dict)} and len of trasnformed std dict: {len(filtered_transformed_standardised_tables_dict)}")
         noted_dict_respnse_after_filtering_keywrods = get_notes_dfDict_after_filtering_keywords(note_number_list=note_number_list,subnote_number_list=subnote_number_list,tableid_list=tableid_list,filtered_transformed_standardised_tables_dict=filtered_transformed_standardised_tables_dict,obj_techfuzzy=self.obj_techfuzzy,conf_score=self.conf_score_thresh,match_type='partial',notes_include_keywords=note_page_include_keywords,notes_exclude_keywords=notes_page_exclude_keywords)
-        temp_df = prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,tableid_list,noted_dict_respnse_after_filtering_keywrods)
+        temp_df,temp_horizontal_df = prepare_df_for_dumping2(raw_note_list,note_number_list,subnote_number_list,tableid_list,noted_dict_respnse_after_filtering_keywrods)
         notes_table_df = pd.concat([notes_table_df,temp_df],ignore_index=True)
         main_page_raw_note_list = raw_note_list
+        matched_main_page_df = get_matched_main_page_df(main_page_data_indices=main_page_data_indices,df=self.df_datasheet)
             # get_notes_pages_line_items()
         temp_dict ={}
         temp_dict["main_page_row_indices"] = main_page_data_indices
         temp_dict["main_page_year_total"] =main_page_year_total_lst
+        temp_dict["main_page_year_list"] = self.years_list
         temp_dict["main_page_raw_note"] =main_page_raw_note_list
         temp_dict["main_page_particular_text_list"] = main_page_particular_text_list
         temp_dict["main_page_value_list"] = main_page_value_list
+        temp_dict["main_page_cropped_df"] = matched_main_page_df
         temp_dict["notes_table_df"] = notes_table_df
+        temp_dict["notes_horizontal_table_df"] = temp_horizontal_df
         return temp_dict
   
 
