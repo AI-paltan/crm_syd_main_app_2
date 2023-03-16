@@ -44,6 +44,7 @@ def find_note_end_index(start_page_number,start_bbox,ocr_line_df_dict,next_note_
 
 def find_next_note_subnote(note,subnote=''):
     # next_note = chr(ord(str(note)) + 1)
+    # print(note)
     next_note = int(note)+1
     next_subnote = ''
     if len(subnote)<=2 and len(subnote)>0 :
