@@ -19,6 +19,7 @@ class Main_Page_CoreSettings(BaseSettings):
     cbs_refactor_subsections : str =os.path.join(path.dirname(__file__),'../assets/keywords_library/cbs_refactor_subsections.tsv')
     ccf_refactor_sections:str=os.path.join(path.dirname(__file__),'../assets/keywords_library/ccf_refactor_sections.tsv')
     ccf_refactor_subsections:str=os.path.join(path.dirname(__file__),'../assets/keywords_library/ccf_refactor_subsections.tsv')
+    log_storage :str=os.path.join(path.dirname(__file__),'../LOGS')
 
 class Keyword_mapping_Settings(BaseSettings):
     ccf_section_subtotal_keywords :str = os.path.join(path.dirname(__file__),'../assets/keywords_library/ccf_section_subtotal_keywords.tsv')

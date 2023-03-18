@@ -4,3 +4,5 @@ from .keyword_mapping import *
 from .database import *
 from .table_extract import *
 from .main_page_processing import *
+from .logging_module import *
+

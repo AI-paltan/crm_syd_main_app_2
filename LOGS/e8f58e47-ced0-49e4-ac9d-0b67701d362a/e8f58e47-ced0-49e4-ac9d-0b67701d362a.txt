@@ -1,0 +1,4 @@
+2023-03-17 19:07:21+0530 - sLogger - DEBUG - module: Classification_service , File:wrapper.py,  function: Save_file
+2023-03-17 19:07:21+0530 - sLogger - DEBUG - {'fileid': 'e8f58e47-ced0-49e4-ac9d-0b67701d362a', 'filename': 'BFE Financial Report Mar-22 FINAL.pdf', 'filepath': '/home/jayesh/mgs_ai/crm_syd_1/CRM_SYD_main_app_2/classification/../FILE_DB/FILES/BFE Financial Report Mar-22 FINAL.pdf'}
+2023-03-17 19:07:21+0530 - sLogger - DEBUG - save file completed
+2023-03-17 19:07:55+0530 - sLogger - DEBUG - process file completed

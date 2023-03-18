@@ -10,6 +10,7 @@ import os
 from ..database.database import get_db, get_db1
 from ..database import db_models
 from typing import List,Dict
+import logging
 
 db = get_db1()
 ocr = OCR(core_settings.ocr_backend)

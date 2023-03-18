@@ -14,6 +14,8 @@ class Settings(BaseSettings):
 class CoreSettings(BaseSettings):
     file_storage :str=os.path.join(path.dirname(__file__),'../','FILE_DB/FILES')
     page_storage: str= os.path.join(path.dirname(__file__),'../','FILE_DB/PAGES')
+    log_storage :str=os.path.join(path.dirname(__file__),'../LOGS')
+    log_config : str = os.path.join(path.dirname(__file__),'../logging_module','logger_config.ini')
     ocr_backend:str='tesseract'
     label_map : dict = {"0":"cbs","1":"cpl","2":"ccf","-1":"other"}
     region_settings: dict = {"sydeny":{"seq":{"0":"cpl","1":"cbs","2":"ccf"},

@@ -2,11 +2,13 @@ import pandas as pd
 import numpy as np
 import re
 import openpyxl
+import os
 from dateutil import parser
 from typing import List,Dict
 from datetime import date
 from functools import reduce
 from typing import Optional, List,Dict, Any
+import json
 from copy import deepcopy
 from ..database import get_db, get_db1
 from ..database import db_models
@@ -16,6 +18,7 @@ from .CBS_Sections import CBSsections
 from .CCF_Sections import CCFsections
 from .getNotesData import getNotesDataTables
 from .noteStandardise import NoteStandardised
+from .main_page_config import main_page_core_settings
 
 from collections import defaultdict
 
@@ -59,6 +62,7 @@ class mainPageProcess:
         # self.find_note_page_area()
         self.get_note_data_tables()
         self.standardize_notes_data()
+        self.save_op_in_files()
         self.save_logs_in_db()
         return self.cbs_df_dict,self.cpl_df_dict,self.ccf_df_dict,self.meta_dict,self.final_notes_dict,self.notes_ref_dict, self.notes_region_meta_data, self.cropped_table_dict
 
@@ -202,3 +206,54 @@ class mainPageProcess:
 
     def save_logs_in_db(self):
         pass
+
+    def save_op_in_files(self):
+        folder_path = os.path.join(main_page_core_settings.log_storage,self.fileid)
+        if not os.path.exists(folder_path):
+            try:
+                os.mkdir(folder_path)
+            except:
+                pass
+        
+        main_page_service_output_folder = os.path.join(folder_path,"main_page_service_output")
+        try:
+            os.mkdir(main_page_service_output_folder)
+        except:
+            pass
+        with open(os.path.join(main_page_service_output_folder,f"notes_account_dict.json"),"w") as f:
+            json.dump(self.final_notes_dict,f)
+        self.notes_region_meta_data.to_csv(os.path.join(main_page_service_output_folder,f"notes_region_meta_data.csv"),index=False)
+        with open(os.path.join(main_page_service_output_folder,f"notes_ref_list.json"),"w") as f:
+            json.dump(self.notes_ref_dict,f)
+        with open(os.path.join(main_page_service_output_folder,f"standradrd_notes_meta_dict.json"),"w") as f:
+            json.dump(self.standard_note_meta_dict,f)
+        writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_cropped_df.xlsx"), engine='xlsxwriter')
+        for key,value in self.cropped_table_dict.items():
+            value.to_excel(writer, sheet_name=key[:20],index=False)
+        writer.save() 
+        writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"main_pages.xlsx"), engine='xlsxwriter')
+        for key,value in self.cbs_df_dict.items():
+            value.to_excel(writer, sheet_name=f"cbs_{key}",index=False)
+        for key,value in self.cpl_df_dict.items():
+            value.to_excel(writer, sheet_name=f"cpl_{key}",index=False)
+        for key,value in self.ccf_df_dict.items():
+            value.to_excel(writer, sheet_name=f"ccf_{key}",index=False)
+        writer.save()
+        writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_standard_cropped_df.xlsx"), engine='xlsxwriter')
+        for key,value in self.standardised_cropped_dict.items():
+            if value is not None:
+                    value.to_excel(writer, sheet_name=key[:20],index=False)
+            else:
+                    temp_df = pd.DataFrame()
+                    temp_df.to_excel(writer, sheet_name=key[:20],index=False)
+
+        writer.save()
+        writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_transformed_standard_cropped_df.xlsx"), engine='xlsxwriter')
+        for key,value in self.transformed_standardised_cropped_dict.items():
+            if value is not None:
+                    value.to_excel(writer, sheet_name=key[:20],index=False)
+            else:
+                    temp_df = pd.DataFrame()
+                    temp_df.to_excel(writer, sheet_name=key[:20],index=False)
+
+        writer.save()
