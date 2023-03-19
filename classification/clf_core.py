@@ -11,6 +11,7 @@ from ..database.database import get_db, get_db1
 from ..database import db_models
 from typing import List,Dict
 import logging
+from ..logging_module.logging_wrapper import Logger
 
 db = get_db1()
 ocr = OCR(core_settings.ocr_backend)
@@ -44,6 +45,7 @@ class ClfCoreFlow():
 
 
     def process_pdf(self,file_id:str):
+        Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: process_pdf")
         self.__get_basic_info_file(file_id)
         self.__save_basic_info_file_db()
         for i in range(self.page_cnt):
@@ -53,7 +55,7 @@ class ClfCoreFlow():
             self.__save_text()
         self.__filtered_pages()
         self.__update_filtered_pages_db()
-
+        Logger.logr.debug("function: process_pdf completed successfully")
     def process_single_page(self):
         pass
 
@@ -95,6 +97,7 @@ class ClfCoreFlow():
         self.filtered_ccf_pages = list(set(final_seq).intersection(set(self.predicted_ccf_pages)))
 
     def __update_filtered_pages_db(self):
+        Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: __update_filtered_pages_db")
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.file_uuid)
         temp_dict = {}
         temp_dict['predicted_cbs_pages'] = self.predicted_cbs_pages
@@ -104,15 +107,19 @@ class ClfCoreFlow():
         temp_dict['filtered_cpl_pages'] = self.filtered_cpl_pages
         temp_dict['filtered_ccf_pages'] = self.filtered_ccf_pages
         file_query.update(temp_dict, synchronize_session=False)
+        Logger.logr.debug(temp_dict)
+        Logger.logr.debug("function: __update_filtered_pages_db completed")
         db.commit()
 
     def __get_basic_info_file(self,file_id:str):
+        Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: __get_basic_info_file")
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == file_id).first()
         self.file_uuid = file_id
         self.filename = file_query.filename
         self.file_save_path = file_query.filepath
         self.input_pdf = PdfFileReader(open(self.file_save_path, "rb"),strict=False)
         self.page_cnt = self.input_pdf.numPages
+        Logger.logr.debug("__get_basic_info_file() completed.")
         # self.filename = os.path.basename(file)
         # self.file_uuid = str(uuid.uuid4())
         # self.file_save_path = f'{core_settings.file_storage}/{self.filename}'
@@ -121,6 +128,7 @@ class ClfCoreFlow():
         # self.page_cnt = self.input_pdf.numPages
 
     def __save_basic_info_file_db(self):
+        Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: __save_basic_info_file_db")
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.file_uuid)
         temp_dict = {}
         # temp_dict['fileid'] = self.file_uuid
@@ -129,6 +137,7 @@ class ClfCoreFlow():
         temp_dict['page_count'] = self.page_cnt
         temp_dict['region'] = self.region
         file_query.update(temp_dict, synchronize_session=False)
+        Logger.logr.debug("__save_basic_info_file_db() completed. and file data (page_cnt,region) updated in db")
         db.commit()
         # new_file = db_models.FileLogs(**temp_dict)
         # db.add(new_file)

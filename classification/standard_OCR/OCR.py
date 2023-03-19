@@ -6,7 +6,7 @@ import pytesseract
 from PIL import Image
 import os
 from typing import Any,Dict,List,Optional
-
+from ...logging_module.logging_wrapper import Logger
 
 doctr_model = ocr_predictor(pretrained=True)
 
@@ -22,7 +22,9 @@ class OCR:
         self.dimensions: Dict = {}
 
     def get_data(self,file:Any):
+        Logger.logr.debug("module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data")
         filetype = self.__check_file_type(file)
+        Logger.logr.debug(f"filetype: {filetype}")
         if filetype == "pdf":
             docs = DocumentFile.from_pdf(file)
         elif filetype == "image":
@@ -44,7 +46,8 @@ class OCR:
             self.dimensions[i]=temp_dict
             raw_text = " ".join(standard_result['text'])
             self.text[i] = raw_text
-        
+
+        Logger.logr.debug(f"stadnard_ocr.get_data() completed")
         return self.data,self.dimensions
  
     def get_text(self,file:Any) -> str:

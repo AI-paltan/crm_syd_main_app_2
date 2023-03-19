@@ -44,6 +44,7 @@ def process_file(file):
     from ..logging_module.logging_wrapper import Logger
     clf_core.process_pdf(fileid)
     Logger.logr.debug("process file completed")
+    Logger.logr.debug("Classification Service Processing completed")
     return fileid
 
 def set_log_file_path(file_uid):
