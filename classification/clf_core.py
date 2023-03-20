@@ -11,7 +11,7 @@ from ..database.database import get_db, get_db1
 from ..database import db_models
 from typing import List,Dict
 import logging
-from ..logging_module.logging_wrapper import Logger
+
 
 db = get_db1()
 ocr = OCR(core_settings.ocr_backend)
@@ -45,6 +45,7 @@ class ClfCoreFlow():
 
 
     def process_pdf(self,file_id:str):
+        from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: process_pdf")
         self.__get_basic_info_file(file_id)
         self.__save_basic_info_file_db()
@@ -102,6 +103,7 @@ class ClfCoreFlow():
 
 
     def __update_filtered_pages_db(self):
+        from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: __update_filtered_pages_db")
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.file_uuid)
         temp_dict = {}
@@ -117,6 +119,7 @@ class ClfCoreFlow():
         db.commit()
 
     def __get_basic_info_file(self,file_id:str):
+        from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: __get_basic_info_file")
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == file_id).first()
         self.file_uuid = file_id
@@ -133,6 +136,7 @@ class ClfCoreFlow():
         # self.page_cnt = self.input_pdf.numPages
 
     def __save_basic_info_file_db(self):
+        from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: __save_basic_info_file_db")
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.file_uuid)
         temp_dict = {}

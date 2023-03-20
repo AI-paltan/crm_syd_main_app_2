@@ -6,7 +6,7 @@ import pytesseract
 from PIL import Image
 import os
 from typing import Any,Dict,List,Optional
-from ...logging_module.logging_wrapper import Logger
+
 
 doctr_model = ocr_predictor(pretrained=True)
 
@@ -22,6 +22,7 @@ class OCR:
         self.dimensions: Dict = {}
 
     def get_data(self,file:Any):
+        from ...logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data")
         filetype = self.__check_file_type(file)
         Logger.logr.debug(f"filetype: {filetype}")
