@@ -50,6 +50,7 @@ class ClfCoreFlow():
         self.__get_basic_info_file(file_id)
         self.__save_basic_info_file_db()
         for i in range(self.page_cnt):
+            print(f"page number: {i}")
             self.__process_page(i)
             self.__save_page_log_db(i)
             self.__save_ocr_dump()
@@ -206,7 +207,9 @@ class ClfCoreFlow():
     def __save_ocr_dump(self):
         data = self.ocr_df
         data['pageid'] = self.page_uuid
+        print(f"df: {data}")
         listToWrite = data.to_dict(orient='records')
+        print(f"listToWrite: {listToWrite}")
         # new_ocr_dump = db_models.OCRDump(**listToWrite)
         obj_list = []
         for record in listToWrite:

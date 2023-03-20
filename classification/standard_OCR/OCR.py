@@ -160,6 +160,8 @@ class OCR:
                     prev_top = row['top']
         block_df_sorted = block_df.sort_values(by=['left'])
         final_df =final_df.append(block_df_sorted,ignore_index=True)
+        ## sorting issue try 1
+        # final_df = final_df.sort_values(by=['line_num'])
         return final_df
 
 

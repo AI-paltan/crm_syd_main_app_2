@@ -33,6 +33,7 @@ class getNotesDataTables:
             if page.page_number not in processed_pages:
                 ocr_query = db.query(db_models.OCRDump).filter(db_models.OCRDump.pageid == page.pageid).order_by(db_models.OCRDump.time.desc())
                 ocr_df = pd.read_sql(ocr_query.statement, ocr_query.session.bind)
+                ocr_df = ocr_df.sort_values(by=['line_num','left'])
                 ocr_line_df = ocr_dump_to_line_df(ocr_df)
                 self.ocr_line_df_dict[page.page_number] = ocr_line_df
                 processed_pages.append(page.page_number)
