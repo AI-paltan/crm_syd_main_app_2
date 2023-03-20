@@ -369,6 +369,10 @@ def convert_row_header_to_columns(df,row_header_indices,particular_start_row):
                 if idx in row_header_indices:
                     temp_df.at[idx,'row_header'] = row[0]
     temp_df['row_header'].fillna(method='ffill',inplace=True)
+    ##removing row header rows from df
+    # if len(row_header_indices)>0:
+    #     temp_df.drop(row_header_indices)
+    # temp_df.reset_index(drop=True,inplace=True)
     return temp_df
                 
 
