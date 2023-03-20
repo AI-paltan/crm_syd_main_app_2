@@ -95,6 +95,11 @@ class ClfCoreFlow():
         self.filtered_cbs_pages = list(set(final_seq).intersection(set(self.predicted_cbs_pages)))
         self.filtered_cpl_pages = list(set(final_seq).intersection(set(self.predicted_cpl_pages)))
         self.filtered_ccf_pages = list(set(final_seq).intersection(set(self.predicted_ccf_pages)))
+        ## solving issue of cbs appearing first in sequence
+        if (len(self.filtered_cbs_pages) == 0) & (len(self.filtered_cpl_pages)>0):
+            self.temp_cbs_lst = [i for i in self.predicted_cbs_pages if (i < self.filtered_cpl_pages[0])&(i>=self.filtered_cpl_pages[0]-3)]
+            self.filtered_cbs_pages = list(self.temp_cbs_lst)
+
 
     def __update_filtered_pages_db(self):
         Logger.logr.debug("module: Classification_service , File:clf_core.py,  function: __update_filtered_pages_db")
