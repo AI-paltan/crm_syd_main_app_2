@@ -34,6 +34,8 @@ class BalanceSheetDataBucketing():
 
 
     def fetch_report(self):
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: Keyword Mapping , File:BalanceSheetDataBucketing.py,  function: fetch_report")
         self.report_data_tuning()
         self.get_CASH_AND_CASH_EQUIVALENTS()
         self.get_INVENTORIES()
@@ -50,7 +52,7 @@ class BalanceSheetDataBucketing():
         self.get_INVSTMENT()
         self.get_DEFFERED_CHARGES()
         self.get_OTHER_AST()
-        self.get_NON_CURR_AST_TOTAL()
+        self.get_NON_CURR_AST_TOTAL() ## can skip this as this is excel formula
         self.get_SHORT_TERM_DEBT()
         self.get_LONG_TERM_DEBT_DUE_IN_ONE_Y()
         self.get_NOTE_PAYABLE()
@@ -58,13 +60,13 @@ class BalanceSheetDataBucketing():
         self.get_ACCURED_EXPNS()
         self.get_TAX_PAYABLE()
         self.get_OTHER_CURR_LIAB()
-        self.get_CURR_LIAB()
+        self.get_CURR_LIAB() ## can skip this as this is excel formula
         self.get_LONG_TERM_DEBT()
         self.get_LONG_TERM_BORROWING()
         self.get_BOND()
         self.get_SUBORDINATE_DEBT()
         self.get_DEFFERED_TAXES()
-        self.get_OTHER_LONG_TERM_LIAB()
+        self.get_OTHER_LONG_TERM_LIAB() ## can skip this as this is excel formula
         self.get_MINORITY_INT()
         self.get_LONG_TERM_LIAB()
         self.get_COMMON_STOCK()
@@ -78,7 +80,7 @@ class BalanceSheetDataBucketing():
         self.get_TOTAL_AST()
         self.get_GROS_PLANT_PRPTY_AND_EQPMNT()
         self.get_ACCOUNTS_RECEIVABLES()
-
+        Logger.logr.debug("CBS fetch_report completed")
 
         
 
@@ -139,29 +141,6 @@ class BalanceSheetDataBucketing():
         main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        # notes_table_df = pd.DataFrame(columns=["raw_note_no","note_no","subnote_no","line_item","year","value"])
-        # main_page_data_indices = []
-        # main_page_year_total_lst = []
-        # main_page_raw_note_list = []
-        # for year in self.years_list:
-        #     print(year)
-        #     main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh)
-        #     print(f"main_page_best_match:= {main_page_best_match}")
-        #     # main_page_data_indices.append(main_page_best_match.get("data_index"))
-        #     main_page_data_indices = main_page_best_match.get("data_index")
-        #     main_page_year_total_lst.append(main_page_best_match.get("value"))
-        #     # print(list(main_page_best_match.get("label")))
-        # filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cbs")
-        # print(f"1.raw_note_list: {raw_note_list},note_number_list: {note_number_list},sbnoue: {subnote_number_list},tableid:{tableid_list}")
-        # temp_df = prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,tableid_list,filtered_transformed_standardised_tables_dict)
-        # notes_table_df = pd.concat([notes_table_df,temp_df],ignore_index=True)
-        # main_page_raw_note_list = raw_note_list
-        #     # get_notes_pages_line_items()
-        # temp_dict ={}
-        # temp_dict["main_page_row_indices"] = main_page_data_indices
-        # temp_dict["main_page_year_total"] =main_page_year_total_lst
-        # temp_dict["main_page_raw_note"] =main_page_raw_note_list
-        # temp_dict["notes_table_df"] = notes_table_df
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         # print(section,subsection,match_type)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]

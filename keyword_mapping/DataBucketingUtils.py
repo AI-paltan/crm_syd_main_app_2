@@ -7,15 +7,23 @@ from typing import Dict
 
 
 def get_main_page_keywords(df_nlp_bucket_master,df_meta_keyword):
+    from ..logging_module.logging_wrapper import Logger
+    Logger.logr.debug("module: Keyword Mapping , File:DatabucketingUtils.py,  function: get_main_page_keywords")
+    Logger.logr.debug(f"df_meta_keyword = {df_meta_keyword}")
     bucket_row  = df_nlp_bucket_master[df_nlp_bucket_master['meta_keyword']==df_meta_keyword]
     # list_target_keywords = []
     # for idx,row in bucket_row.iterrows():
     list_target_keywords = bucket_row['target_keyword'].values[0].split('|')
+    Logger.logr.debug(f"list_target_keywords = {list_target_keywords}")
     return list_target_keywords
 
 def get_notes_pages_keyowrds(df_nlp_bucket_master,df_meta_keyword):
+    from ..logging_module.logging_wrapper import Logger
+    Logger.logr.debug("module: Keyword Mapping , File:DatabucketingUtils.py,  function: get_notes_pages_keyowrds")
+    Logger.logr.debug(f"df_meta_keyword = {df_meta_keyword}")
     bucket_row  = df_nlp_bucket_master[df_nlp_bucket_master['meta_keyword']==df_meta_keyword]
     list_target_keywords = bucket_row['note_keyword'].values[0].split('|')
+    Logger.logr.debug(f"list_target_keywords = {list_target_keywords}")
     return list_target_keywords
 
 def get_main_page_exclude_keywords(df_nlp_bucket_master,df_meta_keyword):
@@ -26,8 +34,12 @@ def get_main_page_exclude_keywords(df_nlp_bucket_master,df_meta_keyword):
     return list_target_keywords
 
 def get_notes_pages_exclude_keyowrds(df_nlp_bucket_master,df_meta_keyword):
+    from ..logging_module.logging_wrapper import Logger
+    Logger.logr.debug("module: Keyword Mapping , File:DatabucketingUtils.py,  function: get_notes_pages_exclude_keyowrds")
+    Logger.logr.debug(f"df_meta_keyword = {df_meta_keyword}")
     bucket_row  = df_nlp_bucket_master[df_nlp_bucket_master['meta_keyword']==df_meta_keyword]
     list_target_keywords = bucket_row['exclude_note_keyword'].values[0].split('|')
+    Logger.logr.debug(f"list_target_keywords = {list_target_keywords}")
     return list_target_keywords
 
 def get_section_subsection_matchType(df_nlp_bucket_master,df_meta_keyword):
@@ -45,6 +57,9 @@ def strip_string_bullets(str_txt,obj_techfuzzy):
         return strip_string_bullets_str
 
 def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_score_thresh,match_type='partial'):
+    from ..logging_module.logging_wrapper import Logger
+    Logger.logr.debug("module: Keyword Mapping , File:DatabucketingUtils.py,  function: get_main_page_line_items")
+    Logger.logr.debug(f"keywords = {keywords} , match_type = {match_type} , conf_score_thresh ={conf_score_thresh}")
     best_match = {'data_index': [], 'score': 0, 'value': 0, 'line_item_label': [],'note_numbers':[],'line_item_value':[]}
     for data_index, data_row in df_datasheet.iterrows():
             # skip if data value is already found for bucketing
@@ -59,7 +74,7 @@ def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_
             else:
                 res_fuzz_match = obj_techfuzzy.token_sort_pro(txt_particular, list_target_keywords)
             # app.logger.debug(f'\t\t{res_fuzz_match}')
-
+            Logger.logr.debug(f"txt_particular = {txt_particular} , res_fuzz_match = {res_fuzz_match}")
             if res_fuzz_match[0][1] >= conf_score_thresh:
                 # if bucket_row['field_tag'] == 'multisum':
                 best_match['value'] += float(data_row[curr_year])
@@ -71,6 +86,7 @@ def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_
                 (best_match['line_item_label']).append(data_row[str("Particulars")])
                 (best_match['line_item_value']).append(float(data_row[curr_year]))
 
+    Logger.logr.debug(f"best_match = {best_match}")
     return best_match
 
 
@@ -166,6 +182,9 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
 
 def get_notes_pages_line_items(transformed_standardised_note_df,keywords,obj_techfuzzy,conf_score_thresh,match_type="partial"):
     ## tis function will match the given keyword (both included and excluded keyword) and return the indices,value and year and label
+    from ..logging_module.logging_wrapper import Logger
+    Logger.logr.debug("module: Keyword Mapping , File:DatabucketingUtils.py,  function: get_notes_pages_line_items")
+    Logger.logr.debug(f"keywords = {keywords} , match_type = {match_type} , conf_score_thresh ={conf_score_thresh}")
     best_match = {'data_index': [], 'score': [], 'value': [], 'label': [],'year':[],'colname_found':[]}
     for data_index, data_row in transformed_standardised_note_df.iterrows():
             # skip if data value is already found for bucketing
@@ -181,7 +200,7 @@ def get_notes_pages_line_items(transformed_standardised_note_df,keywords,obj_tec
                 else:
                     res_fuzz_match = obj_techfuzzy.token_sort_pro(txt_rows, list_target_keywords)
                 # app.logger.debug(f'\t\t{res_fuzz_match}')
-
+                Logger.logr.debug(f"txt_rows = {txt_rows} , res_fuzz_match = {res_fuzz_match}")
                 if res_fuzz_match[0][1] >= conf_score_thresh:
                     # if bucket_row['field_tag'] == 'multisum':
                     (best_match['value']).append(float(data_row["value"]))
@@ -192,7 +211,7 @@ def get_notes_pages_line_items(transformed_standardised_note_df,keywords,obj_tec
                     # self.cbs_drilldown_items(bucket_row, data_row)
                     (best_match['label']).append(data_row[col])
                     (best_match['colname_found']).append(col)
-
+    Logger.logr.debug(f"best_match = {best_match}")
     return best_match
 
 def filter_notes_row_indices(included_keyword_best_match,excluded_keyword_best_match):
