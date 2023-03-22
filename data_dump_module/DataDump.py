@@ -33,10 +33,18 @@ class DataDump:
         pass
 
     def dump_balance_sheet_data(self):
-        pass
+        for page_num,value_dict in self.cbs_resposne_bucket.items():
+            for meta_key,meta_dict in value_dict.items():
+                notes_table_df = meta_dict['notes_table_df']
+                if len(notes_table_df)>0:
+                    cdm_sheet_name,cdm_keyword_start_row_map,cdm_total_row_map = self.get_row_map_from_db(meta_keyword=meta_key)
+
 
     def dump_cpl_data(self):
         pass
 
     def dump_ccf_data(self):
+        pass
+
+    def insert_df(cdm_sheet_name,cdm_keyword_start_name,cdm_total_row_map,notes_table_df):
         pass
