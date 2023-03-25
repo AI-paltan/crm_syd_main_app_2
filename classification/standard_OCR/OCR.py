@@ -20,6 +20,8 @@ class OCR:
         self.structered_text : Dict = {}
         self.ocr = ocr
         self.dimensions: Dict = {}
+        self.data_line: Dict = {}
+        self.text_line : Dict = {}
 
     def get_data(self,file:Any):
         from ...logging_module.logging_wrapper import Logger
@@ -47,6 +49,10 @@ class OCR:
             self.dimensions[i]=temp_dict
             raw_text = " ".join(standard_result['text'])
             self.text[i] = raw_text
+            ocr_line_df = self.ocr_dump_to_line_df(standard_result)
+            self.data_line[i] = ocr_line_df
+            raw_text_line = "\n".join(ocr_line_df['text'])
+            self.text_line[i] = raw_text_line
 
         Logger.logr.debug(f"stadnard_ocr.get_data() completed")
         return self.data,self.dimensions
@@ -59,6 +65,44 @@ class OCR:
         # return self.text,self.dimensions
         return self.text
 
+    def get_line_data(self):
+        # data,_ = self.get_data(file)
+        return self.data_line
+
+    def get_line_text(self):
+        # data,_ = self.get_data(file)
+        return self.text_line
+    
+    def ocr_dump_to_line_df(self,ocr_df):
+        line_list = []
+        for i,(idx,row) in enumerate(ocr_df.iterrows()):
+            if i == 0:
+                prev_row = row
+                min_left = row['left']
+                min_top = row['top']
+                max_right = row['left'] + row['width']
+                max_down = row['top'] + row['height']
+                row_text = row['text']
+                # temp_row.append[]
+            elif prev_row['line_num'] != row['line_num']:
+                line_list.append([row['block_num'],prev_row['line_num'],min_left,min_top,max_right,max_down,row_text])
+                prev_row = row
+                min_left = row['left']
+                min_top = row['top']
+                max_right = row['left'] + row['width']
+                max_down = row['top'] + row['height']
+                row_text = row['text']
+            else:
+                min_left = min(min_left,row['left'])
+                min_top = min(min_top,row['top'])
+                max_right = max(max_right,(row['left'] + row['width']))
+                max_down = max(max_down,(row['top'] + row['height']))
+                row_text =row_text+" "+row['text']
+            if i == len(ocr_df) - 1:
+                line_list.append([row['block_num'],row['line_num'],min_left,min_top,max_right,max_down,row_text])
+        ocr_line_df = pd.DataFrame(line_list,columns=['block_num','line_num','left','top','right','down','text'])
+        return ocr_line_df
+    
     def get_processed_text(self) -> Dict:
         return self.text
 

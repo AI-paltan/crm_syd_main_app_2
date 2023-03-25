@@ -36,6 +36,13 @@ Query = UPDATE public."CRM_nlp_bucketing"
 	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=29, cdm_total_row_map=31
 	WHERE meta_keyword='ca_prepaid_expenses';
 
+meta_keywrods = "ca_other_current_assets"
+CDM Keywords = "other current assets"
+start row= 33
+end row ( total ) = 36
+Query = UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=33, cdm_total_row_map=36
+	WHERE meta_keyword='ca_other_current_assets';
 
 meta_keywrods = "nca_accumulated_depreciation"
 CDM Keywords = "(Gross Plant Property Equipment)"
@@ -337,7 +344,7 @@ CDM Keywords = "Interest Income"
 start row= 33
 end row ( total ) = 36
 Query = UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=14, cdm_total_row_map=16
+	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=33, cdm_total_row_map=36
 	WHERE meta_keyword='smr_interest_income';
 
 meta_keywrods = "smr_interest_expense"

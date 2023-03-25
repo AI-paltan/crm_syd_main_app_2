@@ -41,6 +41,7 @@ class ClfCoreFlow():
         self.ocr_df = ''
         self.page_type_id:int
         self.page_type_class:int
+        self.month:str = None
      
 
 
@@ -113,6 +114,7 @@ class ClfCoreFlow():
         temp_dict['filtered_cbs_pages'] = self.filtered_cbs_pages
         temp_dict['filtered_cpl_pages'] = self.filtered_cpl_pages
         temp_dict['filtered_ccf_pages'] = self.filtered_ccf_pages
+        temp_dict['month'] = self.month
         file_query.update(temp_dict, synchronize_session=False)
         Logger.logr.debug(temp_dict)
         Logger.logr.debug("function: __update_filtered_pages_db completed")
@@ -165,6 +167,8 @@ class ClfCoreFlow():
             output.write(outputStream)
         data,dimensions = ocr.get_data(self.page_save_path)
         text = ocr.get_processed_text()
+        data_line = ocr.get_line_data()
+        text_line = ocr.get_line_text()
         for k,v in data.items():
             self.ocr_df = v
         for k,v in dimensions.items():
@@ -183,6 +187,22 @@ class ClfCoreFlow():
             self.predicted_cpl_pages.append(page_idx)
         if y_class=="ccf":
             self.predicted_ccf_pages.append(page_idx)
+        if self.month is None:
+            if y_class in ["cbs","cpl","ccf"]:
+                self.month= self.find_month(data_line)
+
+    def find_month(self,line_df_dict):
+        month_pattern_list = ["march","december"]
+        month_found = None
+        for k,v in line_df_dict.items():
+            for idx,row in v.iterrows():
+                if idx <= 20:
+                    for month in month_pattern_list:
+                        if month in row['text'].lower():
+                            month_found = month
+                            return month_found
+                else:
+                    return month_found
 
 
         
