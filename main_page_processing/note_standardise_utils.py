@@ -209,7 +209,9 @@ def find_date_location(df):
                     if regex_year_found:    
                         break
                     
-            
+        # if len(columns_number)>0:
+        #     for row,col,year in zip(row_numbers,columns_number,extracted_year):
+        #         df.iloc[row,col] = year
         # print(row_date_flag,regex_year_found,columns_number,row_numbers,raw_text,extracted_year)
         return row_date_flag,regex_year_found,columns_number,row_numbers,raw_text,extracted_year
     
