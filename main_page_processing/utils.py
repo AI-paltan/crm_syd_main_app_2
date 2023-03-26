@@ -18,13 +18,18 @@ def get_note_column(df):
     notes_regex = '(?:note(?:|s))'
     note_row_num = -1
     note_col_num = -1
-    for idx,row in df.iterrows():
-        bool_row = row.str.contains(notes_regex, flags=re.IGNORECASE,regex=True)
-        if bool_row.any():
-            note_row_num = idx
-            res = [i for i, val in enumerate(bool_row) if val==True]
-            note_col_num = res[0]
-            break
+    try:
+        for idx,row in df.iterrows():
+            bool_row = row.str.contains(notes_regex, flags=re.IGNORECASE,regex=True)
+            if bool_row.any():
+                note_row_num = idx
+                res = [i for i, val in enumerate(bool_row) if val==True]
+                note_col_num = res[0]
+                break
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_note_column")
+        Logger.logr.error(f"error occured: {e}")
     return note_row_num,note_col_num
 
 def get_years_and_positions_with_notes(df,notes_indices):
@@ -49,20 +54,25 @@ def get_years_and_positions_with_notes(df,notes_indices):
     year_list: list = []
     year_indices: List(List) = []
     raw_year_text:list = []
-    for idx,row in df.iterrows():
-        if (note_x-2) <= idx <= (note_x+2):
-            for col_idx, item in row.iteritems():
-                if col_idx > note_y:
-                    try:
-                        year = parser.parse(str(item), fuzzy=True).year
-                    except:
-                        year = get_regex_year(str(item))
-                    if int(year) > 0:
-                        year_list.append(int(year))
-                        year_indices.append([idx,col_idx])
-                        raw_year_text.append(item)
-        if len(year_list) == (len(df.columns) - note_y-1):
-            break
+    try:
+        for idx,row in df.iterrows():
+            if (note_x-2) <= idx <= (note_x+2):
+                for col_idx, item in row.iteritems():
+                    if col_idx > note_y:
+                        try:
+                            year = parser.parse(str(item), fuzzy=True).year
+                        except:
+                            year = get_regex_year(str(item))
+                        if int(year) > 0:
+                            year_list.append(int(year))
+                            year_indices.append([idx,col_idx])
+                            raw_year_text.append(item)
+            if len(year_list) == (len(df.columns) - note_y-1):
+                break
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_years_and_positions_with_notes")
+        Logger.logr.error(f"error occured: {e}")
     return year_list,year_indices,raw_year_text
 
 
@@ -87,60 +97,75 @@ def get_years_and_positions_without_notes(df):
     year_list: list = []
     year_indices: List(List) = []
     raw_year_text:list = []
-    for idx,row in df.iterrows():
-        # if (note_x-2) < idx < (note_x+2):
-        for col_idx, item in row.iteritems():
-            if col_idx > 0:
-                try:
-                    year = parser.parse(str(item), fuzzy=True).year
-                except:
-                    year = get_regex_year(str(item))
-                if year and int(year) > 0:
-                    year_list.append(int(year))
-                    year_indices.append([idx,col_idx])
-                    raw_year_text.append(item)
-        if len(year_list) == 2:
-            break
+    try:
+        for idx,row in df.iterrows():
+            # if (note_x-2) < idx < (note_x+2):
+            for col_idx, item in row.iteritems():
+                if col_idx > 0:
+                    try:
+                        year = parser.parse(str(item), fuzzy=True).year
+                    except:
+                        year = get_regex_year(str(item))
+                    if year and int(year) > 0:
+                        year_list.append(int(year))
+                        year_indices.append([idx,col_idx])
+                        raw_year_text.append(item)
+            if len(year_list) == 2:
+                break
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_years_and_positions_without_notes")
+        Logger.logr.error(f"error occured: {e}")
     return year_list,year_indices,raw_year_text
 
 
 def get_data_chunk_span_with_notes(df,notes_indices,years_indices):
-    notes_x = notes_indices[0]
-    notes_y = notes_indices[1]
-    max_year_x = list(np.max(np.array(years_indices),axis=0))[0]#max(years_indices,key=max)[0]
-    min_year_y = list(np.min(np.array(years_indices),axis=0))[1]#min(years_indices,key=min)[1]
-    max_year_y = list(np.max(np.array(years_indices),axis=0))[1]#max(years_indices,key=max)[1]
-    max_header = max([notes_x,max_year_x])
     data_start_x = -1
     particulars_y = -1
     data_start_y = -1
     data_end_y = -1
-    for i in range(max_header+1,len(df)):
-        if not pd.isnull(df.loc[i,notes_y-1]):
-            data_start_x = i
-            particulars_y = notes_y-1
-            data_start_y = min_year_y
-            data_end_y = max_year_y
-            break
+    try:
+        notes_x = notes_indices[0]
+        notes_y = notes_indices[1]
+        max_year_x = list(np.max(np.array(years_indices),axis=0))[0]#max(years_indices,key=max)[0]
+        min_year_y = list(np.min(np.array(years_indices),axis=0))[1]#min(years_indices,key=min)[1]
+        max_year_y = list(np.max(np.array(years_indices),axis=0))[1]#max(years_indices,key=max)[1]
+        max_header = max([notes_x,max_year_x])
+        for i in range(max_header+1,len(df)):
+            if not pd.isnull(df.loc[i,notes_y-1]):
+                data_start_x = i
+                particulars_y = notes_y-1
+                data_start_y = min_year_y
+                data_end_y = max_year_y
+                break
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_data_chunk_span_with_notes")
+        Logger.logr.error(f"error occured: {e}")
     return data_start_x,data_start_y,data_end_y,particulars_y
     
 
 def get_data_chunk_span_without_notes(df,years_indices):
-    max_year_x = list(np.max(np.array(years_indices),axis=0))[0]#max(years_indices,key=max)[0]
-    min_year_y = list(np.min(np.array(years_indices),axis=0))[1]#min(years_indices,key=min)[1]
-    max_year_y = list(np.max(np.array(years_indices),axis=0))[1]#max(years_indices,key=max)[1]
-    max_header = max_year_x
     data_start_x = -1
     particulars_y = -1
     data_start_y = -1
     data_end_y = -1
-    for i in range(max_header+1,len(df)):
-        if not pd.isnull(df.loc[i,min_year_y-1]):
-            data_start_x = i
-            particulars_y = min_year_y-1
-            data_start_y = min_year_y
-            data_end_y = max_year_y
-            break
+    try:
+        max_year_x = list(np.max(np.array(years_indices),axis=0))[0]#max(years_indices,key=max)[0]
+        min_year_y = list(np.min(np.array(years_indices),axis=0))[1]#min(years_indices,key=min)[1]
+        max_year_y = list(np.max(np.array(years_indices),axis=0))[1]#max(years_indices,key=max)[1]
+        max_header = max_year_x
+        for i in range(max_header+1,len(df)):
+            if not pd.isnull(df.loc[i,min_year_y-1]):
+                data_start_x = i
+                particulars_y = min_year_y-1
+                data_start_y = min_year_y
+                data_end_y = max_year_y
+                break
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_data_chunk_span_without_notes")
+        Logger.logr.error(f"error occured: {e}")
     return data_start_x,data_start_y,data_end_y,particulars_y
 
 def split_numbers(number,threshold=60):
