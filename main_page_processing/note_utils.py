@@ -19,7 +19,7 @@ def find_note_start_index(note_pattern,account_text,ocr_line_df_dict,max_main_pa
             for idx,row in df.iterrows():
                 if note_end_testing(note_pattern,row['text'].lower()):
                     ratio = fuzz.partial_ratio(str(account_text).lower(), row['text'].lower())
-                    if ratio > 85:
+                    if ratio > 85:   ### need to lower this for getting more mathced
                         page_number.append(k)
                         start_bbox.append([row['left'],row['top'],row['right'],row['down']])
     return page_number,start_bbox
@@ -49,21 +49,28 @@ def find_note_end_index(start_page_number,start_bbox,ocr_line_df_dict,next_note_
 def find_next_note_subnote(note,subnote=''):
     # next_note = chr(ord(str(note)) + 1)
     # print(note)
-    next_note = int(note)+1
-    next_subnote = ''
-    if len(subnote)<=2 and len(subnote)>0 :
-        if subnote.isnumeric():
-            next_subnote = int(subnote)+1
-        if subnote.isalpha():
-            next_subnote = chr(ord(str(subnote)) + 1)
-    if len(subnote)>2:
-        for char in subnote:
-            if char.isalpha():
-                next_subnote = next_subnote+chr(ord(str(char)) + 1)
-            elif char.isnumeric():
-                next_subnote = next_subnote + str(int(char)+1)
-            else:
-                next_subnote = next_subnote + char
+    try:
+        next_note = int(note)+1
+        next_subnote = ''
+        if len(subnote)<=2 and len(subnote)>0 :
+            if subnote.isnumeric():
+                next_subnote = int(subnote)+1
+            if subnote.isalpha():
+                next_subnote = chr(ord(str(subnote)) + 1)
+        if len(subnote)>2:
+            for char in subnote:
+                if char.isalpha():
+                    next_subnote = next_subnote+chr(ord(str(char)) + 1)
+                elif char.isnumeric():
+                    next_subnote = next_subnote + str(int(char)+1)
+                else:
+                    next_subnote = next_subnote + char
+    except Exception as e:
+        next_note = ''
+        next_subnote = ''
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_utils.py,  function: find_next_note_subnote")
+        Logger.logr.error(f"error occured: {e}")
     return str(next_note),str(next_subnote)
 
 

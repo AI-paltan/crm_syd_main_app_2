@@ -198,19 +198,24 @@ def split_numbers(number,threshold=60):
 def find_note_subnote_number(number):
     note = ''
     subnote = ''
-    if bool(re.match(r'\d+.\d+',str(number))):
-        note = str(number).split('.')[0]
-        subnote = str(number).split('.')[1]
-    elif bool(re.match(r'\d+\(\w+\)',str(number))):
-            note = str(number).split('(')[0]
-            subnote = "(" + str(number).split('(')[1]
-    elif bool(re.match(r'\d+[A-Za-z]+',str(number))):
-            res = re.findall(r'[A-Za-z]+|\d+', str(number))
-            note = res[0]
-            subnote = res[1]
-    elif bool(re.match(r'\d+',str(number))):
-            note = number
-            subnote = ''
+    try:
+        if bool(re.match(r'\d+.\d+',str(number))):
+            note = str(number).split('.')[0]
+            subnote = str(number).split('.')[1]
+        elif bool(re.match(r'\d+\(\w+\)',str(number))):
+                note = str(number).split('(')[0]
+                subnote = "(" + str(number).split('(')[1]
+        elif bool(re.match(r'\d+[A-Za-z]+',str(number))):
+                res = re.findall(r'[A-Za-z]+|\d+', str(number))
+                note = res[0]
+                subnote = res[1]
+        elif bool(re.match(r'\d+',str(number))):
+                note = number
+                subnote = ''
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: find_note_subnote_number")
+        Logger.logr.error(f"error occured: {e}")
     return note,subnote
 
 def get_note_pattern(note,subnote):
@@ -227,6 +232,7 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
     notes_col = df['Notes']
     # particulars_col = df.iloc[notes_indices[0]+1:,particulars_y]
     particulars_col = df['Particulars']
+    year_col_list = [i for i in df.columns if i not in ["Notes","Particulars"]]
     ref_list : list = []
     for idx,val in enumerate(notes_col):
         notes_list = []
@@ -255,6 +261,10 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
             temp_dict['processed_raw_note'] = notes_list
             temp_dict['main_note_number']=note_no
             temp_dict['subnote_number'] = subnote_no
+            tmp_year_value_dct = {}
+            for year in year_col_list:
+                tmp_year_value_dct[year] = df.iloc[idx][year]
+            temp_dict["year_values"] = tmp_year_value_dct
             ref_list.append(temp_dict)
             # print(note_no)
             for noteno,subnoteno in zip(note_no,subnote_no):

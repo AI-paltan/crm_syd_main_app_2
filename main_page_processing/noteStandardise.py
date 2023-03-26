@@ -47,6 +47,7 @@ class NoteStandardised:
                     # print(fin_df)
                     # print(key)
                     final_df,year_column_header_name = set_year_column_for_final_df(fin_df,(columns_number,row_number),header_indices)
+                    # final_df,year_column_header_name = set_year_column_for_final_df2(fin_df,(columns_number,row_number),header_indices,raw_text,extracted_year)
                     final_df = numbers_processing(final_df)
                     final_transformed_df = convert_standaradised_notes_to_column_row_year(note_df=final_df,year_column_header_name_in=year_column_header_name)
                     meta_dict["date_column_number"] = columns_number
@@ -67,7 +68,9 @@ class NoteStandardised:
                     meta_dict["header_indices"] = header_indices
                     meta_dict["year_column_header_name"] = year_column_header_name
                 except Exception as e:
-                    print(e)
+                    from ..logging_module.logging_wrapper import Logger
+                    Logger.logr.debug("module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing")
+                    Logger.logr.error(f"error occured: {e}")
                 self.standard_note_df[key] = final_df
                 self.standard_note_meta_dict[key] = meta_dict
                 self.transformed_standardised_cropped_dict[key] = final_transformed_df
