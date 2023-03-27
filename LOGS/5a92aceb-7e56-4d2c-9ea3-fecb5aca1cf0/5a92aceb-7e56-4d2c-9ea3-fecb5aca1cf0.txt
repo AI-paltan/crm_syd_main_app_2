@@ -1,0 +1,21 @@
+2023-03-27 11:49:59+0530 - sLogger - DEBUG - module: Classification_service , File:wrapper.py,  function: Save_file
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - module: Classification_service , File:wrapper.py,  function: Save_file
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - {'fileid': '64d21635-6efe-431c-9e6a-f84458c640d5', 'filename': 'BFE Financial Report Mar-22 FINAL.pdf', 'filepath': '/home/mgsuser01/AI/CRM_SYD/UAT_app/classification/../FILE_DB/FILES/BFE Financial Report Mar-22 FINAL.pdf'}
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - save file completed
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: process_pdf
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __get_basic_info_file
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - __get_basic_info_file() completed.
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __save_basic_info_file_db
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - __save_basic_info_file_db() completed. and file data (page_cnt,region) updated in db
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-03-27 11:51:36+0530 - sLogger - DEBUG - filetype: pdf
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - module: Classification_service , File:wrapper.py,  function: Save_file
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - {'fileid': 'd25023a3-7f6b-46a9-860a-0c8fb5de0982', 'filename': 'BFE Financial Report Mar-22 FINAL.pdf', 'filepath': '/home/mgsuser01/AI/CRM_SYD/UAT_app/classification/../FILE_DB/FILES/BFE Financial Report Mar-22 FINAL.pdf'}
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - save file completed
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: process_pdf
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __get_basic_info_file
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - __get_basic_info_file() completed.
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __save_basic_info_file_db
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - __save_basic_info_file_db() completed. and file data (page_cnt,region) updated in db
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-03-27 11:54:35+0530 - sLogger - DEBUG - filetype: pdf

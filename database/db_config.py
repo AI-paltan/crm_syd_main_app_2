@@ -6,9 +6,9 @@ import os
 class Settings(BaseSettings):
     database_hostname: str = "localhost"
     database_port: str = "5432"
-    database_password: str = "admin"
+    database_password: str = "admin"  #admin
     database_name: str="crm_syd_dev"
-    database_username: str="jayesh"
+    database_username: str="postgres"  # jayes f
 
 
 # class CoreSettings(BaseSettings):
