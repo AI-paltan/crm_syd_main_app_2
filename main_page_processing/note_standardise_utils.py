@@ -257,6 +257,14 @@ def find_data_block_location(note_df,date_block_coordinates):
         else:
             particulars_start_row = data_start_row
         return particulars_start_row
+    
+    def find_particulars_start_col(df,particulars_end_col,data_start_row):
+        ## if there are more than 1 text column will use this function to find out if any column contains less text contetnt and if record the index for cleaning purpose
+        particulars_start_col = 0
+        if particulars_end_col>0:
+            for col_idx,item in df.iteritems():
+                pass
+
         
     def find_first_row(df,year_rows,year_cols):
         col,row = -1,-1
@@ -383,10 +391,10 @@ def convert_row_header_to_columns(df,row_header_indices,particular_start_row):
                 if idx in row_header_indices:
                     temp_df.at[idx,'row_header'] = row[0]
     temp_df['row_header'].fillna(method='ffill',inplace=True)
-    ##removing row header rows from df
-    # if len(row_header_indices)>0:
-    #     temp_df.drop(row_header_indices)
-    # temp_df.reset_index(drop=True,inplace=True)
+    #removing row header rows from df
+    if len(row_header_indices)>0:
+        temp_df.drop(row_header_indices,inplace=true)
+    temp_df.reset_index(drop=True,inplace=True)
     return temp_df
                 
 
@@ -614,7 +622,16 @@ def numbers_processing(df):
     return df
 
 
-
+def set_totalKeyword_line_items(nte_df):
+    # year_columns = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
+    blankrows = []
+    def find_row_headers(nte_df,particulars_endcol_coordinates,particulars_start_row,particulars_start_col):
+        for idx,row in nte_df.iterrows():
+            if idx >= particulars_start_row:
+                if not row[0:particulars_endcol_coordinates+1].notnull().any():
+                    blankrows.append(idx)
+                    nte_df.at[idx,particulars_start_col] = "Total"
+    return blankrows,nte_df
 
 
 

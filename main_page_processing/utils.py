@@ -44,7 +44,7 @@ def get_years_and_positions_with_notes(df,notes_indices):
                     year_val = value
                 elif len(value) == 2:
                     year_val = '20'+str(value)
-                if int(year_val) <= int(date.today().year):
+                if int(year_val) <= int(date.today().year) and int(year_val)>=(int(date.today().year)-6):
                     return str(year_val)        
         else:
             return year_val
@@ -56,13 +56,19 @@ def get_years_and_positions_with_notes(df,notes_indices):
     raw_year_text:list = []
     try:
         for idx,row in df.iterrows():
+            year_list: list = []    ## to make sure that both year columns lies in one row
+            year_indices: List(List) = []  ## BFE file issue as one year found in first row which is wrong and second year found in second row which is correct but not considering next column as len of year_list fullfils
+            raw_year_text:list = []
             if (note_x-2) <= idx <= (note_x+2):
                 for col_idx, item in row.iteritems():
                     if col_idx > note_y:
-                        try:
-                            year = parser.parse(str(item), fuzzy=True).year
-                        except:
-                            year = get_regex_year(str(item))
+                        ## old logic
+                        # try:
+                        #     year = parser.parse(str(item), fuzzy=True).year
+                        # except:
+                        #     year = get_regex_year(str(item))
+                        ## new logic; BFE ; because 31 march is giving as 2023 year output in old logic
+                        year = get_regex_year(str(item))
                         if int(year) > 0:
                             year_list.append(int(year))
                             year_indices.append([idx,col_idx])
@@ -100,12 +106,16 @@ def get_years_and_positions_without_notes(df):
     try:
         for idx,row in df.iterrows():
             # if (note_x-2) < idx < (note_x+2):
+            year_list: list = []
+            year_indices: List(List) = []
+            raw_year_text:list = []
             for col_idx, item in row.iteritems():
                 if col_idx > 0:
-                    try:
-                        year = parser.parse(str(item), fuzzy=True).year
-                    except:
-                        year = get_regex_year(str(item))
+                    # try:
+                    #     year = parser.parse(str(item), fuzzy=True).year
+                    # except:
+                    #     year = get_regex_year(str(item))
+                    year = get_regex_year(str(item))
                     if year and int(year) > 0:
                         year_list.append(int(year))
                         year_indices.append([idx,col_idx])
