@@ -635,9 +635,27 @@ def set_totalKeyword_line_items(nte_df):
 
 
 
-def find_date_loc_super(df,main_page_meta_dict):
+def find_date_loc_super(df,main_page_notes_ref_dict,key):
     ## this function will try to find the date location for pdf in which years appears at top of page and not for individual notes
-    pass
+    ## key is comibnation of  note_tableid
+    def clean_number(number):
+        number = str(number).replace(r',',"")
+        number = str(number).replace(r')',"")
+        number = str(number).replace(r'(',"-")
+        return number
+    df_copy = df.copy()
+    df_copy = df_copy.apply(clean_number).apply(pd.to_numeric , errors='coerce').fillna(0)
+    columns_number_org = []
+    row_numbers_org = []
+    raw_text_org = []
+    extracted_year_org = []
+    note_no = str(key).split("_")[0]
+    for main_page_statement_type,ref_list in main_page_notes_ref_dict.items():
+        for note_ref_items in ref_list:
+            if note_ref_items["main_note_number"] == note_no:
+                main_page_year_values = note_ref_items["year_values"] 
+                
+
 
 
 
