@@ -314,3 +314,18 @@ def get_matched_main_page_df(main_page_data_indices,df):
     # else:
     #     matched_main_page_df = df
     return matched_main_page_df
+
+
+
+def set_total_line_items(std_horzntl_note_df):
+    pass
+
+def remove_total_line_items(std_horzntl_note_df):
+    pass
+
+def clean_note_df(std_horzntl_note_df):
+    pass # patterns = ["consolidated","$000","$"]
+
+
+
+

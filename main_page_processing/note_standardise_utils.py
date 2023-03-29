@@ -234,6 +234,9 @@ def find_date_location(df):
         
     
 
+
+
+
 ## given df first clean all cells using the rules used in main page processing 
 ## and then convert to numeric. and find top left and down right coordinates
 def find_data_block_location(note_df,date_block_coordinates):
@@ -609,3 +612,29 @@ def numbers_processing(df):
     df["value"] = df["value"].apply(clean_number).apply(pd.to_numeric , errors='coerce').fillna(0)
 #     for idx,row in df.iterrows()
     return df
+
+
+
+
+
+
+def find_date_loc_super(df,main_page_meta_dict):
+    ## this function will try to find the date location for pdf in which years appears at top of page and not for individual notes
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
