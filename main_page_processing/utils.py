@@ -95,7 +95,7 @@ def get_years_and_positions_without_notes(df):
                     year_val = value
                 elif len(value) == 2:
                     year_val = '20'+str(value)
-                if int(year_val) <= int(date.today().year):
+                if int(year_val) <= int(date.today().year) and int(year_val)>=(int(date.today().year)-6):
                     return str(year_val)        
         else:
             return year_val

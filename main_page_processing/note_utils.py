@@ -43,7 +43,6 @@ def find_note_end_index(start_page_number,start_bbox,ocr_line_df_dict,next_note_
             end_row_end_page = ocr_line_df_dict[int(start_page_number[0])+1].iloc[-1,:]
             end_bbox.append([end_row_end_page['left'],end_row_end_page['top'],end_row_end_page['right'],end_row_end_page['down']])
     return end_page_number,end_bbox,pattern_found_flag
-    return end_page_number,end_bbox,
 
 
 def find_next_note_subnote(note,subnote=''):
