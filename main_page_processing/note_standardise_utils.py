@@ -5,7 +5,33 @@ import numpy as np
 from datetime import date
 
 
+def getSizeOfNestedList(listOfElem):
+    ''' Get number of elements in a nested list'''
+    count = 0
+    # Iterate over the list
+    for elem in listOfElem:
+        # Check if type of element is list
+        if type(elem) == list:  
+            # Again call this function to get the size of this element
+            count += getSizeOfNestedList(elem)
+        else:
+            count += 1    
+    return count
 
+def getMinOfNestedList(listOfElem):
+    minm = 1000
+    # Iterate over the list
+    for elem in listOfElem:
+        # Check if type of element is list
+        if type(elem) == list:  
+            # Again call this function to get the size of this element
+            var = min(elem)
+            if var < minm:
+                minm = var
+        else:
+            if elem < minm:
+                minm = elem 
+    return minm
 ## given df find date location in first column using pd.to_datetime
 ### else find in each row and get location of first row
 def find_date_location2(df):
@@ -123,7 +149,7 @@ def find_date_location(df):
             columns_number.append(0)
             date_present_rows_indices_for_col0 = sorted(df.iloc[:,0][df.iloc[:,0].transform(pd.to_datetime,errors='coerce').notnull()].index.to_list())
             row_numbers.append(date_present_rows_indices_for_col0)
-            if len(row_numbers) > 1:
+            if getSizeOfNestedList(row_numbers) > 1:
                 raw_text_lst = df.iloc[:,0][df.iloc[:,0].transform(pd.to_datetime,errors='coerce').notnull()].to_list()
                 extracted_year_lst = df.iloc[:,0][df.iloc[:,0].transform(pd.to_datetime,errors='coerce').notnull()].transform(pd.to_datetime,errors='coerce').dt.year.to_list()
                 raw_text.append(raw_text_lst)
@@ -146,9 +172,9 @@ def find_date_location(df):
                 if len(row_idx_found_list_for_col0)>=2:
                     first_col_date_flag = True
                     columns_number.append(0)
-                    row_numbers = row_idx_found_list_for_col0
-                    raw_text = raw_year_sublist
-                    extracted_year = year_extracted_sublist
+                    row_numbers.append(row_idx_found_list_for_col0)
+                    raw_text.append(raw_year_sublist)
+                    extracted_year.append(year_extracted_sublist)
                 else:
                     first_col_date_flag= False
         return first_col_date_flag,columns_number,row_numbers,raw_text,extracted_year
@@ -162,7 +188,7 @@ def find_date_location(df):
         row_date_flag = False
         regex_year_found = False
         for idx,row in df.iterrows():
-            index_thresh = min(row_numbers_column0)-1 if first_col_date_flag else 10
+            index_thresh = getMinOfNestedList(row_numbers_column0)-1 if first_col_date_flag else 10
             if idx <= index_thresh:
                 row_date_flag = df.iloc[idx].transform(pd.to_datetime,errors='coerce').notnull().any()
                 # regex_year_found = False
@@ -514,11 +540,14 @@ def set_year_column_for_final_df2(fin_df,date_coordinates,header_indices,raw_yea
         header_indices = sorted(header_indices,reverse=True)
         for column,rows in zip(date_coordinates[0],date_coordinates[1]):
                 if column > 0:
-                    col_subscript = header_indices.index(rows[0])
+                    try:
+                        col_subscript = header_indices.index(rows[0])
+                    except:
+                        pass
                 elif column == 0:
                     row_indices = rows
         # print(col_subscript)
-        if col_subscript >=0:
+        if col_subscript > 0:
             # print(fin_df[f"header_col_{col_subscript}"].transform(pd.to_datetime,unit='ns'))
             for idx,row in fin_df.iterrows():
                 for raw_year_text,year in zip(raw_year,extracted_year):
@@ -541,7 +570,7 @@ def set_year_column_for_final_df2(fin_df,date_coordinates,header_indices,raw_yea
                 cnt = 0
                 for col_header , line_row in fin_df.filter(like="line_item", axis=1).iteritems():
                     for idx,line_item in enumerate(line_row):
-                        for raw_year_text,year in zip(raw_year,extracted_year):
+                        for raw_year_text,year in zip(raw_year[0],extracted_year[0]):
                             if str(line_item).lower().strip() == str(raw_year_text).lower().strip():
                                 fin_df.at[idx,'year'] = year
         return fin_df,year_column_header_name
