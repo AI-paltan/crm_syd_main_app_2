@@ -1,3 +1,47 @@
+date : 31 March 2023
+updating meta keyword for PPE related 3 row items in CBS
+1. (Gross Plant Property Equipment)
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  meta_keyword='nca_gross_ppe'
+	WHERE primary_keywords='(Gross Plant Property Equipment)';
+
+2. (Accumulated Depreciation) ( - )
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  meta_keyword='nca_accumulated_depreciation'
+	WHERE primary_keywords='(Accumulated Depreciation) ( - )';
+
+3. Net Plant Property Equipment (PPE)
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  meta_keyword='nca_net_ppe'
+	WHERE primary_keywords='Net Plant Property Equipment (PPE)';
+
+
+1. (Gross Plant Property Equipment)
+mets_keywords = "nca_gross_ppe"
+note keywords: "cost|gross"
+exclude_note_keyword = "depreciatio|accumulated depreciation|net value"
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  note_keyword='cost|gross' , exclude_note_keyword= 'depreciatio|accumulated depreciation|net value'
+	WHERE meta_keyword='nca_gross_ppe';
+
+2. (Accumulated Depreciation) ( - )
+mets_keywords = "nca_accumulated_depreciation"
+note keywords: "depreciatio|accumulated depreciation|net value"
+exclude_note_keyword = "cost|gross"
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  note_keyword='depreciatio|accumulated depreciation' , exclude_note_keyword = 'cost|gross|net value'
+	WHERE meta_keyword='nca_accumulated_depreciation';
+
+
+
+
+
+
 date: 14 March 2023
 Adding target keywords for main page in table for P&L statement_section
 

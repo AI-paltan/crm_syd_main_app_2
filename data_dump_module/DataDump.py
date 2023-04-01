@@ -89,12 +89,22 @@ class DataDump:
                 if row["cdm_keyword_start_row_map"].isdigit():
                     cbs_worksheet = self.workbook.get_sheet_by_name(row['cdm_sheet_name'])
                     repsonse_dict = cbs_resposne_bucket.get(row['meta_keyword'])
-                    notes_horizontal_table_df = repsonse_dict.get('notes_horizontal_table_df')     
+                    notes_horizontal_table_df = repsonse_dict.get('notes_horizontal_table_df')  
+                    total_row_num  = int(row["cdm_total_row_map"]) 
+                    for main_year,value in zip(repsonse_dict.get("main_page_year_list"),repsonse_dict.get("main_page_year_total")):
+                        year_column = year_excel_col_map_dict.get(int(main_year))
+                        try:
+                            cbs_worksheet.cell(row=total_row_num,column=year_column).value = value
+                        except:
+                            cbs_worksheet.cell(row=total_row_num,column=year_column).value = 0.0   
+                    print(notes_horizontal_table_df)       
                     if len(notes_horizontal_table_df)>0:
+                        notes_horizontal_table_df.reset_index(drop=True,inplace=True)
                         # print("len: ", len(notes_horizontal_table_df))
                         cbs_worksheet = self.insert_rows(worksheet=cbs_worksheet,df_len=len(notes_horizontal_table_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"])
-                        for idx,row_note in notes_horizontal_table_df.iterrows():
-                            excel_row_num = int(row["cdm_keyword_start_row_map"]) + idx+1
+                        for idx_row,row_note in notes_horizontal_table_df.iterrows():
+                            excel_row_num = int(row["cdm_keyword_start_row_map"]) + idx_row+1
+                            # print(f"excel_row_num: {excel_row_num}")
                             cbs_worksheet.cell(row=excel_row_num,column=2).value = row_note["line_item"]
                             for year in years_list:
                                 year_column = year_excel_col_map_dict.get(int(year))
@@ -102,6 +112,8 @@ class DataDump:
                                     cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[year]
                                 except:
                                     cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
+
+                     
 
 
     def get_row_map_from_db(self,meta_keyword):

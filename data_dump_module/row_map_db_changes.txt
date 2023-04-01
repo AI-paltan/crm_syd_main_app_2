@@ -1,3 +1,26 @@
+Date: 31 March 2023
+
+meta_keywrods = "nca_gross_ppe"
+CDM Keywords = "(Gross Plant Property Equipment)"
+start row= 40
+end row ( total ) = 43
+Query = UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=40, cdm_total_row_map=43
+	WHERE meta_keyword='nca_accumulated_depreciation';
+
+
+meta_keywrods = "nca_accumulated_depreciation"
+CDM Keywords = "(Accumulated Depreciation) ( - )"
+start row= 44
+end row ( total ) = 47
+Query = UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=44, cdm_total_row_map=47
+	WHERE meta_keyword='nca_net_ppe';
+	
+
+
+
+
 Date : 22 March 2023
 
 balance Sheet:
