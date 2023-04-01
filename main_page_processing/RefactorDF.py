@@ -9,6 +9,9 @@ class RefactorCBS:
 
     
     def start_refactoring(self):
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring")
+        Logger.logr.debug("start_refactoring started")
         col_num = self.find_template()
         standard_df = pd.DataFrame()
         if col_num == 4 :
@@ -22,6 +25,7 @@ class RefactorCBS:
             col_num = self.find_template()
             if col_num == 4:
                 standard_df, temp_df = self.ideal_format_processing()
+        Logger.logr.debug("start_refactoring completed")
         return standard_df, temp_df
 
         

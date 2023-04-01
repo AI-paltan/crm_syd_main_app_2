@@ -41,6 +41,9 @@ class CBSsections:
 
 
     def set_section_details(self, fuzz_thresh=90):
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: MainPage_processing_Service , File:CBS_Sections.py,  function: set_section_details")
+            Logger.logr.debug("set_section_details started")
             obj_techfuzzy = TechMagicFuzzy()
 
             # if self.statement_type != 'cbs':
@@ -67,6 +70,7 @@ class CBSsections:
 
                 fuzz_res = obj_techfuzzy.token_sort_pro(particular_text, list_main_sections)
                 # app.logger.info(f'{particular_text} | {fuzz_res}')
+                Logger.logr.debug(f'{particular_text} | {fuzz_res}')
                 if fuzz_res[0][1] >= fuzz_thresh:
                     for key, value in dict_main_sections.items():
                         if fuzz_res[0][0] in value:
@@ -91,6 +95,7 @@ class CBSsections:
                     for ss_word in sub_sec_list:
                         t = fuzz.WRatio(ss_word, particular_text)
                         # app.logger.debug(f'particular_text {particular_text} | MATCH WORD {ss_word} | score {t}')
+                        Logger.logr.debug(f'particular_text {particular_text} | MATCH WORD {ss_word} | score {t}')
                         if t < 90:
                             continue
                         if t > subsection_score:

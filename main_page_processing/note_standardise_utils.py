@@ -245,29 +245,33 @@ def find_date_location(df):
     row_numbers_org = []
     raw_text_org = []
     extracted_year_org = []
-    first_col_date_flag,columns_number,row_numbers,raw_text,extracted_year = is_first_date_col(df)
-    columns_number_org.extend(columns_number)
-    row_numbers_org.extend(row_numbers)
-    raw_text_org.extend(raw_text)
-    extracted_year_org.extend(extracted_year)
-    row_date_flag,regex_year_found,columns_number,row_numbers,raw_text,extracted_year = is_next_data_col(df,first_col_date_flag,row_numbers)
-    # columns_number_org.extend(columns_number)
-    # row_numbers_org.extend(row_numbers)
-    # raw_text_org.extend(raw_text)
-    # extracted_year_org.extend(extracted_year)
-    ## if else statement to fix PPE issue of note 10 21 YML
-    if len(df.columns) > 2:
-        if len(columns_number)>1:
-            columns_number_org.extend(columns_number)
-            row_numbers_org.extend(row_numbers)
-            raw_text_org.extend(raw_text)
-            extracted_year_org.extend(extracted_year)
-    else:
+    try:
+        first_col_date_flag,columns_number,row_numbers,raw_text,extracted_year = is_first_date_col(df)
         columns_number_org.extend(columns_number)
         row_numbers_org.extend(row_numbers)
         raw_text_org.extend(raw_text)
         extracted_year_org.extend(extracted_year)
-
+        row_date_flag,regex_year_found,columns_number,row_numbers,raw_text,extracted_year = is_next_data_col(df,first_col_date_flag,row_numbers)
+        # columns_number_org.extend(columns_number)
+        # row_numbers_org.extend(row_numbers)
+        # raw_text_org.extend(raw_text)
+        # extracted_year_org.extend(extracted_year)
+        ## if else statement to fix PPE issue of note 10 21 YML
+        if len(df.columns) > 2:
+            if len(columns_number)>1:
+                columns_number_org.extend(columns_number)
+                row_numbers_org.extend(row_numbers)
+                raw_text_org.extend(raw_text)
+                extracted_year_org.extend(extracted_year)
+        else:
+            columns_number_org.extend(columns_number)
+            row_numbers_org.extend(row_numbers)
+            raw_text_org.extend(raw_text)
+            extracted_year_org.extend(extracted_year)
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_standardise_utils.py,  function: find_date_location")
+        Logger.logr.error(f"error occured: {e}")
     return columns_number_org,row_numbers_org,raw_text_org,extracted_year_org
         
     
@@ -347,18 +351,25 @@ def find_data_block_location(note_df,date_block_coordinates):
         number = str(number).replace(r'(',"-")
         return number
     first_data_col,first_data_row ,particular_col,particular_start_row,last_data_col,last_data_row= -1,-1,-1,-1, -1, -1
-    if len(note_df) > 0:
-        df = note_df.copy()
-        for col in range(len(df.columns)):
-            df.iloc[:,col] = df.iloc[:,col].apply(clean_number).apply(pd.to_numeric , errors='coerce')
-        year_rows,year_cols = get_year_coordinates(date_block_coordinates=date_block_coordinates)
-        try:
-            first_data_col, first_data_row ,particular_col= find_first_row(df=df,year_rows=year_rows,year_cols = year_cols)
-            particular_start_row = find_particulars_start_row(note_df,particular_col,first_data_row)
-            last_data_col = len(df.columns)-1
-            last_data_row = len(df)-1
-        except:
-            pass
+    try:
+        if len(note_df) > 0:
+            df = note_df.copy()
+            for col in range(len(df.columns)):
+                df.iloc[:,col] = df.iloc[:,col].apply(clean_number).apply(pd.to_numeric , errors='coerce')
+            year_rows,year_cols = get_year_coordinates(date_block_coordinates=date_block_coordinates)
+            try:
+                first_data_col, first_data_row ,particular_col= find_first_row(df=df,year_rows=year_rows,year_cols = year_cols)
+                particular_start_row = find_particulars_start_row(note_df,particular_col,first_data_row)
+                last_data_col = len(df.columns)-1
+                last_data_row = len(df)-1
+            except:
+                from ..logging_module.logging_wrapper import Logger
+                Logger.logr.debug("module: main_page_processing_service , File:note_standardise_utils.py,  function: find_data_block_location")
+                Logger.logr.error(f"error occured inside inner try block: {e}")
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_standardise_utils.py,  function: find_data_block_location")
+        Logger.logr.error(f"error occured: {e}")
     return (first_data_col,first_data_row),particular_col,particular_start_row#,(last_data_col,last_data_row)
 
 
@@ -369,10 +380,15 @@ def find_data_block_location(note_df,date_block_coordinates):
 ## max 3 rows upside and 2 column left 
 def find_col_headers(nte_df,data_block_coordinates_start,particulars_endcol_coordinates,particulars_start_row):
     header_indices = []
-    for idx,row in nte_df.iterrows():
-        if idx < particulars_start_row:
-            if row[particulars_endcol_coordinates+1:].notnull().any():
-                header_indices.append(idx)
+    try:
+        for idx,row in nte_df.iterrows():
+            if idx < particulars_start_row:
+                if row[particulars_endcol_coordinates+1:].notnull().any():
+                    header_indices.append(idx)
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_standardise_utils.py,  function: find_col_headers")
+        Logger.logr.error(f"error occured: {e}")
     return header_indices
 
 ## if more than 1 column present left to data block then check if column1 and 2 is duplicate or not. any row.
@@ -693,7 +709,11 @@ def find_date_loc_super(df,main_page_notes_ref_dict,key):
     for main_page_statement_type,ref_list in main_page_notes_ref_dict.items():
         for note_ref_items in ref_list:
             if note_ref_items["main_note_number"] == note_no:
-                main_page_year_values = note_ref_items["year_values"] 
+                main_page_year_values = note_ref_items["year_values"]
+                years_list = list(main_page_year_values.keys())
+                for year in years_list:
+                    year_value = main_page_year_values.get(year)
+                    ## df.index[df['column_name']==value].tolist()
                 
 
 

@@ -39,6 +39,9 @@ class CCFsections:
         return re.sub(pattern, "", particular_text.strip())
     
     def set_section_details(self, fuzz_thresh=90):
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: MainPage_processing_Service , File:CCF_Sections.py,  function: set_section_details")
+        Logger.logr.debug("set_section_details started")
         obj_techfuzzy = TechMagicFuzzy()
         self.clean_before_section_setup()
 
@@ -70,6 +73,7 @@ class CCFsections:
                 res_match = obj_techfuzzy.token_sort_pro(df_row['Particulars'],
                                                               dict_sub_sections['adjustments_begin'])
                 # app.logger.debug(f'SUB SECTION : ADJUSTMENTS --- {df_row["Particulars"]} | {res_match[0][0]}')
+                Logger.logr.debug(f'SUB SECTION : ADJUSTMENTS --- {df_row["Particulars"]} | {res_match[0][0]}')
                 if res_match[0][1] >= 90:
                     curr_subsection = 'net_working_capital'
             else:
@@ -89,7 +93,6 @@ class CCFsections:
         for df_index, df_row in self.cbs_dataframe.iterrows():
             particular_text = self.string_cleaning(df_row['Particulars'])
             res_match = obj_techfuzzy.token_sort_pro(particular_text, ['adjustments for'])
-
             if res_match[0][1] >= 90:
                 # app.logger.debug(f'{particular_text} | {res_match}')
                 remove_index.append(df_index)

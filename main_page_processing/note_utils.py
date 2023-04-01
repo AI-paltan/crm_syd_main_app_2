@@ -14,34 +14,44 @@ def note_end_testing(note_pattern,text_line):
 def find_note_start_index(note_pattern,account_text,ocr_line_df_dict,max_main_page):
     page_number = []
     start_bbox = []
-    for k,df in ocr_line_df_dict.items():
-        if k > max_main_page : ## alaways start after cash flow page
-            for idx,row in df.iterrows():
-                if note_end_testing(note_pattern,row['text'].lower()):
-                    ratio = fuzz.partial_ratio(str(account_text).lower(), row['text'].lower())
-                    if ratio > 60 : #85:   ### need to lower this for getting more mathced
-                        page_number.append(k)
-                        start_bbox.append([row['left'],row['top'],row['right'],row['down']])
+    try:
+        for k,df in ocr_line_df_dict.items():
+            if k > max_main_page : ## alaways start after cash flow page
+                for idx,row in df.iterrows():
+                    if note_end_testing(note_pattern,row['text'].lower()):
+                        ratio = fuzz.partial_ratio(str(account_text).lower(), row['text'].lower())
+                        if ratio > 60 : #85:   ### need to lower this for getting more mathced
+                            page_number.append(k)
+                            start_bbox.append([row['left'],row['top'],row['right'],row['down']])
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_utils.py,  function: find_note_start_index")
+        Logger.logr.error(f"error occured: {e}")
     return page_number,start_bbox
 
 def find_note_end_index(start_page_number,start_bbox,ocr_line_df_dict,next_note_pattern):
     end_page_number = []
     end_bbox= []
     pattern_found_flag = False
-    for k,df in ocr_line_df_dict.items():
-        for strt_page in start_page_number:
-            if k>=strt_page and k<=strt_page+1:
-                for idx,row in df.iterrows():
-                    flag = note_end_testing(next_note_pattern,row['text'].lower())
-                    if flag:
-                        end_page_number.append(k)
-                        end_bbox.append([row['left'],row['top'],row['right'],row['down']])
-                        pattern_found_flag = True
-        ### below code is to find next page end bbox if strat page bbox present and next note bbox not found 
-    if len(end_bbox)==0 and len(end_page_number)==0  and len(start_page_number)>0:
-            end_page_number.append(int(start_page_number[0])+1)
-            end_row_end_page = ocr_line_df_dict[int(start_page_number[0])+1].iloc[-1,:]
-            end_bbox.append([end_row_end_page['left'],end_row_end_page['top'],end_row_end_page['right'],end_row_end_page['down']])
+    try:
+        for k,df in ocr_line_df_dict.items():
+            for strt_page in start_page_number:
+                if k>=strt_page and k<=strt_page+1:
+                    for idx,row in df.iterrows():
+                        flag = note_end_testing(next_note_pattern,row['text'].lower())
+                        if flag:
+                            end_page_number.append(k)
+                            end_bbox.append([row['left'],row['top'],row['right'],row['down']])
+                            pattern_found_flag = True
+            ### below code is to find next page end bbox if strat page bbox present and next note bbox not found 
+        if len(end_bbox)==0 and len(end_page_number)==0  and len(start_page_number)>0:
+                end_page_number.append(int(start_page_number[0])+1)
+                end_row_end_page = ocr_line_df_dict[int(start_page_number[0])+1].iloc[-1,:]
+                end_bbox.append([end_row_end_page['left'],end_row_end_page['top'],end_row_end_page['right'],end_row_end_page['down']])
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_utils.py,  function: find_note_end_index")
+        Logger.logr.error(f"error occured: {e}")
     return end_page_number,end_bbox,pattern_found_flag
 
 
@@ -84,24 +94,29 @@ def x_cord_filter(bbox):
 def get_first_note_occurance(notes_pages,notes_bbox,max_main_page):
     final_page = []
     final_bbox = []
-    tmp_pge = notes_pages[0]
-    tmpbbox = notes_bbox[0]
-    notes_pages_int = []
-    notes_bbox_int = []
-    for pge,bbx in zip(notes_pages,notes_bbox):
-        if pge > max_main_page + 4:
-            notes_pages_int.append(pge)
-            notes_bbox_int.append(bbx)
-    tmp_pge = notes_pages_int[0]
-    tmpbbox = notes_bbox_int[0]
-    for pge,bbox in zip(notes_pages_int,notes_bbox_int):
-        if pge < tmp_pge:
-            tmp_pge = pge
-            tmpbbox = bbox
-        elif pge == tmp_pge and (bbox[1]<tmpbbox[1]):
-            tmpbbox = bbox
-    final_page.append(tmp_pge)
-    final_bbox.append(tmpbbox)
+    try:
+        tmp_pge = notes_pages[0]
+        tmpbbox = notes_bbox[0]
+        notes_pages_int = []
+        notes_bbox_int = []
+        for pge,bbx in zip(notes_pages,notes_bbox):
+            if pge > max_main_page + 4:
+                notes_pages_int.append(pge)
+                notes_bbox_int.append(bbx)
+        tmp_pge = notes_pages_int[0]
+        tmpbbox = notes_bbox_int[0]
+        for pge,bbox in zip(notes_pages_int,notes_bbox_int):
+            if pge < tmp_pge:
+                tmp_pge = pge
+                tmpbbox = bbox
+            elif pge == tmp_pge and (bbox[1]<tmpbbox[1]):
+                tmpbbox = bbox
+        final_page.append(tmp_pge)
+        final_bbox.append(tmpbbox)
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_utils.py,  function: get_first_note_occurance")
+        Logger.logr.error(f"error occured: {e}")
     return final_page,final_bbox
 
 
@@ -110,12 +125,17 @@ def refinement(page_list,bbox_list,max_main_page):
     filtered_bbox = []
     final_page = []
     final_bbox =[]
-    for page,bbox in zip(page_list,bbox_list):
-        if x_cord_filter(bbox):
-            filtered_pages.append(page)
-            filtered_bbox.append(bbox)
-    if len(filtered_pages)>1:
-        filtered_pages,filtered_bbox = get_first_note_occurance(filtered_pages,filtered_bbox,max_main_page)
+    try:
+        for page,bbox in zip(page_list,bbox_list):
+            if x_cord_filter(bbox):
+                filtered_pages.append(page)
+                filtered_bbox.append(bbox)
+        if len(filtered_pages)>1:
+            filtered_pages,filtered_bbox = get_first_note_occurance(filtered_pages,filtered_bbox,max_main_page)
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_utils.py,  function: refinement")
+        Logger.logr.error(f"error occured: {e}")
     return filtered_pages,filtered_bbox
 
 

@@ -55,6 +55,9 @@ class mainPageProcess:
         self.month : str
 
     def process_main_pages(self,fileid:str):
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: MainPage_processing_Service , File:process_core.py,  function: process_main_pages")
+        Logger.logr.debug("process_main_pages started")
         self.fileid=fileid
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid).first()
         self.month = file_query.month
@@ -67,6 +70,7 @@ class mainPageProcess:
         self.standardize_notes_data()
         self.save_op_in_files()
         self.save_logs_in_db()
+        Logger.logr.debug("process_main_pages completed")
         return self.cbs_df_dict,self.cpl_df_dict,self.ccf_df_dict,self.meta_dict,self.final_notes_dict,self.notes_ref_dict, self.notes_region_meta_data, self.cropped_table_dict
 
     def get_standardize_main_pages(self):

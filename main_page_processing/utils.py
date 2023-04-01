@@ -188,21 +188,27 @@ def split_numbers(number,threshold=60):
             yield int(seq[:n])
             seq = seq[n:]
     num_list = []
-    if len(number) <= 3:
-        if int(number[1:]) > threshold:
-            num_list.append(number[0:2])
-            num_list.append(number[2:])
-        else:
-            num_list.append(number[0])
-            num_list.append(number[1:])
-    else:
-        number_split = list(split_by_n(number,2))
-        for split in number_split:
-            if split>threshold:
-                more_split = list(split_by_n(split,1))
-                num_list.extend(more_split)
+    try:
+        if len(number) <= 3:
+            if int(number[1:]) > threshold:
+                num_list.append(number[0:2])
+                num_list.append(number[2:])
             else:
-                num_list.extend([split])
+                num_list.append(number[0])
+                num_list.append(number[1:])
+        else:
+            number_split = list(split_by_n(number,2))
+            for split in number_split:
+                if split>threshold:
+                    more_split = list(split_by_n(split,1))
+                    num_list.extend(more_split)
+                else:
+                    num_list.extend([split])
+    except Exception as e:
+        num_list.append(number)
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: split_numbers")
+        Logger.logr.error(f"error occured: {e}")
     return num_list
 
 def find_note_subnote_number(number):
@@ -244,44 +250,49 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
     particulars_col = df['Particulars']
     year_col_list = [i for i in df.columns if i not in ["Notes","Particulars"]]
     ref_list : list = []
-    for idx,val in enumerate(notes_col):
-        notes_list = []
-        if not pd.isnull(val):
-            if len(str(val)) > 2 and str(val).isdigit():
-                split_notes_list = split_numbers(val,60)
-                notes_list = split_notes_list
-            elif ',' in str(val):
-                split_notes_list = re.split(r',',str(val))
-                notes_list = split_notes_list
-            elif 'and' in str(val):
-                split_notes_list = re.split(r'and',str(val))
-                notes_list = split_notes_list
-            else:
-                 notes_list = [str(val)]
-            notes_list = [i.strip() for i in notes_list]
-            note_no : list= []
-            subnote_no : list = []
-            for raw_note in notes_list:
-                note,subnote = find_note_subnote_number(str(raw_note))
-                note_no.extend([note])
-                subnote_no.extend([subnote])
-            temp_dict = {}
-            temp_dict['particular'] = particulars_col.iloc[idx]
-            temp_dict['raw_note_no'] = val
-            temp_dict['processed_raw_note'] = notes_list
-            temp_dict['main_note_number']=note_no
-            temp_dict['subnote_number'] = subnote_no
-            tmp_year_value_dct = {}
-            for year in year_col_list:
-                tmp_year_value_dct[year] = df.iloc[idx][year]
-            temp_dict["year_values"] = tmp_year_value_dct
-            ref_list.append(temp_dict)
-            # print(note_no)
-            for noteno,subnoteno in zip(note_no,subnote_no):
-                if notes_dict.get(noteno, {}).get(subnoteno):
-                    notes_dict[noteno][subnoteno].append(particulars_col.iloc[idx])
+    try:
+        for idx,val in enumerate(notes_col):
+            notes_list = []
+            if not pd.isnull(val):
+                if len(str(val)) > 2 and str(val).isdigit():
+                    split_notes_list = split_numbers(val,60)
+                    notes_list = split_notes_list
+                elif ',' in str(val):
+                    split_notes_list = re.split(r',',str(val))
+                    notes_list = split_notes_list
+                elif 'and' in str(val):
+                    split_notes_list = re.split(r'and',str(val))
+                    notes_list = split_notes_list
                 else:
-                    notes_dict[noteno][subnoteno] = [particulars_col.iloc[idx]]
+                    notes_list = [str(val)]
+                notes_list = [i.strip() for i in notes_list]
+                note_no : list= []
+                subnote_no : list = []
+                for raw_note in notes_list:
+                    note,subnote = find_note_subnote_number(str(raw_note))
+                    note_no.extend([note])
+                    subnote_no.extend([subnote])
+                temp_dict = {}
+                temp_dict['particular'] = particulars_col.iloc[idx]
+                temp_dict['raw_note_no'] = val
+                temp_dict['processed_raw_note'] = notes_list
+                temp_dict['main_note_number']=note_no
+                temp_dict['subnote_number'] = subnote_no
+                tmp_year_value_dct = {}
+                for year in year_col_list:
+                    tmp_year_value_dct[year] = df.iloc[idx][year]
+                temp_dict["year_values"] = tmp_year_value_dct
+                ref_list.append(temp_dict)
+                # print(note_no)
+                for noteno,subnoteno in zip(note_no,subnote_no):
+                    if notes_dict.get(noteno, {}).get(subnoteno):
+                        notes_dict[noteno][subnoteno].append(particulars_col.iloc[idx])
+                    else:
+                        notes_dict[noteno][subnoteno] = [particulars_col.iloc[idx]]
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: notes_number_processing")
+        Logger.logr.error(f"error occured: {e}")
     # print("ref list:", ref_list)
     return ref_list,notes_dict
 
@@ -301,9 +312,14 @@ def number_data_processing(df,data_start_x,data_start_y,data_end_y):
 
 
 def set_headers(df,data_start_x,data_end_y,headers):
-    subset_df = df.iloc[data_start_x:,:]
-    subset_df.columns = headers
-    subset_df = subset_df.reset_index(drop=True)
+    try:
+        subset_df = df.iloc[data_start_x:,:]
+        subset_df.columns = headers
+        subset_df = subset_df.reset_index(drop=True)
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: set_headers")
+        Logger.logr.error(f"error occured: {e}")
     return subset_df
 
 

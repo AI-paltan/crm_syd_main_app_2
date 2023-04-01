@@ -26,8 +26,12 @@ class TEWrapper():
 
     def process_file(self,fileid:str):
         self.fileid=fileid
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: TableExtractionService , File:wrapper.py,  function: process_file")
+        Logger.logr.debug("TE process file started")
         self.get_predicted_page_info()
         self.process_pages()
+        Logger.logr.debug("TE Proces file completed")
 
     def process_page(self):
         pass
