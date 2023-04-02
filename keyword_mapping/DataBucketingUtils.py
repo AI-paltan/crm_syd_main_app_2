@@ -328,7 +328,13 @@ def clean_note_df(std_horzntl_note_df):
     return std_horzntl_note_df
 
 
-
+def adding_total_keyowrds(std_horzntl_note_df):
+    year_cols = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
+    for idx,row in std_horzntl_note_df.iterrows():
+        txt = row["line_item"].strip()
+        if len(txt)==0:
+            std_horzntl_note_df.at[idx,"line_item"] = "Total"
+    return std_horzntl_note_df
 
 def remove_total_line_items(std_horzntl_note_df):
     remove_indices = []
@@ -358,6 +364,7 @@ def remove_0_value_line_items(std_horzntl_note_df):
 
 def postprocessing_note_df(std_hrzntl_nte_df):
     if len(std_hrzntl_nte_df) > 0:
+        std_hrzntl_nte_df = adding_total_keyowrds(std_horzntl_note_df=std_hrzntl_nte_df)
         std_hrzntl_nte_df = remove_0_value_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
         std_hrzntl_nte_df = remove_total_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
         std_hrzntl_nte_df = clean_note_df(std_horzntl_note_df=std_hrzntl_nte_df)
