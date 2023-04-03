@@ -417,10 +417,15 @@ def check_and_remove_duplicate_particulars_column(nte_df,particulars_endcol_coor
 ## find all rows for which particulars text is present but no data number present
 def find_row_headers(nte_df,particulars_endcol_coordinates,particulars_start_row):
     row_header_indices = []
-    for idx,row in nte_df.iterrows():
-        if idx >= particulars_start_row:
-            if not row[particulars_endcol_coordinates+1:].notnull().any():
-                row_header_indices.append(idx)
+    try:
+        for idx,row in nte_df.iterrows():
+            if idx >= particulars_start_row:
+                if not row[particulars_endcol_coordinates+1:].notnull().any():
+                    row_header_indices.append(idx)
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_standardise_utils.py,  function: find_row_headers")
+        Logger.logr.error(f"error occured: {e}")
     return row_header_indices
 
 
@@ -437,18 +442,23 @@ def fill_missing_multilevel_header(df,header_indices,particulars_end_col):
 def convert_row_header_to_columns(df,row_header_indices,particular_start_row):
     temp_df = df.copy()
     temp_df['row_header'] = None
-    if len(row_header_indices)>0:
-#         row_header_indices.append(len(temp_df)-1)
-#         row_header_indices = sorted(row_header_indices)
-        for idx,row in temp_df.iterrows():
-            if idx>= particular_start_row:
-                if idx in row_header_indices:
-                    temp_df.at[idx,'row_header'] = row[0]
-    temp_df['row_header'].fillna(method='ffill',inplace=True)
-    #removing row header rows from df
-    if len(row_header_indices)>0:
-        temp_df.drop(row_header_indices,inplace=True)
-    temp_df.reset_index(drop=True,inplace=True)
+    try:
+        if len(row_header_indices)>0:
+    #         row_header_indices.append(len(temp_df)-1)
+    #         row_header_indices = sorted(row_header_indices)
+            for idx,row in temp_df.iterrows():
+                if idx>= particular_start_row:
+                    if idx in row_header_indices:
+                        temp_df.at[idx,'row_header'] = row[0]
+        temp_df['row_header'].fillna(method='ffill',inplace=True)
+        #removing row header rows from df
+        if len(row_header_indices)>0:
+            temp_df.drop(row_header_indices,inplace=True)
+        temp_df.reset_index(drop=True,inplace=True)
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:note_standardise_utils.py,  function: convert_row_header_to_columns")
+        Logger.logr.error(f"error occured: {e}")
     return temp_df
                 
 
@@ -701,6 +711,7 @@ def find_date_loc_super(df,main_page_notes_ref_dict,key):
         return number
     df_copy = df.copy()
     df_copy = df_copy.apply(clean_number).apply(pd.to_numeric , errors='coerce').fillna(0)
+    df_copy.reset_index(drop=True,inplace=True)
     columns_number_org = []
     row_numbers_org = []
     raw_text_org = []
@@ -717,7 +728,17 @@ def find_date_loc_super(df,main_page_notes_ref_dict,key):
                 
 
 
-
+def get_year_value_match_row_indices(year_dict,number_converted_df):
+    years_list = list(year_dict.keys())
+    index_dict = {}
+    for year in years_list:
+        year_value = year_dict.get(year)
+        for colidx,series in number_converted_df.items():
+            i = series.index
+            indx = number_converted_df == year_value
+            result = i[indx]
+            index_dict[year] = result.tolist()
+    
 
 
 

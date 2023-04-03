@@ -26,17 +26,22 @@ class getNotesDataTables:
         self.getTableData()
 
     def prepare_ocr_line_df(self):
-        page_query = db.query(db_models.PageLogs).filter(db_models.PageLogs.fileid == self.fileid).order_by(db_models.PageLogs.time.desc())
-        pages = page_query.all()
-        processed_pages = []
-        for page in pages:
-            if page.page_number not in processed_pages:
-                ocr_query = db.query(db_models.OCRDump).filter(db_models.OCRDump.pageid == page.pageid).order_by(db_models.OCRDump.time.desc())
-                ocr_df = pd.read_sql(ocr_query.statement, ocr_query.session.bind)
-                ocr_df = ocr_df.sort_values(by=['line_num','left'])
-                ocr_line_df = ocr_dump_to_line_df(ocr_df)
-                self.ocr_line_df_dict[page.page_number] = ocr_line_df
-                processed_pages.append(page.page_number)
+        try:
+            page_query = db.query(db_models.PageLogs).filter(db_models.PageLogs.fileid == self.fileid).order_by(db_models.PageLogs.time.desc())
+            pages = page_query.all()
+            processed_pages = []
+            for page in pages:
+                if page.page_number not in processed_pages:
+                    ocr_query = db.query(db_models.OCRDump).filter(db_models.OCRDump.pageid == page.pageid).order_by(db_models.OCRDump.time.desc())
+                    ocr_df = pd.read_sql(ocr_query.statement, ocr_query.session.bind)
+                    ocr_df = ocr_df.sort_values(by=['line_num','left'])
+                    ocr_line_df = ocr_dump_to_line_df(ocr_df)
+                    self.ocr_line_df_dict[page.page_number] = ocr_line_df
+                    processed_pages.append(page.page_number)
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: MainPage_processing_Service , File:getNotesData.py,  function: prepare_ocr_line_df")
+            Logger.logr.error(f"error occured: {e}")
 
 
     def findNotesArea(self):
@@ -100,45 +105,52 @@ class getNotesDataTables:
         self.notes_span_df['tableid'] = None
         self.notes_span_df['row_numbers'] = None
         self.notes_span_df['tableslist'] = None
-        for idx,row in self.notes_span_df.iterrows():
-            if len(row['start_page']) > 0:
-                # print(row['note'],row['subnote'])
-                # print(row['start_page'][0],row['star_bbox'][0],row['end_page'][0],row['end_bbox'][0])
-                table_list,row_numbers = self.get_notes_tables(self.fileid,row['start_page'][0],row['star_bbox'][0],row['end_page'][0],row['end_bbox'][0])
-                processed_tables = []
-                # print(table_list,row_numbers)
-                append_table_list = []
-                append_row_num_list = []
-                append_tableid_list = []
-                for table,row_number in zip(table_list,row_numbers):
-                    if table.tableid not in processed_tables:
-                        table_df = pd.read_html(table.html_string)[0]
-                        unique_rows = list(np.array(list(set(row_number)))-1)
-                        if len(unique_rows) > 1:
-                            cropped_df = table_df.iloc[table_df.index.isin(unique_rows)]
-                            cropped_df = cropped_df.reset_index(drop=True)
-                            processed_tables.append(table.tableid)
-                            append_table_list.append(table)
-                            append_row_num_list.append(unique_rows)
-                            append_tableid_list.append(table.tableid)
-                            # self.cropped_table_dict[str(table.tableid)] = cropped_df
-                            tbale_combo_key = str(row["note"])+"_"+str(row["subnote"])+"_"+str(table.tableid)
-                            self.cropped_table_dict[tbale_combo_key] = cropped_df
-                self.notes_span_df.at[idx, 'tableslist'] = append_table_list
-                self.notes_span_df.at[idx,'tableid'] = append_tableid_list
-                self.notes_span_df.at[idx, 'row_numbers'] = append_row_num_list
+
+        if len(self.notes_span_df) > 0:
+            for idx,row in self.notes_span_df.iterrows():
+                if len(row['start_page']) > 0:
+                    # print(row['note'],row['subnote'])
+                    # print(row['start_page'][0],row['star_bbox'][0],row['end_page'][0],row['end_bbox'][0])
+                    table_list,row_numbers = self.get_notes_tables(self.fileid,row['start_page'][0],row['star_bbox'][0],row['end_page'][0],row['end_bbox'][0])
+                    processed_tables = []
+                    # print(table_list,row_numbers)
+                    append_table_list = []
+                    append_row_num_list = []
+                    append_tableid_list = []
+                    for table,row_number in zip(table_list,row_numbers):
+                        if table.tableid not in processed_tables:
+                            table_df = pd.read_html(table.html_string)[0]
+                            unique_rows = list(np.array(list(set(row_number)))-1)
+                            if len(unique_rows) > 1:
+                                cropped_df = table_df.iloc[table_df.index.isin(unique_rows)]
+                                cropped_df = cropped_df.reset_index(drop=True)
+                                processed_tables.append(table.tableid)
+                                append_table_list.append(table)
+                                append_row_num_list.append(unique_rows)
+                                append_tableid_list.append(table.tableid)
+                                # self.cropped_table_dict[str(table.tableid)] = cropped_df
+                                tbale_combo_key = str(row["note"])+"_"+str(row["subnote"])+"_"+str(table.tableid)
+                                self.cropped_table_dict[tbale_combo_key] = cropped_df
+                    self.notes_span_df.at[idx, 'tableslist'] = append_table_list
+                    self.notes_span_df.at[idx,'tableid'] = append_tableid_list
+                    self.notes_span_df.at[idx, 'row_numbers'] = append_row_num_list
 
 
     def get_row_columns(self,tableid,start_bbox,end_bbox,scaling_factor):
         row_col_query = db.query(db_models.RowColLogs).filter(db_models.RowColLogs.tableid == tableid and db_models.RowColLogs.type=="row").order_by(db_models.RowColLogs.time.desc())
         rows_cols = row_col_query.distinct().all()
         included_row_col_num_list : list =[]
-        for row_col in rows_cols:
-            if int(row_col.top_img*scaling_factor) >= start_bbox[1] and int(row_col.down_img*scaling_factor) <= end_bbox[3] and row_col.type == 'row':
-                included_row_col_num_list.append(row_col.row_col_num)
-            if int(row_col.down_img*scaling_factor) >= start_bbox[1] and int(row_col.down_img*scaling_factor) <= end_bbox[3] and row_col.type == 'row':
-                if int(row_col.top_img*scaling_factor) >= (int(start_bbox[1])-20):
+        try:
+            for row_col in rows_cols:
+                if int(row_col.top_img*scaling_factor) >= start_bbox[1] and int(row_col.down_img*scaling_factor) <= end_bbox[3] and row_col.type == 'row':
                     included_row_col_num_list.append(row_col.row_col_num)
+                if int(row_col.down_img*scaling_factor) >= start_bbox[1] and int(row_col.down_img*scaling_factor) <= end_bbox[3] and row_col.type == 'row':
+                    if int(row_col.top_img*scaling_factor) >= (int(start_bbox[1])-20):
+                        included_row_col_num_list.append(row_col.row_col_num)
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: main_page_processing_service , File:getNotesData.py,  function: get_row_columns")
+            Logger.logr.error(f"error occured: {e}")
         return included_row_col_num_list
 
 
@@ -165,46 +177,57 @@ class getNotesDataTables:
         flag,tables,page_height,scaling_ratio = self.get_page_tables(fileid,page_number)
         table_list:list = []
         row_numbers:list = []
-        if flag:
-            for table in tables:
-                if int(table.top*scaling_ratio) >= start_bbox[1] and int(table.down*scaling_ratio) <= end_bbox[3]:
-                    table_list.append(table)
-                    included_row_col_num_list = self.get_row_columns(table.tableid,start_bbox,end_bbox,scaling_ratio)
-                    row_numbers.append(included_row_col_num_list)
-                if int(table.down*scaling_ratio) >= start_bbox[1] and int(table.down*scaling_ratio) <= end_bbox[3]:
-                    table_list.append(table)
-                    included_row_col_num_list = self.get_row_columns(table.tableid,start_bbox,end_bbox,scaling_ratio)
-                    row_numbers.append(included_row_col_num_list)
-                if int(table.top*scaling_ratio) >= start_bbox[1] and int(table.top*scaling_ratio) <= end_bbox[3]:
-                    table_list.append(table)
-                    included_row_col_num_list = self.get_row_columns(table.tableid,start_bbox,end_bbox,scaling_ratio)
-                    row_numbers.append(included_row_col_num_list)
-                if int(table.top*scaling_ratio) <= start_bbox[1] and int(table.down*scaling_ratio) >= end_bbox[3]:
-                    table_list.append(table)
-                    included_row_col_num_list = self.get_row_columns(table.tableid,start_bbox,end_bbox,scaling_ratio)
-                    row_numbers.append(included_row_col_num_list)
+        try:
+            if flag:
+                for table in tables:
+                    if int(table.top*scaling_ratio) >= start_bbox[1] and int(table.down*scaling_ratio) <= end_bbox[3]:
+                        table_list.append(table)
+                        included_row_col_num_list = self.get_row_columns(table.tableid,start_bbox,end_bbox,scaling_ratio)
+                        row_numbers.append(included_row_col_num_list)
+                    if int(table.down*scaling_ratio) >= start_bbox[1] and int(table.down*scaling_ratio) <= end_bbox[3]:
+                        table_list.append(table)
+                        included_row_col_num_list = self.get_row_columns(table.tableid,start_bbox,end_bbox,scaling_ratio)
+                        row_numbers.append(included_row_col_num_list)
+                    if int(table.top*scaling_ratio) >= start_bbox[1] and int(table.top*scaling_ratio) <= end_bbox[3]:
+                        table_list.append(table)
+                        included_row_col_num_list = self.get_row_columns(table.tableid,start_bbox,end_bbox,scaling_ratio)
+                        row_numbers.append(included_row_col_num_list)
+                    if int(table.top*scaling_ratio) <= start_bbox[1] and int(table.down*scaling_ratio) >= end_bbox[3]:
+                        table_list.append(table)
+                        included_row_col_num_list = self.get_row_columns(table.tableid,start_bbox,end_bbox,scaling_ratio)
+                        row_numbers.append(included_row_col_num_list)
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: main_page_processing_service , File:getNotesData.py,  function: find_tables")
+            Logger.logr.error(f"error occured: {e}")
         return table_list,row_numbers
     
     def get_notes_tables(self,fileid,start_page,start_bbox,end_page,end_bbox):
         table_list : list = []
         row_numbers :list = []
-        page_query = db.query(db_models.PageLogs).filter(db_models.PageLogs.fileid == fileid).order_by(db_models.PageLogs.time.desc())
-        pages = page_query.all()
-        page_height = -1
-        for page in pages:
-            if page.page_number == int(start_page):
-                page_height = page.height
-                break
-        if int(start_page) == int(end_page):
-            table_lst,row_lst = self.find_tables(fileid,start_page,start_bbox,end_bbox)
-            table_list.extend(table_lst)
-            row_numbers.extend(row_lst)
-        if int(end_page) > int(start_page) and int(end_page) == int(start_page)+1:
-            table_lst,row_lst = self.find_tables(fileid,start_page,start_bbox,[0,0,0,page_height])
-            table_list.extend(table_lst)
-            row_numbers.extend(row_lst)
-            second_table_lst,row_lst = self.find_tables(fileid,end_page,[0,0,0,0],end_bbox)
-            table_list.extend(second_table_lst)
-            row_numbers.extend(row_lst)
+        try:
+            page_query = db.query(db_models.PageLogs).filter(db_models.PageLogs.fileid == fileid).order_by(db_models.PageLogs.time.desc())
+            pages = page_query.all()
+            page_height = -1
+            for page in pages:
+                if page.page_number == int(start_page):
+                    page_height = page.height
+                    break
+            if int(start_page) == int(end_page):
+                table_lst,row_lst = self.find_tables(fileid,start_page,start_bbox,end_bbox)
+                table_list.extend(table_lst)
+                row_numbers.extend(row_lst)
+            if int(end_page) > int(start_page) and int(end_page) == int(start_page)+1:
+                table_lst,row_lst = self.find_tables(fileid,start_page,start_bbox,[0,0,0,page_height])
+                table_list.extend(table_lst)
+                row_numbers.extend(row_lst)
+                second_table_lst,row_lst = self.find_tables(fileid,end_page,[0,0,0,0],end_bbox)
+                table_list.extend(second_table_lst)
+                row_numbers.extend(row_lst)
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: main_page_processing_service , File:getNotesData.py,  function: get_notes_tables")
+            Logger.logr.error(f"error occured: {e}")
+        
             
         return table_list,row_numbers

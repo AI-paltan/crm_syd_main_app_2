@@ -29,6 +29,23 @@ cfg.freeze(freezed=False)
 cfg.DEVICE = "cpu"
 cfg.freeze()
 
+try:
+    dd.ModelCatalog.register("layout/table_detection_iter150000_data70k.pt",dd.ModelProfile(
+                name="layout/table_detection_iter150000_data70k.pt",
+                description="Detectron2 layout detection model trained on private datasets",
+                config="dd/d2/layout/CASCADE_RCNN_R_50_FPN_GN_custom_2.yaml",
+                size=[274632215],
+                tp_model=False,
+                hf_repo_id=environ.get("HF_REPO"),
+                hf_model_name="table_detection_iter150000_data70k.pt",
+                hf_config_file=["Base-RCNN-FPN.yaml", "CASCADE_RCNN_R_50_FPN_GN_custom_2.yaml"],
+                categories={"1": dd.LayoutType.table},
+            ))
+except:
+    pass
+
+
+
 layout_config_path = dd.ModelCatalog.get_full_path_configs(cfg.CONFIG.D2LAYOUT)
 layout_weights_path = dd.ModelDownloadManager.maybe_download_weights_and_configs(cfg.WEIGHTS.D2LAYOUT)
 categories_layout = dd.ModelCatalog.get_profile(cfg.WEIGHTS.D2LAYOUTPROFILE).categories
