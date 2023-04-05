@@ -26,7 +26,7 @@ from .missing_row_add_service import MissingRowAddService
 config_path = core_settings.deepdoctection_config_file
 cfg = dd.set_config_by_yaml(config_path)
 cfg.freeze(freezed=False)
-cfg.DEVICE = "cpu"
+cfg.DEVICE = "cuda"
 cfg.freeze()
 
 try:

@@ -91,13 +91,16 @@ class DataDump:
                     repsonse_dict = cbs_resposne_bucket.get(row['meta_keyword'])
                     notes_horizontal_table_df = repsonse_dict.get('notes_horizontal_table_df')  
                     total_row_num  = int(row["cdm_total_row_map"]) 
-                    for main_year,value in zip(repsonse_dict.get("main_page_year_list"),repsonse_dict.get("main_page_year_total")):
-                        year_column = year_excel_col_map_dict.get(int(main_year))
-                        try:
-                            cbs_worksheet.cell(row=total_row_num,column=year_column).value = value
-                        except:
-                            cbs_worksheet.cell(row=total_row_num,column=year_column).value = 0.0   
-                    print(notes_horizontal_table_df)       
+                    ## comment this code for new template which automatically calculates total
+                    # for main_year,value in zip(repsonse_dict.get("main_page_year_list"),repsonse_dict.get("main_page_year_total")):
+                    #     year_column = year_excel_col_map_dict.get(int(main_year))
+                    #     try:
+                    #         cbs_worksheet.cell(row=total_row_num,column=year_column).value = value
+                    #     except:
+                    #         cbs_worksheet.cell(row=total_row_num,column=year_column).value = 0.0  
+                    ### comment this code for new template which automatically calculates total
+                    # print(row['meta_keyword']) 
+                    # print(notes_horizontal_table_df)       
                     if len(notes_horizontal_table_df)>0:
                         notes_horizontal_table_df.reset_index(drop=True,inplace=True)
                         # print("len: ", len(notes_horizontal_table_df))
@@ -112,6 +115,13 @@ class DataDump:
                                     cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[year]
                                 except:
                                     cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
+                    else:
+                        for main_year,value in zip(repsonse_dict.get("main_page_year_list"),repsonse_dict.get("main_page_year_total")):
+                            year_column = year_excel_col_map_dict.get(int(main_year))
+                            try:
+                                cbs_worksheet.cell(row=total_row_num,column=year_column).value = value
+                            except:
+                                cbs_worksheet.cell(row=total_row_num,column=year_column).value = 0.0  
 
                      
 
