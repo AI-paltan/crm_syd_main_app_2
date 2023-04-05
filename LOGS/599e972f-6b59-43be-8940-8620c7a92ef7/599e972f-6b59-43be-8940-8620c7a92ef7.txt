@@ -1,0 +1,299 @@
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - module: Classification_service , File:wrapper.py,  function: Save_file
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - {'fileid': '599e972f-6b59-43be-8940-8620c7a92ef7', 'filename': 'Precise Air Group (Holdings) Pty Limited and Controlled Entities-Financial Statements-31032022-3.pdf', 'filepath': '/home/jayesh/mgs_ai/crm_syd_1/CRM_SYD_main_app_2/classification/../FILE_DB/FILES/Precise Air Group (Holdings) Pty Limited and Controlled Entities-Financial Statements-31032022-3.pdf'}
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - save file completed
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: process_pdf
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __get_basic_info_file
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - __get_basic_info_file() completed.
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __save_basic_info_file_db
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - __save_basic_info_file_db() completed. and file data (page_cnt,region) updated in db
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:08+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:10+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:10+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:10+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:10+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:10+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:10+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:10+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - module: Classification_service , File:wrapper.py,  function: Save_file
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - {'fileid': '20b5ede5-d85a-4dd1-a489-8eeefb513242', 'filename': '21 YAL Financial Statements (Final).pdf', 'filepath': '/home/jayesh/mgs_ai/crm_syd_1/CRM_SYD_main_app_2/classification/../FILE_DB/FILES/21 YAL Financial Statements (Final).pdf'}
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - save file completed
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: process_pdf
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __get_basic_info_file
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - __get_basic_info_file() completed.
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __save_basic_info_file_db
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - __save_basic_info_file_db() completed. and file data (page_cnt,region) updated in db
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:24+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:25+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:25+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:25+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:25+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:25+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:25+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:25+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:27+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:27+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:27+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:27+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:27+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:27+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:27+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:33+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:33+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:33+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:33+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:33+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:33+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:33+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:38+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:38+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:38+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:38+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:38+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:38+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:38+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:40+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:40+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:40+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:40+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:40+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:40+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:40+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:43+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:43+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:43+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:43+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:43+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:43+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:43+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:46+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:46+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:46+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:46+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:46+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:46+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:46+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:48+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:48+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:48+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:48+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:48+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:48+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:48+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:51+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:51+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:51+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:51+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:51+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:51+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:51+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:09:57+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:09:57+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:09:57+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:09:57+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:09:57+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:09:57+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:09:57+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:10:05+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:10:05+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:10:05+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:10:05+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:10:05+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:10:05+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:10:05+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:10:10+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:10:10+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:10:10+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:10:10+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:10:10+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:10:10+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:10:10+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:10:18+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:10:18+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:10:18+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:10:18+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:10:18+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:10:18+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:10:18+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:10:26+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:10:26+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:10:26+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:10:26+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:10:26+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:10:26+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:10:26+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:10:34+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:10:34+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:10:34+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:10:34+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:10:34+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:10:34+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:10:34+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:10:41+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:10:41+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:10:41+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:10:41+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:10:41+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:10:41+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:10:41+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:10:49+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:10:49+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:10:49+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:10:49+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:10:49+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:10:49+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:10:49+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:10:57+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:10:57+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:10:57+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:10:57+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:10:57+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:10:57+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:10:57+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:05+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:05+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:05+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:05+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:05+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:05+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:05+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:13+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:13+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:13+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:13+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:13+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:13+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:13+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:20+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:20+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:20+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:20+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:20+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:20+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:20+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:28+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:28+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:28+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:28+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:28+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:28+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:28+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:37+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:37+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:37+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:37+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:37+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:37+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:37+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:45+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:45+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:45+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:45+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:45+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:45+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:45+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:48+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:48+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:48+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:48+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:48+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:48+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:48+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:52+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:52+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:52+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:52+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:52+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:52+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:52+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:55+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:55+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:55+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:55+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:55+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:55+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:55+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:11:58+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:11:58+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:11:58+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:11:58+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:11:58+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:11:58+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:11:58+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:00+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:00+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:00+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:00+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:00+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:00+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:00+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:04+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:04+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:04+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:04+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:04+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:04+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:04+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:07+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:07+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:07+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:07+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:07+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:07+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:07+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:12+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:12+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:12+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:12+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:12+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:12+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:12+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:17+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:17+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:17+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:17+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:17+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:17+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:17+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:21+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:21+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:21+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:21+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:21+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:21+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:21+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:25+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:25+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:25+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:25+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:25+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:25+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:25+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:28+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:28+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:28+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:28+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:28+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:28+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:28+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:29+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:29+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:29+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:29+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:29+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:29+0530 - sLogger - DEBUG - module: Classification_service , submodule: Standard_OCR, File:OCR.py,  function: get_data
+2023-04-05 19:12:29+0530 - sLogger - DEBUG - filetype: pdf
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - stadnard_ocr.get_data() completed
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_preprocessing.py,  function: data_preprocessing
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - data_preprocessing function completed
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - module: Classification_service , submodule: machine_learning, File:data_prediction.py,  function: predict
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - function: predict completed.
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - module: Classification_service , File:clf_core.py,  function: __update_filtered_pages_db
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - {'predicted_cbs_pages': [6], 'predicted_cpl_pages': [5], 'predicted_ccf_pages': [8], 'filtered_cbs_pages': [6], 'filtered_cpl_pages': [5], 'filtered_ccf_pages': [8], 'month': 'december'}
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - function: __update_filtered_pages_db completed
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - function: process_pdf completed successfully
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - process file completed
+2023-04-05 19:12:31+0530 - sLogger - DEBUG - Classification Service Processing completed
+2023-04-05 19:12:51+0530 - sLogger - DEBUG - module: TableExtractionService , File:wrapper.py,  function: process_file
+2023-04-05 19:12:51+0530 - sLogger - DEBUG - TE process file started

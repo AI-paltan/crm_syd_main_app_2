@@ -738,6 +738,20 @@ def get_year_value_match_row_indices(year_dict,number_converted_df):
             indx = number_converted_df == year_value
             result = i[indx]
             index_dict[year] = result.tolist()
+    return index_dict
+
+def validating_row_or_column(index_dict):
+    years_list = list(index_dict.keys())
+    both_year_value_prsnt = True
+    both_year_same_length = False
+    for year in years_list:
+        if len(index_dict.get(year)) == 0 :
+            both_year_value_prsnt = False
+
+    if both_year_value_prsnt:
+        pass
+
+
     
 
 
