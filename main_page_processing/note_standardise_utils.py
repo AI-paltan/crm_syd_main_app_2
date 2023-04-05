@@ -575,7 +575,7 @@ def set_year_column_for_final_df2(fin_df,date_coordinates,header_indices,raw_yea
         col_subscript = -1
         row_indices = []
         fin_df['year'] = None
-        year_column_header_name = ' '
+        year_column_header_name = ''
         header_indices = sorted(header_indices,reverse=True)
         for column,rows in zip(date_coordinates[0],date_coordinates[1]):
                 if column > 0:
@@ -586,7 +586,7 @@ def set_year_column_for_final_df2(fin_df,date_coordinates,header_indices,raw_yea
                 elif column == 0:
                     row_indices = rows
         # print(col_subscript)
-        if col_subscript > 0:
+        if col_subscript > -1:
             # print(fin_df[f"header_col_{col_subscript}"].transform(pd.to_datetime,unit='ns'))
             for idx,row in fin_df.iterrows():
                 for raw_year_text,year in zip(raw_year,extracted_year):
