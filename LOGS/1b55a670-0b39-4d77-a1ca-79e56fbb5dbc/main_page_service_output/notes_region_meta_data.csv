@@ -1,0 +1,20 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+5,,[14],"[[55, 1101, 414, 1124]]",6,[14],"[[58, 386, 1144, 411]]",[],[],[],"['5', '5']"
+6,,[15],"[[55, 177, 547, 202]]",7,[15],"[[54, 483, 394, 508]]",[UUID('cddb2beb-8f52-36a3-9de8-7cf8aa95ae27')],"[[0, 1, 2, 3, 4, 5, 6, 7]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1510270d0>],['6']
+7,,[15],"[[54, 483, 394, 508]]",8,[15],"[[55, 651, 619, 677]]",[UUID('cddb2beb-8f52-36a3-9de8-7cf8aa95ae27')],"[[7, 8, 9, 10, 11]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1510270d0>],['7']
+8,,[15],"[[55, 651, 619, 677]]",9,[15],"[[55, 1310, 509, 1335]]","[UUID('cddb2beb-8f52-36a3-9de8-7cf8aa95ae27'), UUID('df3f7fcf-921a-3ada-a43a-726c3aaf9779')]","[[11, 12, 13, 14, 15, 16, 17, 18, 19, 20], [0, 1, 2, 3, 4]]","[<UAT_app.database.db_models.TableLogs object at 0x7fb1510270d0>, <UAT_app.database.db_models.TableLogs object at 0x7fb1500c55b0>]",['8']
+9,,[15],"[[55, 1310, 509, 1335]]",10,[16],"[[55, 504, 458, 531]]",[UUID('f8f5547e-1278-3f3c-a61e-f8874e430e04')],"[[0, 1, 2, 3, 4, 5]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500c5d60>],['9']
+10,,[16],"[[55, 504, 458, 531]]",11,[16],"[[55, 817, 453, 842]]",[UUID('f8f5547e-1278-3f3c-a61e-f8874e430e04')],"[[5, 6, 7, 8, 9, 10, 11, 12, 13]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500c5d60>],['10']
+11,,[16],"[[55, 817, 453, 842]]",12,[16],"[[55, 985, 560, 1011]]",[UUID('f8f5547e-1278-3f3c-a61e-f8874e430e04')],"[[13, 14, 15, 16, 17]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500c5d60>],['11']
+12,,[16],"[[55, 985, 560, 1011]]",13,[16],"[[55, 1221, 464, 1243]]",[UUID('f8f5547e-1278-3f3c-a61e-f8874e430e04')],"[[17, 18, 19, 20, 21, 22]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500c5d60>],['12']
+13,,[16],"[[55, 1221, 464, 1243]]",14,[16],"[[55, 1387, 430, 1412]]",[UUID('f8f5547e-1278-3f3c-a61e-f8874e430e04')],"[[23, 24, 25, 26, 27]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500c5d60>],['13']
+14,,[16],"[[55, 1387, 430, 1412]]",15,[17],"[[55, 179, 424, 203]]",[UUID('f8f5547e-1278-3f3c-a61e-f8874e430e04')],"[[27, 28, 29, 30]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500c5d60>],['14']
+15,,[17],"[[55, 179, 424, 203]]",16,[17],"[[55, 412, 505, 439]]",[UUID('33b2054a-e050-3571-9946-1f2d8363de43')],"[[0, 1, 2, 3, 4, 5]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500be760>],['15']
+16,,[17],"[[55, 412, 505, 439]]",17,[17],"[[55, 582, 465, 606]]",[UUID('33b2054a-e050-3571-9946-1f2d8363de43')],"[[5, 6, 7, 8, 9]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500be760>],['16']
+17,,[17],"[[55, 582, 465, 606]]",18,[17],"[[55, 746, 353, 774]]",[UUID('33b2054a-e050-3571-9946-1f2d8363de43')],"[[9, 10, 11, 12, 13]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500be760>],['17']
+18,,[17],"[[55, 746, 353, 774]]",19,[17],"[[54, 1098, 302, 1124]]",[UUID('33b2054a-e050-3571-9946-1f2d8363de43')],"[[15, 16, 13, 14]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500be760>],['18']
+19,,[17],"[[54, 1098, 302, 1124]]",20,[18],"[[55, 179, 312, 203]]",[UUID('318b9c6b-4273-3034-b867-f99f86e6386d')],"[[0, 1, 2, 3]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb151e46a60>],['19']
+3,,[13],"[[55, 1328, 214, 1351]]",4,[14],"[[54, 511, 321, 536]]","[UUID('0975a052-7239-30b1-a235-ac58baeac562'), UUID('44a34b03-fb08-3a25-8ad5-54bc433ae65a')]","[[0, 1, 2, 3], [0, 1, 2, 3, 4, 5, 6, 7]]","[<UAT_app.database.db_models.TableLogs object at 0x7fb151e46730>, <UAT_app.database.db_models.TableLogs object at 0x7fb1500e4700>]",['3']
+4,,[14],"[[54, 511, 321, 536]]",5,[14],"[[55, 1101, 414, 1124]]",[UUID('44a34b03-fb08-3a25-8ad5-54bc433ae65a')],"[[7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]]",[<UAT_app.database.db_models.TableLogs object at 0x7fb1500e4700>],['4']
+,,[13],"[[55, 317, 1147, 342]]",,[13],"[[55, 87, 503, 113]]",[],[],[],"['Payments for property, plant and equipment', 'Dividends paid']"
+,,[13],"[[55, 108, 371, 133]]",,[13],"[[55, 87, 503, 113]]",[],[],[],[]

@@ -294,25 +294,29 @@ def prepare_df_for_dumping2(raw_note_list,note_number_list,subnote_number_list,t
 
 def convert_note_df_to_hotizontal(note_df):
     new_horizontal_note_df = pd.DataFrame()
-    try:
-        years = sorted(list(note_df.year.unique()))
-        years = map(int, years)
-        col_list = ["line_item"]
-        col_list.extend(years)
-        new_horizontal_note_df.columns= col_list
-        for idx,row in note_df.iterrows():
-            if row["line_item"] in set(new_horizontal_note_df['line_item']):
-                new_horizontal_note_df.loc[new_horizontal_note_df.line_item == row["line_item"],row["year"]] = row["value"]
-            else:
-                tmp_df = dict.fromkeys(col_list)
-                tmp_df["line_item"] =  row["line_item"]
-                tmp_df[row["year"]] = row["value"]
-                new_horizontal_note_df = new_horizontal_note_df.append(tmp_df, ignore_index=True)
-    except Exception as e:
-        from ..logging_module.logging_wrapper import Logger
-        Logger.logr.debug("module: Keyword_mapping , File:DataBucketingUtils.py,  function: convert_note_df_to_hotizontal")
-        Logger.logr.error(f"error occured: {e}")
-        Logger.logr.error(note_df)
+    # print(note_df)
+    # try:
+    years = sorted(list(note_df.year.unique()))
+    years = map(int, years)
+    col_list = ["line_item"]
+    col_list.extend(years)
+    # print(col_list)
+    for col in col_list:
+        new_horizontal_note_df[col] = None
+    # new_horizontal_note_df.columns= col_list
+    for idx,row in note_df.iterrows():
+        if row["line_item"] in set(new_horizontal_note_df['line_item']):
+            new_horizontal_note_df.loc[new_horizontal_note_df.line_item == row["line_item"],row["year"]] = row["value"]
+        else:
+            tmp_df = dict.fromkeys(col_list)
+            tmp_df["line_item"] =  row["line_item"]
+            tmp_df[row["year"]] = row["value"]
+            new_horizontal_note_df = new_horizontal_note_df.append(tmp_df, ignore_index=True)
+    # except Exception as e:
+    #     from ..logging_module.logging_wrapper import Logger
+    #     Logger.logr.debug("module: Keyword_mapping , File:DataBucketingUtils.py,  function: convert_note_df_to_hotizontal")
+    #     Logger.logr.error(f"error occured: {e}")
+    #     Logger.logr.error(note_df)
     return new_horizontal_note_df
 
 
