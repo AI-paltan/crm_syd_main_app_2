@@ -30,14 +30,14 @@ cfg.DEVICE = "cuda"
 cfg.freeze()
 
 try:
-    dd.ModelCatalog.register("layout/table_detection_iter150000_data70k.pt",dd.ModelProfile(
-                name="layout/table_detection_iter150000_data70k.pt",
+    dd.ModelCatalog.register("layout/table_detection_iter150000_data70k.pth",dd.ModelProfile(
+                name="layout/table_detection_iter150000_data70k.pth",
                 description="Detectron2 layout detection model trained on private datasets",
                 config="dd/d2/layout/CASCADE_RCNN_R_50_FPN_GN_custom_2.yaml",
                 size=[274632215],
                 tp_model=False,
                 hf_repo_id=environ.get("HF_REPO"),
-                hf_model_name="table_detection_iter150000_data70k.pt",
+                hf_model_name="table_detection_iter150000_data70k.pth",
                 hf_config_file=["Base-RCNN-FPN.yaml", "CASCADE_RCNN_R_50_FPN_GN_custom_2.yaml"],
                 categories={"1": dd.LayoutType.table},
             ))
