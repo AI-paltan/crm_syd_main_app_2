@@ -1,0 +1,46 @@
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='revenue from operations|sale of products|net sales|revenue from contracts with customers|transmission and distribution business|from trading business|Revenue from contract with customers| Sale of coal| Sales revenue| Revenue',
+	note_keyword='Sale of goods| LNG| Condensate| Domgas| Feed gas income| Gas transportation income| Sale of goods - Cars| Sale of goods - Motorcycles| Sale of goods - Marine| Sale of goods - Spareparts| Total Revenue| Goods sold to customer from warehouse| Goods sold to customer direct from supplier'
+	WHERE meta_keyword='smr_sales';
+
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='purchase of stock-in-trade|expense|expenditure|total expenses|total expenditure|cost of sales|Cost of sales| Cost of product sold| cost of coal sold| Cost of goods and services sold| Cost of inventory sold| Personnel costs'
+	note_keyword = 'Included in cost of sales'
+	WHERE meta_keyword='cost_of_sales';
+
+    UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other expenses| depreciation|Distribution expenses| Marketing expenses| Occupancy expenses| Administrative expenses| Other expenses| Depreciation expenses| Selling & distribution expenses| Administrative and other expenses| Lease expenses| Occupancy | Administration expenses| Advertising expenses| Selling Expenses| Depreciation expenses| Amortisation expenses| Management expenses| Logistics and distribution| Sales and marketing| Other expenses' , 
+	note_keyword='consum|power|machinery|charges|research|analytical|equipment|exchange|loss on|donation|csr|social|miscellaneous|loss allowance|Included in administrative expenses| Depreciation – property| plant and equipment| Depreciation – right-of-use assets| Administrative expenses| Wages and salaries| Compulsory superannuation contributions| Payroll on-costs (excluding employee benefit provision)| Staff welfare'
+	WHERE meta_keyword='sga_total_sga_expenses';
+
+    UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='Rent| Rental expenses| Administration expenses| Occupancy| Occupancy expenses', 
+	note_keyword='Rent'
+	WHERE meta_keyword='smr_rent';
+
+    UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other operating|Other revenue| Other income' ,
+	note_keyword = 'Other income| Commission revenue| Rent'
+	WHERE meta_keyword='smr_others_opr_income';
+
+    UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other income|finance income|Finance income| Finance income and costs| Interest revenue| Finance income and finance costs| Net finance costs' ,
+	 note_keyword='interest|Bank interest| Interest income| Interest received - Bank| Interest received - Loan| Sublease interest income| Share of JV interest received/(paid)| Bank Deposits - cash and cash equivalents| Finance income under the effective interest method on financial assets not measured at FVTPL| Interest income'
+	WHERE meta_keyword='smr_interest_income';
+
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='finance cost|finance costs| finance expenses| net finance costs ',
+	 note_keyword='loan|debt|debenture|cash credit|borrowings|bank facilities|bonds|interest|Interest expenses| Discount unwind on the provision for asset retirement obligation|  Other interest expense| Interest on leases| Interest on bank overdrafts and loans (other than those from related parties)| Interest accrued on loans| Interest accrued on lease liabilities| Lease interest expense| Interest expense on financial liabilities using the effective interest rate method - other| Interest expense using the effective interest rate method - AASB 16 application lease liabilities| Interest income| Lease liabilities interest expense'
+	WHERE meta_keyword='smr_interest_expense';
+
+    UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword= 'finance cost|finance costs| finance expenses| net finance costs ',
+	 note_keyword='other revenue| commission revenue|  government grants| insurance proceeds| foreign exchange gain| other| dividend from other parties| other income| net foreign exchange gain| effective portion of changes in fair value of cash flow| profit from discontinued operation| net of tax| share of jv income| secondment income (tw recovery)| japan recoveries| margin charge income| net foreign exchange gains/(losses)| paid by customers - at amortised cost| net foreign exchange (loss)/gain| net ppe disposal (loss)/gain| other miscellaneous - net (loss)/gain| quota lease income| sundry income| net (loss)/profit on disposal of non-current assets| net other foreign exchange (losses)/gains'
+	WHERE meta_keyword='noie_oi_or_exp';
+
+    UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword= 'current tax|deferred tax|minimum alternate tax credit entitlement|amount transferred to retained earnings|provision for taxation previous year|earlier year|prior year | income tax expense| income tax| income tax benefit| income tax benefit/(expense)| tax (expense)/benefit',
+	 note_keyword='income tax expense| current income tax| deferred income tax| total income tax expense/(benefit) recognised in the current year relating to continuing operations| income tax expense on continuing operations| total income tax expense / (benefit)| total tax (expense)/benefit in income statement'
+	WHERE meta_keyword='smr_taxes';
