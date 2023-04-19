@@ -258,7 +258,92 @@ Query: UPDATE public."CRM_nlp_bucketing"
 	WHERE meta_keyword='ncl_long_term_borrowing';
 
 
-25. 
+25. Bond: ncl_bond
+
+main_page_include_keywords: '(bond)|interest bearing loans and borrowings'
+note_page_include_keywords: 
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='(bond)|interest bearing loans and borrowings'
+	WHERE meta_keyword='ncl_bond';
+
+26. Subordinate Debt: ncl_suboardinate_debt
+main_page_include_keywords: 'lease liabilities|interest bearing loans and borrowings'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='lease liabilities|interest bearing loans and borrowings'
+	WHERE meta_keyword='ncl_suboardinate_debt';
+
+
+27. Deferred Taxes: ncl_deferred_taxes
+
+main_page_include_keywords: 'deferred taxes|deferred tax liabilities'
+note_page_include_keywords: 'deferred tax liabilities|total deferred tax (assets) / liabilities'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='lease liabilities|interest bearing loans and borrowings',
+	note_keyword = 'deferred tax liabilities|total deferred tax (assets) / liabilities'
+	WHERE meta_keyword='ncl_deferred_taxes';
+
+
+28. Other Long Term Liabilities: ncl_other_long_term_liabilities
+
+main_page_include_keywords: 'other long term liabilities|trade and other payables| financial liabilities| employee benefits| provisions| other financial liabilities| other non-current liabilities| provision for associate funding'
+note_page_include_keywords: 'non-current trade and other payables| electricity derivatives at fair value through oci| derivative contracts - at fair value| employee benefits - non current| non-current - liability for long-service leave| provisions - non-current| contract liabilites - non-current| employee benefits - payroll| abandonment and decommissioning costs| provision for associate funding| make good provisions| trade payables - related parties| total non-current employee benefits'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other long term liabilities|trade and other payables| financial liabilities| employee benefits| provisions| other financial liabilities| other non-current liabilities| provision for associate funding',
+	note_keyword = 'non-current trade and other payables| electricity derivatives at fair value through oci| derivative contracts - at fair value| employee benefits - non current| non-current - liability for long-service leave| provisions - non-current| contract liabilites - non-current| employee benefits - payroll| abandonment and decommissioning costs| provision for associate funding| make good provisions| trade payables - related parties| total non-current employee benefits'
+	WHERE meta_keyword='ncl_other_long_term_liabilities';
+
+
+29. Common Stock: eqt_common_stock
+
+main_page_include_keywords: 'common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital'
+note_page_include_keywords: 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
+
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital',
+	note_keyword = 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
+	WHERE meta_keyword='ncl_other_long_term_liabilities';
+
+
+30. Other Reserves: eqt_other_reserves
+
+main_page_include_keywords: 'other reserves'
+note_page_include_keywords: 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other reserves',
+	note_keyword = 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
+	WHERE meta_keyword='eqt_other_reserves';
+
+
+31. Retained Earnings: eqt_retained_earnings
+
+main_page_include_keywords: 'other equity|reserves surplus|retained earnings| accumulated losses'
+note_page_include_keywords: 'retained earnings|general reserves|accumulated losses|retained earnings and dividends on equity instruments'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other equity|reserves surplus|retained earnings| accumulated losses',
+	note_keyword = 'retained earnings|general reserves|accumulated losses|retained earnings and dividends on equity instruments'
+	WHERE meta_keyword='eqt_retained_earnings';
+
+
+32. Others: eqt_others
+
+main_page_include_keywords: 'minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+note_page_include_keywords: 
+
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest',
+	WHERE meta_keyword='eqt_others';
+
+
+
+
 
 
 
