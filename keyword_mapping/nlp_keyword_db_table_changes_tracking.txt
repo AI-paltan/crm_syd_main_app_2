@@ -342,7 +342,13 @@ Query: UPDATE public."CRM_nlp_bucketing"
 	WHERE meta_keyword='eqt_others';
 
 
+33. Other Reserves: eqt_other_reserves
 
+main_page_include_keywords: 'other reserves|reserves'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other reserves|reserves'
+	WHERE meta_keyword='eqt_others';
 
 
 
