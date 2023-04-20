@@ -69,10 +69,11 @@ def get_years_and_positions_with_notes(df,notes_indices):
                         #     year = get_regex_year(str(item))
                         ## new logic; BFE ; because 31 march is giving as 2023 year output in old logic
                         year = get_regex_year(str(item))
-                        if int(year) > 0:
-                            year_list.append(int(year))
-                            year_indices.append([idx,col_idx])
-                            raw_year_text.append(item)
+                        if year:  #to avoid Nonetype issue
+                            if int(year) > 0:
+                                year_list.append(int(year))
+                                year_indices.append([idx,col_idx])
+                                raw_year_text.append(item)
             if len(year_list) == (len(df.columns) - note_y-1):
                 break
     except Exception as e:
@@ -116,10 +117,11 @@ def get_years_and_positions_without_notes(df):
                     # except:
                     #     year = get_regex_year(str(item))
                     year = get_regex_year(str(item))
-                    if year and int(year) > 0:
-                        year_list.append(int(year))
-                        year_indices.append([idx,col_idx])
-                        raw_year_text.append(item)
+                    if year:  #to avoid Nonetype issue
+                        if year and int(year) > 0:
+                            year_list.append(int(year))
+                            year_indices.append([idx,col_idx])
+                            raw_year_text.append(item)
             if len(year_list) == 2:
                 break
     except Exception as e:

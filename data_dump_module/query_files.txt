@@ -1,120 +1,82 @@
 UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=128, cdm_total_row_map=131
-	WHERE meta_keyword='nca_goodwill';
-
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=132, cdm_total_row_map=144
-	WHERE meta_keyword='nca_other_intangible_assets';
-
-UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=160, cdm_total_row_map=163
-	WHERE meta_keyword='nca_deffered_charges';
-
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=146, cdm_total_row_map=158
-	WHERE meta_keyword='nca_investments';
-
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Assets) breakdown', cdm_keyword_start_row_map=164, cdm_total_row_map=176
-	WHERE meta_keyword='nca_other_assets';
-
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=83, cdm_total_row_map=86
-	WHERE meta_keyword='cl_tax_payable';
-	 UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=87, cdm_total_row_map=99
-	WHERE meta_keyword='cl_other_current_liabilities';
-
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=101, cdm_total_row_map=103
-	WHERE meta_keyword='ncl_long_term_debt';	
-	UPDATE public."CRM_nlp_bucketing"
 	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=103, cdm_total_row_map=105
 	WHERE meta_keyword='ncl_long_term_borrowing';	
 
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=119, cdm_total_row_map=122
-	WHERE meta_keyword='ncl_deferred_taxes';	
-	
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=105, cdm_total_row_map=107
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=106, cdm_total_row_map=108
 	WHERE meta_keyword='ncl_bond';	
 	
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=107, cdm_total_row_map=109
-	WHERE meta_keyword='ncl_suboardinate_debt';	
 
-UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=123, cdm_total_row_map=135
+	UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=109, cdm_total_row_map=111
+	WHERE meta_keyword='ncl_suboardinate_debt';	
+	
+	UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=122, cdm_total_row_map=125
+	WHERE meta_keyword='ncl_deferred_taxes';	
+
+	UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=126, cdm_total_row_map=138
 	WHERE meta_keyword='ncl_other_long_term_liabilities';	
 
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=137, cdm_total_row_map=148
-	WHERE meta_keyword='ncl_minority_interest';	
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=140, cdm_total_row_map=151
+	WHERE meta_keyword='ncl_minority_interest';
 
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=150, cdm_total_row_map=154
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=153, cdm_total_row_map=157
 	WHERE meta_keyword='eqt_common_stock';	
 
-
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=153, cdm_total_row_map=154
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=160, cdm_total_row_map=163
 	WHERE meta_keyword='eqt_additional_paid_in_capital';		
 	
 
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=161, cdm_total_row_map=173
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=164, cdm_total_row_map=176
 	WHERE meta_keyword='eqt_other_reserves';	
 
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=175, cdm_total_row_map=178
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=178, cdm_total_row_map=181
 	WHERE meta_keyword='eqt_retained_earnings';		
 
 
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=179, cdm_total_row_map=190
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=182, cdm_total_row_map=193
 	WHERE meta_keyword='eqt_others';
 
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=192, cdm_total_row_map=195
-	WHERE meta_keyword='eqt_shareholder_equity';
-
-UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=79, cdm_total_row_map=82
-	WHERE meta_keyword='smr_rent';
-
-UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=83, cdm_total_row_map=94
-	WHERE meta_keyword='smr_others_opr_income';
 
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=97, cdm_total_row_map=108
-	WHERE meta_keyword='smr_interest_income';
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=195, cdm_total_row_map=198
+	WHERE meta_keyword='eqt_shareholder_equity';		
+
+
 
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=110, cdm_total_row_map=121
-	WHERE meta_keyword='smr_interest_expense';
-
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=124, cdm_total_row_map=135
-	WHERE meta_keyword='noie_oi_or_exp';	
-
-UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=150, cdm_total_row_map=151
+	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=150, cdm_total_row_map=152
 	WHERE meta_keyword='smr_taxes';
 
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=152, cdm_total_row_map=157
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=153, cdm_total_row_map=158
 	WHERE meta_keyword='smr_minority_interest';
 
+
+
 	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=159, cdm_total_row_map=171
+	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=160, cdm_total_row_map=172
 	WHERE meta_keyword='smr_extraordinary_gain_loss';	
 
 
-	UPDATE public."CRM_nlp_bucketing"
-	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=173, cdm_total_row_map=185
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='P & L breakdown', cdm_keyword_start_row_map=174, cdm_total_row_map=186
 	WHERE meta_keyword='smr_other';
+
+
+
+	
+
 
 
 

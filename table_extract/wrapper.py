@@ -58,7 +58,7 @@ class TEWrapper():
 
     def process_pages(self):
         te_core = TECore()
-        page_query = db.query(db_models.PageLogs).filter(db_models.PageLogs.fileid == self.fileid).order_by(db_models.PageLogs.time.desc())
+        page_query = db.query(db_models.PageLogs).filter(db_models.PageLogs.fileid == self.fileid).order_by(db_models.PageLogs.time.asc())
         pages = page_query.all()
         paged_dict : Dict = {}
         processed_pages = []

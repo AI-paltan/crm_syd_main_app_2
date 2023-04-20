@@ -16,7 +16,7 @@ class CoreSettings(BaseSettings):
     page_storage: str= os.path.join(path.dirname(__file__),'../','FILE_DB/PAGES')
     table_storage: str= os.path.join(path.dirname(__file__),'../','FILE_DB/TABLES')
     excel_ouput_file:str = os.path.join(path.dirname(__file__),'../EXCEL_OUPUT')
-    deepdoctection_config_file:str = os.path.join(path.dirname(__file__),'../assets/deepdoctection_configs/conf_dd_one_custom_2.yaml')
+    deepdoctection_config_file:str = os.path.join(path.dirname(__file__),'../assets/deepdoctection_configs/conf_dd_one_custom.yaml')
     # deepdoctection_config_file:str = os.path.join(path.dirname(__file__),'../assets/deepdoctection_configs/conf_dd_one_custom.yaml')
 
     # file_storage :str=os.path.join(path.dirname(__file__),'..','FILE_DB/FILES')

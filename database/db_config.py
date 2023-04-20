@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     database_port: str = "5432"
     database_password: str = "admin"  #admin
     database_name: str="crm_syd_dev"
-    database_username: str="postgres"  # jayes f
+    database_username: str="jayesh"  # jayesh for home and postgres for office
 
 
 # class CoreSettings(BaseSettings):
