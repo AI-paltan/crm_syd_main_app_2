@@ -332,7 +332,7 @@ def get_matched_main_page_df(main_page_data_indices,df):
 
 def clean_note_df(std_horzntl_note_df):
     # patterns = ["consolidated","$000","$"]
-    patterns = ["consolidated","$000","$00","$"]
+    patterns = ["consolidated","$000","$00","$'000","$"]
     for pattrn in patterns:
         std_horzntl_note_df["line_item"] = std_horzntl_note_df["line_item"].str.replace(re.escape(pattrn),'',flags=re.IGNORECASE)
 

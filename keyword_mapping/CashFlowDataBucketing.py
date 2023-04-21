@@ -52,7 +52,7 @@ class CashFlowDataBucketing():
     # updated method for dynamic handling
     def fetch_report(self):
         # cleanup record values (check for special characters and fiels types for calculations)
-        print("report_data_tuning")
+        # print("report_data_tuning")
         self.report_data_tuning()
 
         self.df_response = pd.DataFrame(columns=self.df_nlp_bucket_master.columns.values)
@@ -60,13 +60,13 @@ class CashFlowDataBucketing():
         # app.logger.info(f'DATA PDF REPORT:\n {self.df_datasheet}')
         # print(f'BUCKET DATAFRAME:\n {self.df_nlp_bucket_master}')
         # print('============================================================================================')
-        print("get_section_subtotal")
+        # print("get_section_subtotal")
         self.get_section_subtotal()
-        print("process_operating_bucket")
+        # print("process_operating_bucket")
         self.process_operating_bucket()
-        print("process_investing_bucket")
+        # print("process_investing_bucket")
         self.process_investing_bucket()
-        print("process_financing_bucket")
+        # print("process_financing_bucket")
         self.process_financing_bucket()
 
         # print('============================================================================================')
