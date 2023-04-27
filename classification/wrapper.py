@@ -58,7 +58,7 @@ def set_log_file_path(file_uid):
         pass
     config = configparser.RawConfigParser()
     config.read(core_settings.log_config)
-    config.set("handler_fileHandler","args",f"('{os.path.join(logdir,filename_full)}', 'a')")                         
+    config.set("handler_fileHandler","args",f"('{os.path.join(logdir,filename_full)}', 'a+')")                         
     cfgfile = open(core_settings.log_config,'w')
     config.write(cfgfile, space_around_delimiters=False)  # use flag in case case you need to avoid white space.
     cfgfile.close()
