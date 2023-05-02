@@ -6,7 +6,7 @@ from .main_page_config import keyword_mapping_settings
 import os
 from .TechMagicFuzzy import TechMagicFuzzy
 from .DataBucketingUtils import *
-
+from .PLDataBucketingUtils import *
 
 
 class ProfitLossDataBucketing():
