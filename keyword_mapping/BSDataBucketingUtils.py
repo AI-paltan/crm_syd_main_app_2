@@ -42,5 +42,32 @@ def accumulation_PPE_filter(std_hrzntl_note_df):
     std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     return std_hrzntl_note_df
 
+def current_word_filter(std_hrzntl_note_df):
+    keyword = ['current']
+    indices = []
+    for idx,row in std_hrzntl_note_df.iterrows():
+        for kwrd in keyword:
+            if kwrd in row["line_item"].lower():
+                indices.append(idx)
+    
+    if len(indices)>0:
+        std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+    return std_hrzntl_note_df
+
+def noncurrent_word_filter(std_hrzntl_note_df):
+    keyword = ['non-current','noncurrent']
+    indices = []
+    for idx,row in std_hrzntl_note_df.iterrows():
+        for kwrd in keyword:
+            if kwrd in row["line_item"].lower():
+                indices.append(idx)
+    
+    if len(indices)>0:
+        std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+    return std_hrzntl_note_df
+
+
 
 
