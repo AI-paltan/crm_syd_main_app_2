@@ -5,6 +5,7 @@ import os
 from ..database.database import get_db1
 from ..database import db_models
 from .data_dump_config import datadump_core_settings
+from openpyxl.utils import get_column_letter
 
 db = get_db1()
 
@@ -72,15 +73,26 @@ class DataDump:
             year_excel_col_map_dict[self.years_list[i]] = col_no
         return year_excel_col_map_dict
     
-    def insert_rows(self,worksheet,df_len,start_template_rwo,total_end_template_row):
+    def insert_rows(self,worksheet,df_len,start_template_rwo,total_end_template_row,record_inserted):
         if df_len >= abs(int(total_end_template_row)-int(start_template_rwo)):
             row_amount = int((df_len - abs(int(total_end_template_row)-int(start_template_rwo))) +3)
             # print(start_template_rwo,row_amount)
             start_idx = int(start_template_rwo)+1
             worksheet.insert_rows(start_idx,row_amount)
-        return worksheet
+            record_inserted = True
+        return worksheet,record_inserted
     
+    def update_conversion_rate_formulae(self,worksheet_name):    
+        cbs_worksheet = self.workbook[worksheet_name]
+
+        for row in range(15, cbs_worksheet.max_row+1): #row entry starts from no. 15
+            for col in range(15,21):        #column having conversion factor starts from "O" to "T"
+                cell_add = get_column_letter(col-12) + str(row)
+                cbs_worksheet.cell(row,col).value = "=" + cell_add + "*BS!$B$9" if str(cbs_worksheet[cell_add].value) != "None" else ""
+            cbs_worksheet.cell(row,14).value =  "=" + get_column_letter(2) + str(row) if str(cbs_worksheet[get_column_letter(2) + str(row)].value) != "None" else ""
+
     def insert_records(self,bs_crm_nlp_df_sorted,cbs_resposne_bucket,years_list,year_excel_col_map_dict):
+        record_inserted = False
     # print(cbs_resposne_bucket)
         for idx,row in bs_crm_nlp_df_sorted.iterrows():
             # print(idx)
@@ -105,7 +117,7 @@ class DataDump:
                     if len(notes_horizontal_table_df)>0:
                         notes_horizontal_table_df.reset_index(drop=True,inplace=True)
                         # print("len: ", len(notes_horizontal_table_df))
-                        cbs_worksheet = self.insert_rows(worksheet=cbs_worksheet,df_len=len(notes_horizontal_table_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"])
+                        cbs_worksheet,record_inserted = self.insert_rows(worksheet=cbs_worksheet,df_len=len(notes_horizontal_table_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"],record_inserted=record_inserted)
                         for idx_row,row_note in notes_horizontal_table_df.iterrows():
                             excel_row_num = int(row["cdm_keyword_start_row_map"]) + idx_row+1
                             # print(f"excel_row_num: {excel_row_num}")
@@ -120,7 +132,7 @@ class DataDump:
                         if len(main_page_cropped_df) > 0:
                             main_page_cropped_df.reset_index(drop=True,inplace=True)
                             # print("len: ", len(notes_horizontal_table_df))
-                            cbs_worksheet = self.insert_rows(worksheet=cbs_worksheet,df_len=len(main_page_cropped_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"])
+                            cbs_worksheet,record_inserted = self.insert_rows(worksheet=cbs_worksheet,df_len=len(main_page_cropped_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"],record_inserted=record_inserted)
                             for idx_row,row_note in main_page_cropped_df.iterrows():
                                 excel_row_num = int(row["cdm_keyword_start_row_map"]) + idx_row+1
                                 # print(f"excel_row_num: {excel_row_num}")
@@ -139,6 +151,10 @@ class DataDump:
                                 except:
                                     cbs_worksheet.cell(row=total_row_num,column=year_column).value = 0.0  
 
+        if record_inserted:
+            sheet_names = ["BS (Assets) breakdown","BS (Liabilities) breakdown","P & L breakdown"]
+            for sheet in sheet_names:
+                self.update_conversion_rate_formulae(worksheet_name=sheet)
                      
 
 
