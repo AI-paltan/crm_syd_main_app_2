@@ -53,9 +53,15 @@ def set_log_file_path(file_uid):
     logdir = os.path.join(core_settings.log_storage,file_uid)
     filename_full = f"{filename}.txt"
     try:
-        os.mkdir(logdir)
+        if not os.path.exists(logdir):
+            os.mkdir(logdir)
+        # with open({logdir}/{filename_full},mode='w'):
+        #     pass
+        if not os.path.exists(os.path.join(logdir,filename_full)):
+            open({logdir}/{filename_full},mode='w').close()
     except:
         pass
+    
     config = configparser.RawConfigParser()
     config.read(core_settings.log_config)
     config.set("handler_fileHandler","args",f"('{os.path.join(logdir,filename_full)}', 'a+')")                         
