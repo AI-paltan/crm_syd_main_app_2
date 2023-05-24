@@ -51,14 +51,12 @@ def set_log_file_path(file_uid):
     # print(core_settings.log_config)
     filename = file_uid
     logdir = os.path.join(core_settings.log_storage,file_uid)
-    filename_full = f"{filename}.txt"
+    filename_full = f"{file_uid}.txt"
     try:
         if not os.path.exists(logdir):
             os.mkdir(logdir)
-        # with open({logdir}/{filename_full},mode='w'):
-        #     pass
         if not os.path.exists(os.path.join(logdir,filename_full)):
-            open({logdir}/{filename_full},mode='w').close()
+            open(os.path.join(logdir,filename_full),mode='w').close()
     except:
         pass
     
