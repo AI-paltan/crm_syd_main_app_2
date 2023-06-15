@@ -88,26 +88,35 @@ class mainPageProcess:
         self.max_main_page = max(self.all_filtered_pages)
         for page in pages:
             if page.page_number  in self.filtered_cbs_pages:
-                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
-                html_string = tabale_query.html_string
-                tmp_df = pd.read_html(html_string)[0]
+                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
+                table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
+                tmp_df = main_page_table_preprocessing(table_df)
+                # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
+                # html_string = tabale_query.html_string
+                # tmp_df = pd.read_html(html_string)[0]
                 RCB = RefactorCBS(df=tmp_df)
                 process_cbs,temp_df = RCB.start_refactoring()
                 self.cbs_df_dict[page.page_number] = process_cbs
                 self.meta_dict[page.page_number] = temp_df
                 self.years_list = temp_df["year_list"]
             if page.page_number  in self.filtered_cpl_pages:
-                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
-                html_string = tabale_query.html_string
-                tmp_df = pd.read_html(html_string)[0]
+                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
+                table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
+                tmp_df = main_page_table_preprocessing(table_df)
+                # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
+                # html_string = tabale_query.html_string
+                # tmp_df = pd.read_html(html_string)[0]
                 RCB = RefactorCBS(df=tmp_df)
                 process_cpl,temp_df = RCB.start_refactoring()
                 self.cpl_df_dict[page.page_number] = process_cpl
                 self.meta_dict[page.page_number] = temp_df
             if page.page_number  in self.filtered_ccf_pages:
-                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
-                html_string = tabale_query.html_string
-                tmp_df = pd.read_html(html_string)[0]
+                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
+                table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
+                tmp_df = main_page_table_preprocessing(table_df)
+                # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
+                # html_string = tabale_query.html_string
+                # tmp_df = pd.read_html(html_string)[0]
                 RCB = RefactorCBS(df=tmp_df)
                 process_ccf,temp_df = RCB.start_refactoring()
                 self.ccf_df_dict[page.page_number] = process_ccf
@@ -193,7 +202,8 @@ class mainPageProcess:
         self.add_raw_note_to_notes_meta_data()
 
     def remove_empty_rows_from_notes_meta_data(self):
-        self.notes_region_meta_data = self.notes_region_meta_data[self.notes_region_meta_data['start_page'].str.len()>0].reset_index(drop=True)
+        if len(self.notes_region_meta_data) > 0:
+            self.notes_region_meta_data = self.notes_region_meta_data[self.notes_region_meta_data['start_page'].str.len()>0].reset_index(drop=True)
 
     def add_raw_note_to_notes_meta_data(self):
         self.notes_region_meta_data['raw_note_number'] = [[] for _ in range(len(self.notes_region_meta_data))]
@@ -206,7 +216,7 @@ class mainPageProcess:
                     self.notes_region_meta_data.at[index_to_add_arr[0],'raw_note_number'].append(dct.get('raw_note_no'))
 
     def standardize_notes_data(self):
-        obj_noteStandardise = NoteStandardised(self.cropped_table_dict)
+        obj_noteStandardise = NoteStandardised(self.cropped_table_dict,notes_ref_dict=self.notes_ref_dict,year_list=self.years_list)
         obj_noteStandardise.trigger_job()
         self.standardised_cropped_dict = obj_noteStandardise.standard_note_df
         self.standard_note_meta_dict = obj_noteStandardise.standard_note_meta_dict
