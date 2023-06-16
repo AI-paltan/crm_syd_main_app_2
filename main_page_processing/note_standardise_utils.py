@@ -153,19 +153,23 @@ def find_date_location(df,main_page_year_list):
         date_present_rows_indices_for_col0 = []
         first_col_date_flag = df.iloc[:,0].transform(pd.to_datetime,errors='coerce').notnull().any()
         if first_col_date_flag:
-            # columns_number.append(0)
+            columns_number.append(0)
             date_present_rows_indices_for_col0 = sorted(df.iloc[:,0][df.iloc[:,0].transform(pd.to_datetime,errors='coerce').notnull()].index.to_list())
-            # row_numbers.append(date_present_rows_indices_for_col0)
+            row_numbers.append(date_present_rows_indices_for_col0)
             if getSizeOfNestedList(row_numbers) > 1:
                 raw_text_lst = df.iloc[:,0][df.iloc[:,0].transform(pd.to_datetime,errors='coerce').notnull()].to_list()
                 extracted_year_lst = df.iloc[:,0][df.iloc[:,0].transform(pd.to_datetime,errors='coerce').notnull()].transform(pd.to_datetime,errors='coerce').dt.year.to_list()
+                temp_raw_text = []
+                temp_extracted_text = []
                 for raw_text_year,extract_year in zip(raw_text_lst,extracted_year_lst):
                     if int(extract_year) in main_page_year_list:
-                        columns_number.append(0)
-                        row_numbers.append(date_present_rows_indices_for_col0)
-                        raw_text.append(raw_text_year)
-                        extracted_year.append(extract_year)
+                        # columns_number.append(0)
+                        # row_numbers.append(date_present_rows_indices_for_col0)
+                        temp_raw_text.append(raw_text_year)
+                        temp_extracted_text.append(extract_year)
                         first_col_date_flag = True
+                raw_text.append(temp_raw_text)
+                extracted_year.append(temp_extracted_text)
                 # raw_text.append(raw_text_lst)
                 # extracted_year.append(extracted_year_lst)
                 # first_col_date_flag = True
@@ -772,16 +776,17 @@ def cross_checking_with_pev_date_fun_result(prev_column_number,prev_row_number,i
     ## and put higher year value at low column and lower value at higher column.
     ## if only 1 column number found then check for unique row number and concat year value text with particluar text
     else:
-        mod_df,column_numbr,row_number,raw_text,extracted_year = validate_with_previous_result(prev_col_number=prev_column_number,index_dict=index_dict,df=df_copy,main_page_year_lst=main_page_year_values)
+        mod_df,column_numbr,row_number,raw_text,extracted_year = validate_with_previous_result(prev_col_number=prev_column_number,prev_row_number=prev_row_number,index_dict=index_dict,df=df_copy,main_page_year_lst=main_page_year_values)
     ## check if prev column and found column list are similar or not 
     ## if similar then keep it as it is and dont change anything
     ## if not follow above process
     return mod_df,column_numbr,row_number,raw_text,extracted_year
 
 
-def validate_with_previous_result(prev_col_number,index_dict,df,main_page_year_lst):
+def validate_with_previous_result(prev_col_number,prev_row_number,index_dict,df,main_page_year_lst):
     col_lst_unique = get_col_lst(index_dict)
     inter_sect = set(prev_col_number).intersection(set(col_lst_unique))
+    prev_row_unique = {i for lst in prev_row_number for i in lst}
     if len(inter_sect) > 0:
         column_numbr = prev_col_number
         row_number = [[-1]]
@@ -789,7 +794,14 @@ def validate_with_previous_result(prev_col_number,index_dict,df,main_page_year_l
         extracted_year = [[-1]]
         return df,column_numbr,row_number,raw_text,extracted_year
     else:
-        df,column_numbr,row_number,raw_text,extracted_year = get_super_col_row_df(df=df,index_dict=index_dict,main_page_year_lst=main_page_year_lst)
+        if len(prev_row_unique)>2:
+            column_numbr = prev_col_number
+            row_number = [[-1]]
+            raw_text = [[-1]]
+            extracted_year = [[-1]]
+            return df,column_numbr,row_number,raw_text,extracted_year
+        else:
+            df,column_numbr,row_number,raw_text,extracted_year = get_super_col_row_df(df=df,index_dict=index_dict,main_page_year_lst=main_page_year_lst)
         return df,column_numbr,row_number,raw_text,extracted_year
 
 
