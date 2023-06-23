@@ -613,7 +613,7 @@ def set_year_column_for_final_df2(fin_df,date_coordinates,header_indices,raw_yea
             year_column_header_name = f"header_col_{col_subscript}"
         else:
             row_header_flag = False
-            if 'row_header' in fin_df.columns:
+            if 'row_header' in fin_df.columns.to_list():
                 cnt = 0
                 for idx,row in fin_df.iterrows():
                     for raw_year_text,year in zip(raw_year,extracted_year):
@@ -672,8 +672,9 @@ def convert_standaradised_notes_to_column_row_year(note_df,year_column_header_na
     ## this function converts standradised note df into 4 columns. rows will be combination of row header + line item 1 + line item 0
     ## cols will be combination of col_header_1 + col_header_0 etc. column which contains year value will be dropped based on standard_note_meta_dict_item
     converted_standardised_df = pd.DataFrame(columns=["rows","columns","year","value"])
-    note_df["year"] = pd.to_numeric(note_df["year"],errors='coerce')
-    note_df["year"] = note_df["year"].fillna(note_df["year"].max())
+    if "year" in note_df.columns.to_list():
+        note_df["year"] = pd.to_numeric(note_df["year"],errors='coerce')
+        note_df["year"] = note_df["year"].fillna(note_df["year"].max())
     # for curr_year in year_list:
     #         converted_standardised_df[str(curr_year)] = float(0)
 
@@ -687,8 +688,10 @@ def convert_standaradised_notes_to_column_row_year(note_df,year_column_header_na
          row_header_available = True
          row_colmns = ["row_header"]
          row_colmns.extend(line_item_colnames)
+         note_df[row_colmns] = note_df[row_colmns].astype('str')
          converted_standardised_df["rows"] = note_df[row_colmns].fillna('').apply(" ".join, axis=1)
     else:
+         note_df[line_item_colnames] = note_df[line_item_colnames].astype('str')
          converted_standardised_df["rows"] = note_df[line_item_colnames].fillna('').apply(" ".join, axis=1)
     converted_standardised_df["columns"] = note_df[col_header_colnames].fillna('').apply(" ".join, axis=1)
     converted_standardised_df["year"] = note_df["year"]
@@ -851,6 +854,8 @@ def add_year_value_in_particular_row_df(df,index_dict,col_lst_unique):
     extracted_year = []
     column_numbr = []
     row_number = []
+    temp_raw_text = []
+    temp_extracted_year = []
     # print(f"index_dict = {index_dict}")
     if len(index_dict)>0:
         for year in index_dict.keys():
@@ -860,12 +865,18 @@ def add_year_value_in_particular_row_df(df,index_dict,col_lst_unique):
                 if row_idx not in processed_rows:
                     if (col_lst_unique -1) >=0:
                         # df.at[row_idx,col_lst_unique-1] = str(year) + str(df.iloc[row_idx,col_lst_unique-1])
-                        df.at[row_idx,0] = str(year) + str(df.iloc[row_idx,0])
+                        df.at[row_idx,0] = str(year) +' '+ str(df.iloc[row_idx,0])
                         processed_rows.append(row_idx)
-                        raw_text.append([str(year) + str(df.iloc[row_idx,0])])
-                        extracted_year.append([int(year)])
+                        # raw_text.append([str(year) + str(df.iloc[row_idx,0])])
+                        # extracted_year.append([int(year)])
+                        temp_raw_text.append(df.at[row_idx,0])
+                        temp_extracted_year.append(int(year))
                         column_numbr.append(0)
-                        row_number.append([row_idx])
+                        row_number.append(row_idx)
+    raw_text.append(temp_raw_text)
+    extracted_year.append(temp_extracted_year)
+    # print(f"raw_text={raw_text}")
+    column_numbr = list(set(column_numbr))
     return df,column_numbr,row_number,raw_text,extracted_year
 
 
