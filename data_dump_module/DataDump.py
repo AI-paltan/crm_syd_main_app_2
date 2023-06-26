@@ -20,6 +20,9 @@ class DataDump:
         self.ccf_response_bucket = ccf_resposne_bucket
         self.workbook = None
         self.month = None
+        self.accuracy = 0.0
+        self.total_field_counts = 0.0
+        self.value_present_count = 0.0
         self.meta_dict = meta_dict
 
     def trigger_job(self):
@@ -31,6 +34,10 @@ class DataDump:
         self.dump_cpl_data()
         self.dump_ccf_data()
         self.save_excel()
+        file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
+        temp_dict = {}
+        temp_dict['status'] = 'Processing Completed'
+        file_query.update(temp_dict, synchronize_session=False)
 
     def get_year_list(self):
         for k,v in self.meta_dict.items():
@@ -99,6 +106,7 @@ class DataDump:
             # print(row["meta_keyword"])
             if row["cdm_keyword_start_row_map"] is not None:
                 if row["cdm_keyword_start_row_map"].isdigit():
+                    self.total_field_counts = self.total_field_counts+1
                     cbs_worksheet = self.workbook.get_sheet_by_name(row['cdm_sheet_name'])
                     repsonse_dict = cbs_resposne_bucket.get(row['meta_keyword'])
                     notes_horizontal_table_df = repsonse_dict.get('notes_horizontal_table_df')  
@@ -117,6 +125,7 @@ class DataDump:
                     if len(notes_horizontal_table_df)>0:
                         notes_horizontal_table_df.reset_index(drop=True,inplace=True)
                         # print("len: ", len(notes_horizontal_table_df))
+                        self.value_present_count = self.value_present_count + 1
                         cbs_worksheet,record_inserted = self.insert_rows(worksheet=cbs_worksheet,df_len=len(notes_horizontal_table_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"],record_inserted=record_inserted)
                         for idx_row,row_note in notes_horizontal_table_df.iterrows():
                             excel_row_num = int(row["cdm_keyword_start_row_map"]) + idx_row+1
@@ -132,6 +141,7 @@ class DataDump:
                         if len(main_page_cropped_df) > 0:
                             main_page_cropped_df.reset_index(drop=True,inplace=True)
                             # print("len: ", len(notes_horizontal_table_df))
+                            self.value_present_count = self.value_present_count + 1
                             cbs_worksheet,record_inserted = self.insert_rows(worksheet=cbs_worksheet,df_len=len(main_page_cropped_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"],record_inserted=record_inserted)
                             for idx_row,row_note in main_page_cropped_df.iterrows():
                                 excel_row_num = int(row["cdm_keyword_start_row_map"]) + idx_row+1
@@ -195,15 +205,28 @@ class DataDump:
             for idx,row in ccf_dict.iterrows():
                 if row["template_row_map"] is not None:
                     if row["template_row_map"].isdigit():
+                        self.total_field_counts  = self.total_field_counts + 1
                         # print(row)
                         # print(row["meta_keyword"])
+                        temp_cnt = 0
                         for year in self.years_list:
                             year_column = year_excel_col_map_dict.get(int(year))
                             try:
                                 ccf_worksheet.cell(row=int(row["template_row_map"]),column=year_column).value = row[str(year)]
+                                temp_cnt = temp_cnt+1
                             except:
                                 ccf_worksheet.cell(row=int(row["template_row_map"]),column=year_column).value = 0.0
+                        if temp_cnt > 0:
+                            self.value_present_count = self.value_present_count + 1
 
     def save_excel(self):
         file_save_path = os.path.join(datadump_core_settings.cdm_template_save_dir,f"{self.filename}.xlsx")
         self.workbook.save(file_save_path)
+
+    def calculate_and_update_accuracy(self):
+        accuracy = (self.value_present_count / self.total_field_counts) * 100
+        file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
+        temp_dict = {}
+        temp_dict['accuracy'] = accuracy
+        print(accuracy)
+        file_query.update(temp_dict, synchronize_session=False)

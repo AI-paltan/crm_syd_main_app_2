@@ -115,6 +115,7 @@ class ClfCoreFlow():
         temp_dict['filtered_cpl_pages'] = self.filtered_cpl_pages
         temp_dict['filtered_ccf_pages'] = self.filtered_ccf_pages
         temp_dict['month'] = self.month
+        temp_dict['status'] = 'Page Classification Completed'
         file_query.update(temp_dict, synchronize_session=False)
         Logger.logr.debug(temp_dict)
         Logger.logr.debug("function: __update_filtered_pages_db completed")

@@ -31,6 +31,10 @@ class TEWrapper():
         Logger.logr.debug("TE process file started")
         self.get_predicted_page_info()
         self.process_pages()
+        file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
+        temp_dict = {}
+        temp_dict['status'] = 'Table Extraction Completed'
+        file_query.update(temp_dict, synchronize_session=False)
         Logger.logr.debug("TE Proces file completed")
 
     def process_page(self):
@@ -53,6 +57,9 @@ class TEWrapper():
         self.all_filtered_pages.extend(self.filtered_cpl_pages)
         self.all_filtered_pages.extend(self.filtered_ccf_pages)
         self.min_page = min(self.all_filtered_pages)
+        temp_dict = {}
+        temp_dict['status'] = 'Table Extraction in progress'
+        file_query.update(temp_dict, synchronize_session=False)
         return self.min_page
 
 

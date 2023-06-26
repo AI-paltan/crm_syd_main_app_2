@@ -26,6 +26,7 @@ def save_file(file):
     temp_dict['fileid'] = file_uuid
     temp_dict['filename'] = filename
     temp_dict['filepath'] = file_save_path
+    temp_dict['status'] = 'Processing'
     new_file = db_models.FileLogs(**temp_dict)
     db.add(new_file)
     db.commit()

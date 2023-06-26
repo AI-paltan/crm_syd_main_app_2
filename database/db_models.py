@@ -22,6 +22,8 @@ class FileLogs(Base):
     filtered_ccf_pages = Column(ARRAY(Integer))
     region = Column(String)
     month = Column(String)
+    status = Column(String)
+    accuracy = Column(Float)
     time = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
 
