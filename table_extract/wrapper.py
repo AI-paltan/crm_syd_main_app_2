@@ -57,15 +57,16 @@ class TEWrapper():
         self.all_filtered_pages.extend(self.filtered_cpl_pages)
         self.all_filtered_pages.extend(self.filtered_ccf_pages)
         self.min_page = min(self.all_filtered_pages)
+        file_query2 = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
         temp_dict = {}
         temp_dict['status'] = 'Table Extraction in progress'
-        file_query.update(temp_dict, synchronize_session=False)
+        file_query2.update(temp_dict, synchronize_session=False)
         return self.min_page
 
 
     def process_pages(self):
         te_core = TECore()
-        page_query = db.query(db_models.PageLogs).filter(db_models.PageLogs.fileid == self.fileid).order_by(db_models.PageLogs.time.desc())
+        page_query = db.query(db_models.PageLogs).filter(db_models.PageLogs.fileid == self.fileid).order_by(db_models.PageLogs.time.asc())
         pages = page_query.all()
         paged_dict : Dict = {}
         processed_pages = []

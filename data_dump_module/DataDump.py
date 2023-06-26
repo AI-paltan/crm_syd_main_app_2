@@ -34,6 +34,7 @@ class DataDump:
         self.dump_cpl_data()
         self.dump_ccf_data()
         self.save_excel()
+        self.calculate_and_update_accuracy()
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
         temp_dict = {}
         temp_dict['status'] = 'Processing Completed'
@@ -228,5 +229,5 @@ class DataDump:
         file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
         temp_dict = {}
         temp_dict['accuracy'] = accuracy
-        print(accuracy)
+        # print(accuracy)
         file_query.update(temp_dict, synchronize_session=False)
