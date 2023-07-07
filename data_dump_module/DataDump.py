@@ -222,6 +222,7 @@ class DataDump:
 
     def save_excel(self):
         file_save_path = os.path.join(datadump_core_settings.cdm_template_save_dir,f"{self.filename}.xlsx")
+        print(file_save_path)
         self.workbook.save(file_save_path)
 
     # def calculate_and_update_accuracy(self):
