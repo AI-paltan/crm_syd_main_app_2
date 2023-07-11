@@ -1,0 +1,10 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+8,,[17],"[[74, 1374, 469, 1399]]",9,[18],"[[82, 167, 485, 190]]",[UUID('b4f649e6-5f00-3a73-ab08-aa857f30255f')],"[[0, 1, 2, 3]]",[<UAT_app.database.db_models.TableLogs object at 0x7f1d46b2d5b0>],"['817', '8']"
+9,,[18],"[[82, 167, 485, 190]]",10,[18],"[[83, 411, 353, 432]]",[UUID('439c8c61-9b0e-3ef6-8c3d-49975914d766')],"[[0, 1, 2, 3, 4, 5, 6, 7]]",[<UAT_app.database.db_models.TableLogs object at 0x7f1d466dfa90>],['917']
+10,,[18],"[[83, 411, 353, 432]]",11,[18],"[[83, 654, 555, 677]]",[],[],[],['10']
+11,,[18],"[[83, 654, 555, 677]]",12,[19],"[[83, 141, 327, 166]]","[UUID('6cfde1c3-fa60-3f68-81aa-aff1f572ab21'), UUID('a4355b2d-9e00-3c40-86bb-f0723a795016')]","[[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [0, 1, 2]]","[<UAT_app.database.db_models.TableLogs object at 0x7f1d4b0cfdf0>, <UAT_app.database.db_models.TableLogs object at 0x7f1d4b022d30>]",['11']
+15,,[19],"[[81, 1161, 279, 1185]]",16,[19],"[[80, 1384, 290, 1406]]",[UUID('68a72e6d-c635-37f8-b862-74c19ba5ac61')],"[[0, 1, 2, 3]]",[<UAT_app.database.db_models.TableLogs object at 0x7f1d47749cd0>],['15']
+4,,[17],"[[77, 172, 176, 190]]",5,[17],"[[73, 421, 212, 444]]",[UUID('1b2d8a26-048b-302a-9b65-97845095721f')],"[[0, 1, 2, 3, 4, 5]]",[<UAT_app.database.db_models.TableLogs object at 0x7f1d45bcef70>],['4']
+5,,[17],"[[73, 421, 212, 444]]",6,[17],"[[73, 643, 308, 669]]",[UUID('1b2d8a26-048b-302a-9b65-97845095721f')],"[[5, 6, 7, 8, 9, 10, 11, 12]]",[<UAT_app.database.db_models.TableLogs object at 0x7f1d45bcef70>],['5']
+7,,[17],"[[73, 874, 193, 897]]",8,[17],"[[74, 1374, 469, 1399]]","[UUID('1b2d8a26-048b-302a-9b65-97845095721f'), UUID('e6d0cacd-7af1-3411-bd9b-8ffdb944541d')]","[[20, 21, 22, 23, 24, 25, 26, 27, 28], [0, 1, 2, 3, 4, 5]]","[<UAT_app.database.db_models.TableLogs object at 0x7f1d45bcef70>, <UAT_app.database.db_models.TableLogs object at 0x7f1d48a4ad30>]",['7']
+19,,[20],"[[77, 897, 191, 919]]",20,[20],"[[76, 1001, 270, 1024]]",[],[],[],['19']

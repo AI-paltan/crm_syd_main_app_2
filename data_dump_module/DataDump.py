@@ -34,11 +34,11 @@ class DataDump:
         self.dump_cpl_data()
         self.dump_ccf_data()
         self.save_excel()
-        self.calculate_and_update_accuracy()
-        file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
-        temp_dict = {}
-        temp_dict['status'] = 'Processing Completed'
-        file_query.update(temp_dict, synchronize_session=False)
+        # self.calculate_and_update_accuracy()
+        # file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
+        # temp_dict = {}
+        # temp_dict['status'] = 'Processing Completed'
+        # file_query.update(temp_dict, synchronize_session=False)
 
     def get_year_list(self):
         for k,v in self.meta_dict.items():
@@ -222,12 +222,13 @@ class DataDump:
 
     def save_excel(self):
         file_save_path = os.path.join(datadump_core_settings.cdm_template_save_dir,f"{self.filename}.xlsx")
+        print(file_save_path)
         self.workbook.save(file_save_path)
 
-    def calculate_and_update_accuracy(self):
-        accuracy = (self.value_present_count / self.total_field_counts) * 100
-        file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
-        temp_dict = {}
-        temp_dict['accuracy'] = accuracy
-        print(accuracy)
-        file_query.update(temp_dict, synchronize_session=False)
+    # def calculate_and_update_accuracy(self):
+    #     accuracy = (self.value_present_count / self.total_field_counts) * 100
+    #     file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
+    #     temp_dict = {}
+    #     temp_dict['accuracy'] = accuracy
+    #     # print(accuracy)
+    #     file_query.update(temp_dict, synchronize_session=False)

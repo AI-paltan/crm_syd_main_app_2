@@ -1,0 +1,303 @@
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:process_core.py,  function: process_main_pages
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - process_main_pages started
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - start_refactoring started
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - start_refactoring completed
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - start_refactoring started
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - start_refactoring completed
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - start_refactoring started
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - start_refactoring completed
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:CBS_Sections.py,  function: set_section_details
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - set_section_details started
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Assets | [('assets', 100), ('current assets', 56), ('noncurrent assets', 56), ('equity', 36), ('equity and liabilities', 27), ('equity liabilities', 22), ('current liabilities', 21), ('liabilities', 18), ('noncurrent liabilities', 11)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Assets | MATCH WORD current assets | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Assets | MATCH WORD current liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Assets | MATCH WORD noncurrent assets | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Assets | MATCH WORD noncurrent liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Assets | MATCH WORD non current assets | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Assets | MATCH WORD non current liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Assets | MATCH WORD equity and liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Assets | MATCH WORD equity | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Cash and cash equivalents | [('equity and liabilities', 53), ('equity liabilities', 35), ('assets', 31), ('equity', 30), ('current assets', 29), ('noncurrent assets', 29), ('current liabilities', 29), ('noncurrent liabilities', 23), ('liabilities', 22)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Cash and cash equivalents | MATCH WORD current assets | score 43
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Cash and cash equivalents | MATCH WORD current liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Cash and cash equivalents | MATCH WORD noncurrent assets | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Cash and cash equivalents | MATCH WORD noncurrent liabilities | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Cash and cash equivalents | MATCH WORD non current assets | score 37
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Cash and cash equivalents | MATCH WORD non current liabilities | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Cash and cash equivalents | MATCH WORD equity and liabilities | score 54
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Cash and cash equivalents | MATCH WORD equity | score 60
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Trade and other receivables | [('equity and liabilities', 41), ('current assets', 34), ('noncurrent assets', 29), ('current liabilities', 28), ('noncurrent liabilities', 28), ('equity liabilities', 23), ('assets', 22), ('equity', 21), ('liabilities', 14)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other receivables | MATCH WORD current assets | score 39
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other receivables | MATCH WORD current liabilities | score 48
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other receivables | MATCH WORD noncurrent assets | score 37
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other receivables | MATCH WORD noncurrent liabilities | score 45
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other receivables | MATCH WORD non current assets | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other receivables | MATCH WORD non current liabilities | score 44
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other receivables | MATCH WORD equity and liabilities | score 49
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other receivables | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Inventories | [('equity', 40), ('noncurrent assets', 36), ('current liabilities', 35), ('noncurrent liabilities', 35), ('equity and liabilities', 31), ('assets', 29), ('current assets', 27), ('liabilities', 27), ('equity liabilities', 27)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Inventories | MATCH WORD current assets | score 40
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Inventories | MATCH WORD current liabilities | score 40
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Inventories | MATCH WORD noncurrent assets | score 43
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Inventories | MATCH WORD noncurrent liabilities | score 42
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Inventories | MATCH WORD non current assets | score 41
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Inventories | MATCH WORD non current liabilities | score 41
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Inventories | MATCH WORD equity and liabilities | score 40
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Inventories | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Prepayments | [('current liabilities', 30), ('current assets', 21), ('equity liabilities', 21), ('assets', 18), ('liabilities', 17), ('equity', 17), ('equity and liabilities', 17), ('noncurrent assets', 11), ('noncurrent liabilities', 10)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Prepayments | MATCH WORD current assets | score 48
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Prepayments | MATCH WORD current liabilities | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Prepayments | MATCH WORD noncurrent assets | score 50
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Prepayments | MATCH WORD noncurrent liabilities | score 32
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Prepayments | MATCH WORD non current assets | score 50
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Prepayments | MATCH WORD non current liabilities | score 32
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Prepayments | MATCH WORD equity and liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Prepayments | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Total current assets | [('current assets', 81), ('noncurrent assets', 62), ('current liabilities', 61), ('assets', 42), ('equity and liabilities', 39), ('equity liabilities', 38), ('noncurrent liabilities', 36), ('equity', 24), ('liabilities', 16)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current assets | MATCH WORD current assets | score 95
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current assets | MATCH WORD current liabilities | score 56
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current assets | MATCH WORD noncurrent assets | score 81
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current assets | MATCH WORD noncurrent liabilities | score 57
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current assets | MATCH WORD non current assets | score 84
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current assets | MATCH WORD non current liabilities | score 60
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current assets | MATCH WORD equity and liabilities | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current assets | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Deferred tax assets | [('current assets', 57), ('assets', 50), ('noncurrent assets', 50), ('equity and liabilities', 31), ('equity liabilities', 29), ('current liabilities', 28), ('noncurrent liabilities', 21), ('equity', 19), ('liabilities', 10)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax assets | MATCH WORD current assets | score 67
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax assets | MATCH WORD current liabilities | score 42
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax assets | MATCH WORD noncurrent assets | score 61
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax assets | MATCH WORD noncurrent liabilities | score 39
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax assets | MATCH WORD non current assets | score 59
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax assets | MATCH WORD non current liabilities | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax assets | MATCH WORD equity and liabilities | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax assets | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Property plant and equipment | [('equity and liabilities', 59), ('equity liabilities', 43), ('equity', 40), ('current assets', 38), ('noncurrent assets', 32), ('noncurrent liabilities', 32), ('current liabilities', 26), ('assets', 21), ('liabilities', 20)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Property plant and equipment | MATCH WORD current assets | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Property plant and equipment | MATCH WORD current liabilities | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Property plant and equipment | MATCH WORD noncurrent assets | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Property plant and equipment | MATCH WORD noncurrent liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Property plant and equipment | MATCH WORD non current assets | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Property plant and equipment | MATCH WORD non current liabilities | score 37
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Property plant and equipment | MATCH WORD equity and liabilities | score 53
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Property plant and equipment | MATCH WORD equity | score 60
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Other assets | [('noncurrent assets', 67), ('assets', 62), ('current assets', 58), ('noncurrent liabilities', 32), ('equity and liabilities', 29), ('equity liabilities', 25), ('equity', 24), ('current liabilities', 24), ('liabilities', 12)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Other assets | MATCH WORD current assets | score 64
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Other assets | MATCH WORD current liabilities | score 32
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Other assets | MATCH WORD noncurrent assets | score 64
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Other assets | MATCH WORD noncurrent liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Other assets | MATCH WORD non current assets | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Other assets | MATCH WORD non current liabilities | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Other assets | MATCH WORD equity and liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Other assets | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Total | [('liabilities', 36), ('equity liabilities', 33), ('current liabilities', 32), ('equity and liabilities', 27), ('current assets', 22), ('noncurrent assets', 22), ('noncurrent liabilities', 21), ('assets', 20), ('equity', 18)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total | MATCH WORD current assets | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total | MATCH WORD current liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total | MATCH WORD noncurrent assets | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total | MATCH WORD noncurrent liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total | MATCH WORD non current assets | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total | MATCH WORD non current liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total | MATCH WORD equity and liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total | MATCH WORD equity | score 18
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Total assets | [('assets', 62), ('current assets', 58), ('noncurrent assets', 58), ('equity and liabilities', 43), ('equity liabilities', 42), ('current liabilities', 40), ('liabilities', 24), ('equity', 24), ('noncurrent liabilities', 24)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total assets | MATCH WORD current assets | score 64
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total assets | MATCH WORD current liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total assets | MATCH WORD noncurrent assets | score 64
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total assets | MATCH WORD noncurrent liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total assets | MATCH WORD non current assets | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total assets | MATCH WORD non current liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total assets | MATCH WORD equity and liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total assets | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Liabilities | [('liabilities', 100), ('equity liabilities', 63), ('current liabilities', 60), ('noncurrent liabilities', 60), ('equity and liabilities', 52), ('equity', 33), ('assets', 18), ('current assets', 11), ('noncurrent assets', 11)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Liabilities | MATCH WORD current assets | score 24
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Liabilities | MATCH WORD current liabilities | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Liabilities | MATCH WORD noncurrent assets | score 24
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Liabilities | MATCH WORD noncurrent liabilities | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Liabilities | MATCH WORD non current assets | score 24
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Liabilities | MATCH WORD non current liabilities | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Liabilities | MATCH WORD equity and liabilities | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Liabilities | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Trade and other payables | [('equity and liabilities', 46), ('current liabilities', 33), ('current assets', 29), ('noncurrent assets', 29), ('equity liabilities', 29), ('noncurrent liabilities', 28), ('assets', 22), ('liabilities', 21), ('equity', 14)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other payables | MATCH WORD current assets | score 42
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other payables | MATCH WORD current liabilities | score 47
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other payables | MATCH WORD noncurrent assets | score 39
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other payables | MATCH WORD noncurrent liabilities | score 43
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other payables | MATCH WORD non current assets | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other payables | MATCH WORD non current liabilities | score 43
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other payables | MATCH WORD equity and liabilities | score 48
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Trade and other payables | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Lease liabili ties | [('liabilities', 55), ('equity liabilities', 55), ('current liabilities', 53), ('equity and liabilities', 48), ('noncurrent liabilities', 47), ('equity', 36), ('assets', 29), ('current assets', 28), ('noncurrent assets', 21)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabili ties | MATCH WORD current assets | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabili ties | MATCH WORD current liabilities | score 70
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabili ties | MATCH WORD noncurrent assets | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabili ties | MATCH WORD noncurrent liabilities | score 65
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabili ties | MATCH WORD non current assets | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabili ties | MATCH WORD non current liabilities | score 63
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabili ties | MATCH WORD equity and liabilities | score 70
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabili ties | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Employee benefits | [('equity and liabilities', 38), ('equity liabilities', 36), ('current liabilities', 34), ('current assets', 29), ('noncurrent assets', 29), ('liabilities', 29), ('equity', 29), ('noncurrent liabilities', 28), ('assets', 20)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD current assets | score 32
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD current liabilities | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD noncurrent assets | score 35
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD noncurrent liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD non current assets | score 40
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD non current liabilities | score 35
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD equity and liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD equity | score 45
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Current tax liability | [('current liabilities', 88), ('equity liabilities', 58), ('equity and liabilities', 51), ('liabilities', 50), ('current assets', 45), ('noncurrent liabilities', 44), ('noncurrent assets', 26), ('equity', 25), ('assets', 17)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Current tax liability | MATCH WORD current assets | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Current tax liability | MATCH WORD current liabilities | score 80
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Current tax liability | MATCH WORD noncurrent assets | score 53
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Current tax liability | MATCH WORD noncurrent liabilities | score 74
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Current tax liability | MATCH WORD non current assets | score 53
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Current tax liability | MATCH WORD non current liabilities | score 73
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Current tax liability | MATCH WORD equity and liabilities | score 60
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Current tax liability | MATCH WORD equity | score 45
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Total current liabilities | [('current liabilities', 82), ('equity liabilities', 55), ('equity and liabilities', 49), ('noncurrent liabilities', 47), ('liabilities', 46), ('current assets', 42), ('noncurrent assets', 24), ('equity', 23), ('assets', 16)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current liabilities | MATCH WORD current assets | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current liabilities | MATCH WORD current liabilities | score 95
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current liabilities | MATCH WORD noncurrent assets | score 57
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current liabilities | MATCH WORD noncurrent liabilities | score 85
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current liabilities | MATCH WORD non current assets | score 60
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current liabilities | MATCH WORD non current liabilities | score 88
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current liabilities | MATCH WORD equity and liabilities | score 64
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total current liabilities | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Lease liabilities | [('liabilities', 71), ('equity liabilities', 67), ('current liabilities', 64), ('equity and liabilities', 57), ('noncurrent liabilities', 48), ('equity', 35), ('assets', 25), ('current assets', 25), ('noncurrent assets', 25)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabilities | MATCH WORD current assets | score 39
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabilities | MATCH WORD current liabilities | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabilities | MATCH WORD noncurrent assets | score 35
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabilities | MATCH WORD noncurrent liabilities | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabilities | MATCH WORD non current assets | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabilities | MATCH WORD non current liabilities | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabilities | MATCH WORD equity and liabilities | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Lease liabilities | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Employee benefits | [('equity and liabilities', 38), ('equity liabilities', 36), ('current liabilities', 34), ('current assets', 29), ('noncurrent assets', 29), ('liabilities', 29), ('equity', 29), ('noncurrent liabilities', 28), ('assets', 20)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD current assets | score 32
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD current liabilities | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD noncurrent assets | score 35
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD noncurrent liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD non current assets | score 40
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD non current liabilities | score 35
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD equity and liabilities | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Employee benefits | MATCH WORD equity | score 45
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Deferred tax liabilities | [('liabilities', 55), ('equity and liabilities', 55), ('equity liabilities', 55), ('current liabilities', 53), ('noncurrent liabilities', 47), ('equity', 27), ('current assets', 21), ('assets', 19), ('noncurrent assets', 14)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax liabilities | MATCH WORD current assets | score 42
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax liabilities | MATCH WORD current liabilities | score 74
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax liabilities | MATCH WORD noncurrent assets | score 39
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax liabilities | MATCH WORD noncurrent liabilities | score 70
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax liabilities | MATCH WORD non current assets | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax liabilities | MATCH WORD non current liabilities | score 68
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax liabilities | MATCH WORD equity and liabilities | score 65
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Deferred tax liabilities | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Total noncurrent liabilities | [('noncurrent liabilities', 82), ('noncurrent assets', 55), ('liabilities', 46), ('current assets', 42), ('current liabilities', 41), ('equity liabilities', 36), ('equity and liabilities', 32), ('assets', 16), ('equity', 15)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total noncurrent liabilities | MATCH WORD current assets | score 61
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total noncurrent liabilities | MATCH WORD current liabilities | score 81
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total noncurrent liabilities | MATCH WORD noncurrent assets | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total noncurrent liabilities | MATCH WORD noncurrent liabilities | score 95
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total noncurrent liabilities | MATCH WORD non current assets | score 61
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total noncurrent liabilities | MATCH WORD non current liabilities | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total noncurrent liabilities | MATCH WORD equity and liabilities | score 64
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total noncurrent liabilities | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Total liabilities | [('liabilities', 67), ('noncurrent liabilities', 62), ('equity liabilities', 48), ('current liabilities', 46), ('equity and liabilities', 41), ('assets', 24), ('current assets', 24), ('noncurrent assets', 24), ('equity', 22)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total liabilities | MATCH WORD current assets | score 32
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total liabilities | MATCH WORD current liabilities | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total liabilities | MATCH WORD noncurrent assets | score 35
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total liabilities | MATCH WORD noncurrent liabilities | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total liabilities | MATCH WORD non current assets | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total liabilities | MATCH WORD non current liabilities | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total liabilities | MATCH WORD equity and liabilities | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total liabilities | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Net assets | [('current assets', 73), ('assets', 71), ('noncurrent assets', 64), ('equity and liabilities', 31), ('equity', 27), ('equity liabilities', 27), ('current liabilities', 26), ('noncurrent liabilities', 26), ('liabilities', 13)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Net assets | MATCH WORD current assets | score 75
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Net assets | MATCH WORD current liabilities | score 41
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Net assets | MATCH WORD noncurrent assets | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Net assets | MATCH WORD noncurrent liabilities | score 44
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Net assets | MATCH WORD non current assets | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Net assets | MATCH WORD non current liabilities | score 42
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Net assets | MATCH WORD equity and liabilities | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Net assets | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Equity | [('equity', 100), ('equity liabilities', 63), ('equity and liabilities', 52), ('assets', 36), ('liabilities', 33), ('current assets', 32), ('current liabilities', 30), ('noncurrent assets', 21), ('noncurrent liabilities', 20)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Equity | MATCH WORD current assets | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Equity | MATCH WORD current liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Equity | MATCH WORD noncurrent assets | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Equity | MATCH WORD noncurrent liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Equity | MATCH WORD non current assets | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Equity | MATCH WORD non current liabilities | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Equity | MATCH WORD equity and liabilities | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Equity | MATCH WORD equity | score 100
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Share capital | [('current assets', 42), ('assets', 38), ('equity and liabilities', 36), ('noncurrent assets', 33), ('equity liabilities', 33), ('current liabilities', 32), ('noncurrent liabilities', 32), ('liabilities', 24), ('equity', 24)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Share capital | MATCH WORD current assets | score 37
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Share capital | MATCH WORD current liabilities | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Share capital | MATCH WORD noncurrent assets | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Share capital | MATCH WORD noncurrent liabilities | score 41
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Share capital | MATCH WORD non current assets | score 32
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Share capital | MATCH WORD non current liabilities | score 41
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Share capital | MATCH WORD equity and liabilities | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Share capital | MATCH WORD equity | score 32
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Retained earnin ngs | [('equity and liabilities', 42), ('current liabilities', 40), ('equity', 36), ('current assets', 34), ('equity liabilities', 34), ('noncurrent liabilities', 33), ('assets', 29), ('noncurrent assets', 28), ('liabilities', 27)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Retained earnin ngs | MATCH WORD current assets | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Retained earnin ngs | MATCH WORD current liabilities | score 37
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Retained earnin ngs | MATCH WORD noncurrent assets | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Retained earnin ngs | MATCH WORD noncurrent liabilities | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Retained earnin ngs | MATCH WORD non current assets | score 36
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Retained earnin ngs | MATCH WORD non current liabilities | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Retained earnin ngs | MATCH WORD equity and liabilities | score 44
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Retained earnin ngs | MATCH WORD equity | score 30
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - Total equity | [('equity liabilities', 72), ('equity', 67), ('equity and liabilities', 62), ('current liabilities', 38), ('liabilities', 33), ('current assets', 32), ('noncurrent assets', 32), ('noncurrent liabilities', 31), ('assets', 24)]
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total equity | MATCH WORD current assets | score 31
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total equity | MATCH WORD current liabilities | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total equity | MATCH WORD noncurrent assets | score 34
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total equity | MATCH WORD noncurrent liabilities | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total equity | MATCH WORD non current assets | score 33
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total equity | MATCH WORD non current liabilities | score 38
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total equity | MATCH WORD equity and liabilities | score 86
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - particular_text Total equity | MATCH WORD equity | score 90
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:CCF_Sections.py,  function: set_section_details
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - set_section_details started
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Cash flows from operating activities | operating cash flow before working capital changes
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Cash receipts from customers | adiustments for movements in working capital
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Cash paid to suppliers and employees | changes in operating assets and liabilities
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Cash generated from operations | movements in working capital
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Interest received | movements in working capital
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Interest paid | movements in working capital
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Income tax paid | changes in working capital
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Net cash (used in)/from operating activities | adjustments for increase decrease in operating assets
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Cash flows from investing activities | operating cash flow before working capital changes
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Acquisition of property, plant and equipment | changes in operating assets and liabilities
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Proceeds from discontinued operations | adiustments for movements in working capital
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Net cash (used in)/from investing activities | adjustments for increase decrease in operating liabilities
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Cash flows from financing activities | operating cash flow before working capital changes
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Payment of lease liabilities | changes in operating assets and liabilities
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Dividends paid | changes in assets liabilities
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Net cash used in financing activities | adjustments for increase decrease in operating assets
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Net Idecreasel/increase in cash and cash equivalents | adjustments for increase decrease in operating assets
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Cash and cash equivalents at beginning of year | changes in operating assets and liabilities
+2023-05-30 12:29:27+0530 - sLogger - DEBUG - SUB SECTION : ADJUSTMENTS --- Cash and cash equivalents at end of year | changes in operating assets and liabilities
+2023-05-30 12:29:28+0530 - sLogger - DEBUG - module: main_page_processing_service , File:note_utils.py,  function: find_next_note_subnote
+2023-05-30 12:29:28+0530 - sLogger - ERROR - error occured: ord() expected a character, but string of length 2 found
+2023-05-30 12:29:28+0530 - sLogger - DEBUG - module: main_page_processing_service , File:note_utils.py,  function: find_next_note_subnote
+2023-05-30 12:29:28+0530 - sLogger - ERROR - error occured: ord() expected a character, but string of length 2 found
+2023-05-30 12:29:28+0530 - sLogger - DEBUG - module: main_page_processing_service , File:note_utils.py,  function: find_next_note_subnote
+2023-05-30 12:29:28+0530 - sLogger - ERROR - error occured: ord() expected a character, but string of length 2 found
+2023-05-30 12:29:28+0530 - sLogger - DEBUG - module: main_page_processing_service , File:note_utils.py,  function: find_next_note_subnote
+2023-05-30 12:29:28+0530 - sLogger - ERROR - error occured: ord() expected a character, but string of length 2 found
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing
+2023-05-30 12:29:29+0530 - sLogger - ERROR - error occured: list index out of range
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing
+2023-05-30 12:29:29+0530 - sLogger - ERROR - error occured: 'value'
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:note_standardise_utils.py,  function: find_data_block_location
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:note_standardise_utils.py,  function: find_data_block_location
+2023-05-30 12:29:29+0530 - sLogger - ERROR - error occured: local variable 'e' referenced before assignment
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing
+2023-05-30 12:29:29+0530 - sLogger - ERROR - error occured: 'value'
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing
+2023-05-30 12:29:29+0530 - sLogger - ERROR - error occured: sequence item 1: expected str instance, float found
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing
+2023-05-30 12:29:29+0530 - sLogger - ERROR - error occured: 'year'
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing
+2023-05-30 12:29:29+0530 - sLogger - ERROR - error occured: 'value'
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing
+2023-05-30 12:29:29+0530 - sLogger - ERROR - error occured: 'value'
+2023-05-30 12:29:29+0530 - sLogger - DEBUG - process_main_pages completed
