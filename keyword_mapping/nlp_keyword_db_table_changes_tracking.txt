@@ -1,14 +1,57 @@
 date: 7 July 2023
 
+1. Common Stock: eqt_common_stock
+
+main_page_include_keywords: 'common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital|contributed equity'
+note_page_include_keywords: 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
+
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital |contributed equity',
+	note_keyword = 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
+	WHERE meta_keyword='ncl_other_long_term_liabilities';
+
+
+2.Other Reserves: eqt_other_reserves
+
+main_page_include_keywords: 'other reserves | reserves'
+note_page_include_keywords: 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other reserves | reserves',
+	note_keyword = 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
+	WHERE meta_keyword='eqt_other_reserves';
 
 
 
+3. Others: eqt_others
+
+main_page_include_keywords: 'minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+note_page_include_keywords: 
 
 
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+	WHERE meta_keyword='eqt_others';
 
 
+4. Subordinate Debt: ncl_suboardinate_debt
+main_page_include_keywords: ''
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword=''
+	WHERE meta_keyword='ncl_suboardinate_debt';
 
 
+5. Deferred Taxes: ncl_deferred_taxes
+
+main_page_include_keywords: 'deferred taxes|deferred tax liabilities'
+note_page_include_keywords: 'deferred tax liabilities|total deferred tax (assets) / liabilities'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='lease liabilities|interest bearing loans and borrowings',
+	note_keyword = 'deferred tax liabilities|total deferred tax (assets) / liabilities'
+	WHERE meta_keyword='ncl_deferred_taxes';
 
 
 

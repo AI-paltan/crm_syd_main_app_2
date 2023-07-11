@@ -1,3 +1,69 @@
+11 July 2023
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital |contributed equity',
+	note_keyword = 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
+	WHERE meta_keyword='eqt_common_stock';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other reserves | reserves',
+	note_keyword = 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
+	WHERE meta_keyword='eqt_other_reserves';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+	WHERE meta_keyword='eqt_others';
+
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword=''
+	WHERE meta_keyword='ncl_suboardinate_debt';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 UPDATE public."CRM_nlp_bucketing"
 	SET  target_keyword='revenue from operations|sale of products|net sales|revenue from contracts with customers|transmission and distribution business|from trading business|Revenue from contract with customers| Sale of coal| Sales revenue| Revenue',
 	note_keyword='Sale of goods| LNG| Condensate| Domgas| Feed gas income| Gas transportation income| Sale of goods - Cars| Sale of goods - Motorcycles| Sale of goods - Marine| Sale of goods - Spareparts| Total Revenue| Goods sold to customer from warehouse| Goods sold to customer direct from supplier'
