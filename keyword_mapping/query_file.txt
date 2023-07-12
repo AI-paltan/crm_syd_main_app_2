@@ -4,6 +4,7 @@ UPDATE public."CRM_nlp_bucketing"
 	note_keyword = 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
 	WHERE meta_keyword='eqt_common_stock';
 
+
 UPDATE public."CRM_nlp_bucketing"
 	SET  target_keyword='other reserves | reserves',
 	note_keyword = 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
@@ -18,11 +19,24 @@ UPDATE public."CRM_nlp_bucketing"
 	SET  target_keyword=''
 	WHERE meta_keyword='ncl_suboardinate_debt';
 
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='plant property equipment|property plant equipment',
+	note_keyword = 'cost|gross',
+	exclude_note_keyword='depreciatio|accumulated depreciation|net value|net book value|total'
+
+	WHERE meta_keyword='nca_gross_ppe';
 
 
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='plant property equipment|property plant equipment',
+	note_keyword = 'depreciatio|accumulated depreciation',
+	exclude_note_keyword='cost|gross|net value|net book value|total'
 
+	WHERE meta_keyword='nca_accumulated_depreciation';
 
-
+UPDATE public."CRM_nlp_bucketing"
+	SET  exclude_note_keyword= ''
+	WHERE meta_keyword='ca_other_current_assets';
 
 
 

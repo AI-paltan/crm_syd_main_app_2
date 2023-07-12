@@ -1,3 +1,16 @@
+date 12 July 2023
+
+meta_keywrods = "eqt_common_stock"
+CDM Keywords = "Common Stock"
+start row= 155
+end row ( total ) = 159
+Query = UPDATE public."CRM_nlp_bucketing"
+	SET  cdm_sheet_name='BS (Liabilities) breakdown', cdm_keyword_start_row_map=155, cdm_total_row_map=159
+	WHERE meta_keyword='eqt_common_stock';	
+
+
+
+
 date 11 May 2023
 
 balance Sheet:
