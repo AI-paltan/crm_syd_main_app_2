@@ -1,6 +1,7 @@
 date: 7 July 2023
 
-
+1. remove gst receivables from 'ACCOUNT Receivables' field from CBS
+2. 
 
 
 
