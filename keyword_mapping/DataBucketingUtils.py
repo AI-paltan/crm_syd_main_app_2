@@ -439,6 +439,7 @@ def remove_total_lines_main_pages(df_datasheet,filepath,statement_type,obj_techf
 
 def second_filter_PPE(std_hrzntl_note_df,month):
     ## this function will filter PPE note further for month of given annual statemnt
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     month_indices = []
     for idx,row in std_hrzntl_note_df.iterrows():
         if month in row["line_item"].lower():

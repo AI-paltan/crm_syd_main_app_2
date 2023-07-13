@@ -35,9 +35,13 @@ UPDATE public."CRM_nlp_bucketing"
 	WHERE meta_keyword='nca_accumulated_depreciation';
 
 UPDATE public."CRM_nlp_bucketing"
-	SET  exclude_note_keyword= ''
+	SET  exclude_note_keyword= ' '
 	WHERE meta_keyword='ca_other_current_assets';
 
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='cl_long_term_debt_due_in_year';
 
 
 
