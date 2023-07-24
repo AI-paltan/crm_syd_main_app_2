@@ -17,6 +17,7 @@ def second_filter_PPE(std_hrzntl_note_df,month):
     return std_hrzntl_note_df
 
 def gross_PPE_filter(std_hrzntl_note_df):
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     keywords = ['cost','gross']
     indices = []
     for idx,row in std_hrzntl_note_df.iterrows():
@@ -31,6 +32,7 @@ def gross_PPE_filter(std_hrzntl_note_df):
 
 
 def accumulation_PPE_filter(std_hrzntl_note_df):
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     keywords = ['depreciatio','accumulated depreciation']
     indices = []
     std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
@@ -45,6 +47,7 @@ def accumulation_PPE_filter(std_hrzntl_note_df):
     return std_hrzntl_note_df
 
 def ppe_total_keyword_filter(std_hrzntl_note_df):
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     keywords = ['total']
     indices = []
     std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
@@ -58,11 +61,13 @@ def ppe_total_keyword_filter(std_hrzntl_note_df):
     std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     return std_hrzntl_note_df
 
-def current_word_filter(std_hrzntl_note_df):
-    keyword = ['current']
+def net_keyword_filter(std_hrzntl_note_df):
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+    keywords = ['Net','net']
     indices = []
+    std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
     for idx,row in std_hrzntl_note_df.iterrows():
-        for kwrd in keyword:
+        for kwrd in keywords:
             if kwrd in row["line_item"].lower():
                 indices.append(idx)
     
@@ -71,7 +76,32 @@ def current_word_filter(std_hrzntl_note_df):
     std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     return std_hrzntl_note_df
 
+def current_word_filter(std_hrzntl_note_df):
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+    keyword = ['current']
+    exclude_keywords = ['non-current','noncurrent']
+    indices = []
+    exclude_indices = []
+    for idx,row in std_hrzntl_note_df.iterrows():
+        for kwrd in keyword:
+            if kwrd in row["line_item"].lower():
+                indices.append(idx)
+        for exclude_kwd in exclude_keywords:
+            if exclude_kwd in row["line_item"].lower():
+                exclude_indices.append(idx)
+
+    current_indices = list(set(indices).difference(set(exclude_indices)))
+    
+    if len(current_indices)>0:
+        std_hrzntl_note_df = std_hrzntl_note_df.iloc[current_indices]
+    
+    # if len(indices)>0:
+    #     std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+    return std_hrzntl_note_df
+
 def noncurrent_word_filter(std_hrzntl_note_df):
+    std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     keyword = ['non-current','noncurrent']
     indices = []
     for idx,row in std_hrzntl_note_df.iterrows():

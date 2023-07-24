@@ -1,0 +1,3 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+7,,[14],"[[110, 212, 330, 236]]",8,[14],"[[111, 435, 351, 458]]",[UUID('1289c789-1331-3cbc-bf04-233ac59abd67')],"[[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f872838b640>],['7']
+10,,[14],"[[111, 1014, 421, 1039]]",11,[14],"[[111, 1236, 429, 1261]]",[UUID('e7bbb814-edf5-37bf-8214-a98eb87f82d6')],"[[0, 1, 2, 3, 4, 5]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f8728387940>],['10']
