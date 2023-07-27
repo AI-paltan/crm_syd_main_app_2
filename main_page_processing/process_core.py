@@ -106,6 +106,7 @@ class mainPageProcess:
                 # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
                 # html_string = tabale_query.html_string
                 # tmp_df = pd.read_html(html_string)[0]
+                # print(tmp_df)
                 RCB = RefactorCBS(df=tmp_df)
                 process_cpl,temp_df = RCB.start_refactoring()
                 self.cpl_df_dict[page.page_number] = process_cpl
@@ -117,6 +118,7 @@ class mainPageProcess:
                 # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
                 # html_string = tabale_query.html_string
                 # tmp_df = pd.read_html(html_string)[0]
+                print(tmp_df)
                 RCB = RefactorCBS(df=tmp_df)
                 process_ccf,temp_df = RCB.start_refactoring()
                 self.ccf_df_dict[page.page_number] = process_ccf

@@ -1,0 +1,12 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+7,,[21],"[[191, 782, 507, 805]]",8,[21],"[[191, 1210, 1092, 1236]]",[UUID('9720a07b-f993-3ff9-a33e-8f56cdaee280')],"[[0, 1, 2, 3, 4, 5, 6, 7]]",[<UAT_app.database.db_models.TableLogs object at 0x7fdc50206610>],['7']
+8,,[21],"[[191, 1210, 1092, 1236]]",9,[22],"[[190, 184, 643, 208]]",[],[],[],['8']
+9,,[22],"[[190, 184, 643, 208]]",10,[22],"[[190, 476, 600, 504]]",[UUID('c1d3ba66-e8aa-3446-b3f9-c923ec3c35cb')],"[[0, 1, 2, 3, 4, 5, 6, 7]]",[<UAT_app.database.db_models.TableLogs object at 0x7fdbaf1654c0>],['9']
+10,,[22],"[[190, 476, 600, 504]]",11,[23],"[[189, 210, 503, 236]]",[UUID('c1d3ba66-e8aa-3446-b3f9-c923ec3c35cb')],"[[7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]]",[<UAT_app.database.db_models.TableLogs object at 0x7fdbaf1654c0>],['10']
+11,,[23],"[[189, 210, 503, 236]]",12,[23],"[[189, 516, 772, 542]]",[UUID('ded26c1f-1cdb-30cb-94da-ca075ccfb46a')],"[[0, 1, 2, 3, 4, 5, 6, 7]]",[<UAT_app.database.db_models.TableLogs object at 0x7fdaf23b5460>],['11']
+12,,[23],"[[189, 516, 772, 542]]",13,[23],"[[189, 687, 596, 713]]",[],[],[],['12']
+13,,[23],"[[189, 687, 596, 713]]",14,[23],"[[188, 1114, 457, 1141]]",[UUID('2ee7cad0-59b2-3f1f-99f5-20b4ec236e7d')],"[[0, 1, 2, 3, 4, 5, 6]]",[<UAT_app.database.db_models.TableLogs object at 0x7fdaf62910a0>],['13']
+14,,[23],"[[188, 1114, 457, 1141]]",15,[24],"[[189, 210, 722, 236]]",[UUID('8f43c4ec-4215-3554-81ee-8f1873e488a6')],"[[0, 1, 2]]",[<UAT_app.database.db_models.TableLogs object at 0x7fdaf5eefe50>],['14']
+15,,[24],"[[189, 210, 722, 236]]",16,[24],"[[189, 876, 478, 902]]","[UUID('0f32c99b-3443-37db-80b0-ed944ce77029'), UUID('57e924f7-498b-302f-804b-60e137451b23')]","[[0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5, 6, 7]]","[<UAT_app.database.db_models.TableLogs object at 0x7fdaf5eef430>, <UAT_app.database.db_models.TableLogs object at 0x7fdaf5eef400>]",['15']
+16,,[24],"[[189, 876, 478, 902]]",17,[24],"[[189, 1256, 414, 1282]]",[UUID('9648c040-84de-3a98-ba45-9c910065b3c8')],"[[0, 1, 2, 3, 4, 5, 6]]",[<UAT_app.database.db_models.TableLogs object at 0x7fdaf6291c10>],"['16', '16']"
+17,,[24],"[[189, 1256, 414, 1282]]",18,[25],"[[187, 294, 525, 320]]",[UUID('018a47d0-6cc6-3cfa-9140-910b9deaffbd')],"[[0, 1, 2]]",[<UAT_app.database.db_models.TableLogs object at 0x7fdaf6291b80>],['17']

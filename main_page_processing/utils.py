@@ -337,8 +337,9 @@ def check_and_remove_duplicate_column(nte_df):
             cnt=cnt+1
     if row_duplicate > 0:
         ratio_duplicate = (row_duplicate/cnt)*100
-        if ratio_duplicate > 90:
+        if ratio_duplicate >= 90:  ## original 90 changed to 80 for kanematsu from 10 files on 26 july for new model as problem with row_col model
             nte_df = nte_df.drop(nte_df.columns[1], axis=1).T.reset_index(drop=True).T
+    # print(f"ratio_duplicate  = {ratio_duplicate}")
     return nte_df
 
 

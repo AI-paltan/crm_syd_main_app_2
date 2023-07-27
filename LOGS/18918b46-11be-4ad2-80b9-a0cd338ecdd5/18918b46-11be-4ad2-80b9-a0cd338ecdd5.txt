@@ -1,0 +1,26 @@
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:process_core.py,  function: process_main_pages
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - process_main_pages started
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - start_refactoring completed
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - start_refactoring completed
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 14:16:20+0530 - sLogger - DEBUG - start_refactoring completed
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:process_core.py,  function: process_main_pages
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - process_main_pages started
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: ideal_format_processing
+2023-07-27 14:16:52+0530 - sLogger - ERROR - error occured: list index out of range
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 14:16:52+0530 - sLogger - ERROR - error occured: local variable 'standard_df' referenced before assignment
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - start_refactoring completed
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - start_refactoring completed
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 14:16:52+0530 - sLogger - DEBUG - start_refactoring completed

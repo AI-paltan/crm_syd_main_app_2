@@ -1,0 +1,14 @@
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:process_core.py,  function: process_main_pages
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - process_main_pages started
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - start_refactoring completed
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - start_refactoring completed
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - start_refactoring completed
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - module: MainPage_processing_Service , File:RefactorDF.py,  function: start_refactoring
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - start_refactoring started
+2023-07-27 11:45:46+0530 - sLogger - DEBUG - start_refactoring completed

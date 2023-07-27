@@ -1,3 +1,33 @@
+
+date 24 July 2023
+6. Interest Income : smr_interest_income
+main_page_include_keywords: 'other income|finance income|Finance income| Finance income and costs| Interest revenue| Finance income and finance costs| Net finance costs' ,
+note_page_include_keywords: 'interest|Bank interest| Interest income| Interest received - Bank| Interest received - Loan| Sublease interest income| Share of JV interest received/(paid)| Bank Deposits - cash and cash equivalents| Finance income under the effective interest method on financial assets not measured at FVTPL| Interest income'
+note_page_exclude_keywords : 'Interest expense|interest expense'
+
+
+query:  UPDATE public."CRM_nlp_bucketing"
+	SET  
+	exclude_note_keyword = 'Interest expense|interest expense'
+	WHERE meta_keyword='smr_interest_income';
+
+
+7. Interest expenses : smr_interest_expense
+main_page_include_keywords: 'finance cost|finance costs| finance expenses| net finance costs '
+
+note_page_include_keywords= 'loan|debt|debenture|cash credit|borrowings|bank facilities|bonds|interest|Interest expenses| Discount unwind on the provision for asset retirement obligation|  Other interest expense| Interest on leases| Interest on bank overdrafts and loans (other than those from related parties)| Interest accrued on loans| Interest accrued on lease liabilities| Lease interest expense| Interest expense on financial liabilities using the effective interest rate method - other| Interest expense using the effective interest rate method - AASB 16 application lease liabilities| Lease liabilities interest expense'
+note_page_exclude_keywords = 'interest income'
+
+query:  UPDATE public."CRM_nlp_bucketing"
+	SET  
+	 note_keyword='loan|debt|debenture|cash credit|borrowings|bank facilities|bonds|interest|Interest expenses| Discount unwind on the provision for asset retirement obligation|  Other interest expense| Interest on leases| Interest on bank overdrafts and loans (other than those from related parties)| Interest accrued on loans| Interest accrued on lease liabilities| Lease interest expense| Interest expense on financial liabilities using the effective interest rate method - other| Interest expense using the effective interest rate method - AASB 16 application lease liabilities| Lease liabilities interest expense',
+	exclude_note_keyword = 'interest income'
+	WHERE meta_keyword='smr_interest_expense';
+
+
+
+
+
 date: 7 July 2023
 
 1. Common Stock: eqt_common_stock
@@ -122,6 +152,43 @@ UPDATE public."CRM_nlp_bucketing"
 SET  target_keyword='',
 note_keyword = ''
 WHERE meta_keyword='cl_long_term_debt_due_in_year';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
