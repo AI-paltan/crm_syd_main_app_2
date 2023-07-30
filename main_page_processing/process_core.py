@@ -88,76 +88,113 @@ class mainPageProcess:
         self.max_main_page = max(self.all_filtered_pages)
         for page in pages:
             if page.page_number  in self.filtered_cbs_pages:
-                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
-                table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
-                tmp_df = main_page_table_preprocessing(table_df)
-                # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
-                # html_string = tabale_query.html_string
-                # tmp_df = pd.read_html(html_string)[0]
-                RCB = RefactorCBS(df=tmp_df)
-                process_cbs,temp_df = RCB.start_refactoring()
-                self.cbs_df_dict[page.page_number] = process_cbs
-                self.meta_dict[page.page_number] = temp_df
-                self.years_list = temp_df["year_list"]
+                try:
+                    tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
+                    table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
+                    tmp_df = main_page_table_preprocessing(table_df)
+                    # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
+                    # html_string = tabale_query.html_string
+                    # tmp_df = pd.read_html(html_string)[0]
+                    # print(tmp_df)
+                    RCB = RefactorCBS(df=tmp_df)
+                    process_cbs,temp_df = RCB.start_refactoring()
+                    self.cbs_df_dict[page.page_number] = process_cbs
+                    self.meta_dict[page.page_number] = temp_df
+                    self.years_list = temp_df["year_list"]
+                except Exception as e:
+                    from ..logging_module.logging_wrapper import Logger
+                    Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: get_standardize_main_pages CBS")
+                    Logger.logr.error(f"error occured: {e}")
+
             if page.page_number  in self.filtered_cpl_pages:
-                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
-                table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
-                tmp_df = main_page_table_preprocessing(table_df)
-                # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
-                # html_string = tabale_query.html_string
-                # tmp_df = pd.read_html(html_string)[0]
-                # print(tmp_df)
-                RCB = RefactorCBS(df=tmp_df)
-                process_cpl,temp_df = RCB.start_refactoring()
-                self.cpl_df_dict[page.page_number] = process_cpl
-                self.meta_dict[page.page_number] = temp_df
+                try:
+                    tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
+                    table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
+                    tmp_df = main_page_table_preprocessing(table_df)
+                    # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
+                    # html_string = tabale_query.html_string
+                    # tmp_df = pd.read_html(html_string)[0]
+                    # print(tmp_df)
+                    RCB = RefactorCBS(df=tmp_df)
+                    process_cpl,temp_df = RCB.start_refactoring()
+                    self.cpl_df_dict[page.page_number] = process_cpl
+                    self.meta_dict[page.page_number] = temp_df
+                    if len(self.years_list) == 0:
+                        self.years_list = temp_df["year_list"]
+                except Exception as e:
+                    from ..logging_module.logging_wrapper import Logger
+                    Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: get_standardize_main_pages CPL")
+                    Logger.logr.error(f"error occured: {e}")
+
             if page.page_number  in self.filtered_ccf_pages:
-                tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
-                table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
-                tmp_df = main_page_table_preprocessing(table_df)
-                # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
-                # html_string = tabale_query.html_string
-                # tmp_df = pd.read_html(html_string)[0]
-                print(tmp_df)
-                RCB = RefactorCBS(df=tmp_df)
-                process_ccf,temp_df = RCB.start_refactoring()
-                self.ccf_df_dict[page.page_number] = process_ccf
-                self.meta_dict[page.page_number] = temp_df
-    
+                try:
+                    tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc())
+                    table_df = pd.read_sql(tabale_query.statement, tabale_query.session.bind)
+                    tmp_df = main_page_table_preprocessing(table_df)
+                    # tabale_query = db.query(db_models.TableLogs).filter(db_models.TableLogs.pageid == page.pageid).order_by(db_models.TableLogs.time.desc()).first()
+                    # html_string = tabale_query.html_string
+                    # tmp_df = pd.read_html(html_string)[0]
+                    # print(tmp_df)
+                    RCB = RefactorCBS(df=tmp_df)
+                    process_ccf,temp_df = RCB.start_refactoring()
+                    self.ccf_df_dict[page.page_number] = process_ccf
+                    self.meta_dict[page.page_number] = temp_df
+                    if len(self.years_list) == 0:
+                        self.years_list = temp_df["year_list"]
+                except Exception as e:
+                    from ..logging_module.logging_wrapper import Logger
+                    Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: get_standardize_main_pages CCF")
+                    Logger.logr.error(f"error occured: {e}")
+
+
     def merge_df(self):
-        if len(self.cbs_df_dict) > 1 and len(set(self.cbs_df_dict.keys())) > 1 :
-            keys = sorted(list(self.cbs_df_dict.keys()))
-            appended_df = []
-            for k in keys:
-                appended_df.append(self.cbs_df_dict.get(k))
-            appended_df = pd.concat(appended_df)
-            min_keys = min(keys)
-            self.cbs_df_dict.update({min_keys:appended_df})
-            for k in keys:
-                if k!= min_keys:
-                    del self.cbs_df_dict[k]
-        if len(self.cpl_df_dict) > 1 and len(set(self.cpl_df_dict.keys())) > 1 :
-            keys = sorted(list(self.cpl_df_dict.keys()))
-            appended_df = []
-            for k in keys:
-                appended_df.append(self.cpl_df_dict.get(k))
-            appended_df = pd.concat(appended_df)
-            min_keys = min(keys)
-            self.cpl_df_dict.update({min_keys:appended_df})
-            for k in keys:
-                if k!= min_keys:
-                    del self.cpl_df_dict[k]
-        if len(self.ccf_df_dict) > 1 and len(set(self.ccf_df_dict.keys())) > 1 :
-            keys = sorted(list(self.ccf_df_dict.keys()))
-            appended_df = []
-            for k in keys:
-                appended_df.append(self.ccf_df_dict.get(k))
-            appended_df = pd.concat(appended_df)
-            min_keys = min(keys)
-            self.ccf_df_dict.update({min_keys:appended_df})
-            for k in keys:
-                if k!= min_keys:
-                    del self.ccf_df_dict[k]
+        try:
+            def checkConsecutive(l):
+                return sorted(l) == list(range(min(l), max(l)+1))
+            
+            if len(self.cbs_df_dict) > 1 and len(set(self.cbs_df_dict.keys())) > 1 :
+                keys = sorted(list(self.cbs_df_dict.keys()))
+                is_consecutive_pages = checkConsecutive(keys)
+                if is_consecutive_pages:
+                    appended_df = []
+                    for k in keys:
+                        appended_df.append(self.cbs_df_dict.get(k))
+                    appended_df = pd.concat(appended_df)
+                    min_keys = min(keys)
+                    self.cbs_df_dict.update({min_keys:appended_df})
+                    for k in keys:
+                        if k!= min_keys:
+                            del self.cbs_df_dict[k]
+            if len(self.cpl_df_dict) > 1 and len(set(self.cpl_df_dict.keys())) > 1 :
+                keys = sorted(list(self.cpl_df_dict.keys()))
+                is_consecutive_pages = checkConsecutive(keys)
+                if is_consecutive_pages:
+                    appended_df = []
+                    for k in keys:
+                        appended_df.append(self.cpl_df_dict.get(k))
+                    appended_df = pd.concat(appended_df)
+                    min_keys = min(keys)
+                    self.cpl_df_dict.update({min_keys:appended_df})
+                    for k in keys:
+                        if k!= min_keys:
+                            del self.cpl_df_dict[k]
+            if len(self.ccf_df_dict) > 1 and len(set(self.ccf_df_dict.keys())) > 1 :
+                keys = sorted(list(self.ccf_df_dict.keys()))
+                is_consecutive_pages = checkConsecutive(keys)
+                if is_consecutive_pages:
+                    appended_df = []
+                    for k in keys:
+                        appended_df.append(self.ccf_df_dict.get(k))
+                    appended_df = pd.concat(appended_df)
+                    min_keys = min(keys)
+                    self.ccf_df_dict.update({min_keys:appended_df})
+                    for k in keys:
+                        if k!= min_keys:
+                            del self.ccf_df_dict[k]
+        except Exception as e:
+                    from ..logging_module.logging_wrapper import Logger
+                    Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: merge_df")
+                    Logger.logr.error(f"error occured: {e}")
     
     def notes_number_processing_cls(self):
         notes_dict = NestedDefaultDict()
@@ -167,9 +204,24 @@ class mainPageProcess:
         cbs_meta = self.meta_dict.get(cbs_key)
         cpl_meta = self.meta_dict.get(cpl_key)
         ccf_meta = self.meta_dict.get(ccf_key)
-        cbs_header = cbs_meta['headers']
-        cpl_header = cpl_meta['headers']
-        ccf_header = ccf_meta['headers']
+        try:
+            cbs_header = cbs_meta['headers']
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: notes_number_processing_cls CBS")
+            Logger.logr.error(f"error occured: {e}")
+        try:
+            cpl_header = cpl_meta['headers']
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: notes_number_processing_cls CPL")
+            Logger.logr.error(f"error occured: {e}")
+        try:
+            ccf_header = ccf_meta['headers']
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: notes_number_processing_cls CCF")
+            Logger.logr.error(f"error occured: {e}")
         if 'Notes' in cbs_header:
             ref_list_cbs,notes_dict = notes_number_processing(self.cbs_df_dict.get(cbs_key),[cbs_meta['note_col_x'],cbs_meta['note_col_y']],cbs_meta['data_start_x'],cbs_meta['particulars_y'],notes_dict)
             self.notes_ref_dict['cbs'] = ref_list_cbs
@@ -182,15 +234,24 @@ class mainPageProcess:
         self.final_notes_dict = notes_dict
 
     def set_sections_subsections(self):
-        for k,v in self.cbs_df_dict.items():
-            obj_cbs_sections = CBSsections(v)
-            obj_cbs_sections.set_section_details()
-            # print(obj_cbs_sections.cbs_dataframe)
-            self.cbs_df_dict.update({k:obj_cbs_sections.cbs_dataframe})
-        for k,v in self.ccf_df_dict.items():
-            obj_ccf_sections = CCFsections(v)
-            obj_ccf_sections.set_section_details()
-            self.ccf_df_dict.update({k:obj_ccf_sections.cbs_dataframe})
+        try:
+            for k,v in self.cbs_df_dict.items():
+                obj_cbs_sections = CBSsections(v)
+                obj_cbs_sections.set_section_details()
+                # print(obj_cbs_sections.cbs_dataframe)
+                self.cbs_df_dict.update({k:obj_cbs_sections.cbs_dataframe})
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: set_sections_subsections  CBS")
+            Logger.logr.error(f"error occured: {e}")
+        try:
+            for k,v in self.ccf_df_dict.items():
+                obj_ccf_sections = CCFsections(v)
+                obj_ccf_sections.set_section_details()
+                self.ccf_df_dict.update({k:obj_ccf_sections.cbs_dataframe})
+        except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: set_sections_subsections  CCF")
 
     def find_note_page_area(self):
         pass

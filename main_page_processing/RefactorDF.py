@@ -14,7 +14,13 @@ class RefactorCBS:
         Logger.logr.debug("start_refactoring started")
         standard_df = pd.DataFrame()
         temp_df = pd.DataFrame()
+
+        # identify and remove all duplicate text columns
+        # print(self.df)
+        
+        # print(self.df)
         try:
+            self.df = find_and_remove_all_duplicate_columns(df=self.df)
             col_num = self.find_template()
             if col_num == 4 :
                 standard_df, temp_df = self.ideal_format_processing()
@@ -23,7 +29,7 @@ class RefactorCBS:
             if col_num == 6:
                 standard_df, temp_df = self.non_ideal_format_processing()
             if col_num == 5:
-                self.df = check_and_remove_duplicate_column(self.df)
+                self.df = check_and_remove_duplicate_column_main_page(self.df)
                 col_num = self.find_template()
                 if col_num == 4:
                     standard_df, temp_df = self.ideal_format_processing()
@@ -41,6 +47,8 @@ class RefactorCBS:
         
 
     def ideal_format_processing(self):
+        standard_df = pd.DataFrame()
+        temp_df = {}
         try:
             note_row_num,note_col_num = get_note_column(self.df)
             year_list,year_indices,raw_year_text = get_years_and_positions_with_notes(df=self.df,notes_indices=[note_row_num,note_col_num])
@@ -67,6 +75,8 @@ class RefactorCBS:
         return standard_df, temp_df
 
     def non_ideal_format_without_notes_processing(self):
+        standard_df = pd.DataFrame()
+        temp_df = {}
         try:
             year_list,year_indices,raw_year_text = get_years_and_positions_without_notes(df=self.df)
             data_start_x,data_start_y,data_end_y,particulars_y = get_data_chunk_span_without_notes(df=self.df,years_indices=year_indices)
@@ -92,6 +102,8 @@ class RefactorCBS:
         return standard_df , temp_df
 
     def non_ideal_format_processing(self):
+        standard_df = pd.DataFrame()
+        temp_df = {}
         try:
             self.df = self.df.iloc[:,:4]  # select first 4 columns
             standard_df,temp_df = self.ideal_format_processing()

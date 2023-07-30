@@ -99,7 +99,7 @@ class DataDump:
                 cbs_worksheet.cell(row,col).value = "=" + cell_add + "*BS!$B$9" if str(cbs_worksheet[cell_add].value) != "None" else ""
             cbs_worksheet.cell(row,14).value =  "=" + get_column_letter(2) + str(row) if str(cbs_worksheet[get_column_letter(2) + str(row)].value) != "None" else ""
 
-    def insert_records(self,bs_crm_nlp_df_sorted,cbs_resposne_bucket,years_list,year_excel_col_map_dict):
+    def insert_records(self,bs_crm_nlp_df_sorted,cbs_resposne_bucket,years_list,year_excel_col_map_dict,statement_type):
         record_inserted = False
     # print(cbs_resposne_bucket)
         for idx,row in bs_crm_nlp_df_sorted.iterrows():
@@ -135,7 +135,10 @@ class DataDump:
                             for year in years_list:
                                 year_column = year_excel_col_map_dict.get(int(year))
                                 try:
-                                    cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[year]
+                                    if statement_type=='cbs':
+                                        cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[year]
+                                    if statement_type=='cpl':
+                                        cbs_worksheet.cell(row=excel_row_num,column=year_column).value = abs(row_note[year])
                                 except:
                                     cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
                     else:
@@ -151,16 +154,22 @@ class DataDump:
                                 for year in years_list:
                                     year_column = year_excel_col_map_dict.get(int(year))
                                     try:
-                                        cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[str(year)]
+                                        if statement_type=='cbs':
+                                            cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[str(year)]
+                                        if statement_type=='cpl':
+                                            cbs_worksheet.cell(row=excel_row_num,column=year_column).value = abs(row_note[str(year)])
                                     except:
                                         cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
                         else:
                             for main_year,value in zip(repsonse_dict.get("main_page_year_list"),repsonse_dict.get("main_page_year_total")):
                                 year_column = year_excel_col_map_dict.get(int(main_year))
                                 try:
-                                    cbs_worksheet.cell(row=total_row_num,column=year_column).value = value
+                                    if statement_type=='cbs':
+                                        cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = value
+                                    if statement_type=='cpl':
+                                        cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = abs(value)
                                 except:
-                                    cbs_worksheet.cell(row=total_row_num,column=year_column).value = 0.0  
+                                    cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = 0.0  
 
         if record_inserted:
             sheet_names = ["BS (Assets) breakdown","BS (Liabilities) breakdown","P & L breakdown"]
@@ -187,7 +196,7 @@ class DataDump:
         # month = get_month(fileid)
         year_excel_col_map_dict = self.get_years_excel_colmap(total_col=9)
         for page_number,cbs_dict in self.cbs_resposne_bucket.items():
-            self.insert_records(bs_crm_nlp_df_sorted=bs_crm_nlp_df_sorted_rev,cbs_resposne_bucket=cbs_dict,years_list=self.years_list,year_excel_col_map_dict=year_excel_col_map_dict)
+            self.insert_records(bs_crm_nlp_df_sorted=bs_crm_nlp_df_sorted_rev,cbs_resposne_bucket=cbs_dict,years_list=self.years_list,year_excel_col_map_dict=year_excel_col_map_dict,statement_type="cbs")
 
 
     def dump_cpl_data(self):
@@ -195,7 +204,7 @@ class DataDump:
         # month = get_month(fileid)
         year_excel_col_map_dict = self.get_years_excel_colmap(total_col=9)
         for page_number,cpl_dict in self.cpl_response_bucket.items():
-            self.insert_records(bs_crm_nlp_df_sorted=bs_crm_nlp_df_sorted_rev,cbs_resposne_bucket=cpl_dict,years_list=self.years_list,year_excel_col_map_dict=year_excel_col_map_dict)
+            self.insert_records(bs_crm_nlp_df_sorted=bs_crm_nlp_df_sorted_rev,cbs_resposne_bucket=cpl_dict,years_list=self.years_list,year_excel_col_map_dict=year_excel_col_map_dict,statement_type="cpl")
 
 
     def dump_ccf_data(self):
@@ -222,7 +231,7 @@ class DataDump:
 
     def save_excel(self):
         file_save_path = os.path.join(datadump_core_settings.cdm_template_save_dir,f"{self.filename}.xlsx")
-        print(file_save_path)
+        # print(file_save_path)
         self.workbook.save(file_save_path)
 
     # def calculate_and_update_accuracy(self):

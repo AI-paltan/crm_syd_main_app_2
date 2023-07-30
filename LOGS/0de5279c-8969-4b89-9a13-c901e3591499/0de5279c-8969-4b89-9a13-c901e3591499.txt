@@ -1,0 +1,2 @@
+2023-07-28 12:59:08+0530 - sLogger - DEBUG - module: TableExtractionService , File:wrapper.py,  function: process_file
+2023-07-28 12:59:08+0530 - sLogger - DEBUG - TE process file started

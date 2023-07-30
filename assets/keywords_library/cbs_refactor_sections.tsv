@@ -2,9 +2,15 @@ key	keyword
 assets	assets
 assets	current assets
 assets	noncurrent assets
+assets	currentassets
+assets	noncurrentassets
 equity_liabilities	liabilities
 equity_liabilities	equity
 equity_liabilities	current liabilities
 equity_liabilities	noncurrent liabilities
 equity_liabilities	equity and liabilities
 equity_liabilities	equity liabilities
+equity_liabilities	currentliabilities
+equity_liabilities	noncurrentliabilities
+equity_liabilities	equityandliabilities
+equity_liabilities	equityliabilities

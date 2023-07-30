@@ -1,3 +1,283 @@
+date 29 July 2023
+
+1.  Cash and cash equivalents  : ca_cash_and_cash_equivalents
+included main page keywords = 'cash and cash equivalents|bank balances other than cash and cash equivalents|bank balances other than above|other bank balances|cash and bank balances|cash and short term deposits| cash and cash equivalents|cash asset|Cash and short term deposits'
+note_page_include_keywords = 'cash on hand| cash at bank| cash at bank and on hand| short term deposits| cash at banks earns interest at floating rates based on daily bank deposit rates| cash and cash equivalents| cash on hand and at bank '
+
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='cash and cash equivalents|bank balances other than cash and cash equivalents|bank balances other than above|other bank balances|cash and bank balances|cash and short term deposits| cash and cash equivalents|cash asset|Cash and short term deposits'
+	WHERE meta_keyword='ca_cash_and_cash_equivalents';
+
+
+2. Account Receivables : ca_account_receivables
+main_page_targat_keywords = 'account receivables|trade receivables|government subsidies receivable|receivable|billed|unbilled|trade and other receivables'
+note_page_include_keywords = 'trade receivables| related party receivables| other debtors| share of joint venture receivables| net trade debtors'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  
+	note_keyword = 'trade receivables| related party receivables| other debtors| share of joint venture receivables| net trade debtors'
+	WHERE meta_keyword='ca_account_receivables';
+
+
+3. Other Current Assets: ca_other_current_assets
+main_page_include_keywords :  'other current assets|other assets| financial assets| income tax receivable from related parties| other current assets| biological assets| deferred operating expenditure| other financial assets| trade and other receivables'
+note_page_include_keywords: 'other assets| foreign exchange derivatives at fair value| electricity derivatives at fair value| accrued interest| other| related party disclosures| income tax receivable from related parties| derivative contracts - fair value| long service leave receivable| other receivables - related party| other deposits receivable - related party| deposits| amount receivable from controlling entity| interest receivable| bank guarantee| rental bond| related party receivable| share of jv prepayments| current investments| lng| condensate| foreign exchange forward contracts| accrued rebates| forward exchange contracts| other debtors and prepayments'
+note_page_exclude_keywords = 'noncurrent|non-current'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  
+	note_keyword = 'other assets|foreign exchange derivatives at fair value| electricity derivatives at fair value| accrued interest| other| related party disclosures| income tax receivable from related parties| derivative contracts - fair value| long service leave receivable| other receivables - related party| other deposits receivable - related party| deposits| amount receivable from controlling entity| interest receivable| bank guarantee| rental bond| related party receivable| share of jv prepayments| current investments| lng| condensate| foreign exchange forward contracts| accrued rebates| forward exchange contracts| other debtors and prepayments'
+	
+	WHERE meta_keyword='ca_other_current_assets';
+
+
+4. Other Tangible Assets: nca_other_tangible_assets
+old main_page_include_keywords :  'tangible|capital work-in-progress|capital workinprogress|capital work in progress|rightofuse|righttouse|right of use|right to use|work in progress
+new main_page_include_keywords: ''
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword = ''
+	WHERE meta_keyword='nca_other_tangible_assets';
+
+
+5. Other Intangible Assets: nca_other_intangible_assets
+main_page_include_keywords :  'intangible assets|intangible under development|intangible assets under development'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword =  'intangible assets|intangible under development|intangible assets under development'
+	WHERE meta_keyword='nca_other_intangible_assets';
+
+
+6. Other Assets: nca_other_assets
+main_page_include_keywords: 'other assets|non-current| financial assets| other non-current assets| exploration and evaluation expenditure| other assets| loan receivables| other non-current assets| leased assets| leases'
+note_page_include_keywords: 'finance receivables| allowance for expected credit losses| electricity derivatives at fair value| defined benefit plans| right-of-use-assets| exploration and evaluation expenditure| total properties| warehouse and office equipment| motor vehicles'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other assets|non-current| financial assets| other non-current assets| exploration and evaluation expenditure| other assets| loan receivables| other non-current assets| leased assets| leases'
+	note_keyword = 'finance receivables| allowance for expected credit losses| electricity derivatives at fair value| defined benefit plans| right-of-use-assets| exploration and evaluation expenditure| total properties| warehouse and office equipment| motor vehicles'
+	WHERE meta_keyword='nca_other_assets';
+
+
+
+7. Short Term Debt: cl_short_term_debt
+
+main_page_include_keywords: 'short term debt|short-term debt|borrowings|shortterm debt|shortterm borrowings|lease liabilities| loans and borrowings| bank overdraft| leases'
+note_page_include_keywords: 'bank borrowings| utilised – bank borrowings| leases| not later than 1 year| not later than one year| secured long-term bank loans| loans from related party| lease liabilities - current| lease liabilities| bank overdraft| balance at the end of period'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='short term debt|short-term debt|borrowings|shortterm debt|shortterm borrowings|lease liabilities| loans and borrowings| bank overdraft| leases',
+	note_keyword = 'bank borrowings| utilised – bank borrowings| leases| not later than 1 year| not later than one year| secured long-term bank loans| loans from related party| lease liabilities - current| lease liabilities| bank overdraft| balance at the end of period'
+	WHERE meta_keyword='cl_short_term_debt';
+
+
+
+
+8. Long term debt due in 1 year: cl_long_term_debt_due_in_year
+
+main_page_include_keywords: ''
+note_page_include_keywords: ''
+
+Query:
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='cl_long_term_debt_due_in_year';
+
+
+9. Note Payable(Debt): cl_note_payable_debt
+
+main_page_include_keywords: ''
+note_page_include_keywords: ''
+
+Query:
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='cl_note_payable_debt';
+
+
+10. Accounts Payable : cl_accounts_payable
+
+main_page_include_keywords: 'trade and other payables|trade payable|other trade payables'
+note_page_include_keywords: 'trade creditors| trade and other payables| trade payables| trade payables - other parties| trade payables| amounts payable to controlling entity| other trade payables'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='trade and other payables|trade payable|other trade payables',
+	note_keyword = 'trade creditors| trade and other payables| trade payables| trade payables - other parties| trade payables| amounts payable to controlling entity| other trade payables'
+	WHERE meta_keyword='cl_accounts_payable';
+
+
+
+11. Accrued Expenses: cl_accrued_expenses
+main_page_include_keywords: 'trade and other payables'
+note_page_include_keywords: 'accrued expenses|interest accrued'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='trade and other payables',
+	note_keyword = 'accrued expenses|interest accrued'
+	WHERE meta_keyword='cl_accrued_expenses';
+
+
+12. Other Current Liabilities : cl_other_current_liabilities
+main_page_include_keywords: 'other current liabilities|provisions| financial liabilities| trade and other payables| employee benefits| other current liabilities| other financial liabilities| deferred revenue| customer deposits| foreign exchange contract liability'
+note_page_include_keywords: 'other creditors and accruals| ultimate parent entity| other related parties| other creditors| derivative contracts - at fair value| loan payable to relayed party under tax funding agreement| secured long-term bank loans| loans from related party| other creditors| gst payable and accruals| employee benefits - current| current - liability for annual and long service leave| provisions - current| contract liabilites - current| share of joint venture payables| gst payables| employee benefits - payroll| abandonment and decommissioning costs| provision for associate funding| arising from service contracts| make good provisions| gst liabilities| gst| rebates| forward exchange contracts| other creditors| restructuring| warranty| other| total current employee benefits'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other current liabilities|provisions| financial liabilities| trade and other payables| employee benefits| other current liabilities| other financial liabilities| deferred revenue| customer deposits| foreign exchange contract liability',
+	note_keyword = 'other creditors and accruals| ultimate parent entity| other related parties| other creditors| derivative contracts - at fair value| loan payable to relayed party under tax funding agreement| secured long-term bank loans| loans from related party| other creditors| gst payable and accruals| employee benefits - current| current - liability for annual and long service leave| provisions - current| contract liabilites - current| share of joint venture payables| gst payables| employee benefits - payroll| abandonment and decommissioning costs| provision for associate funding| arising from service contracts| make good provisions| gst liabilities| gst| rebates| forward exchange contracts| other creditors| restructuring| warranty| other| total current employee benefits'
+	WHERE meta_keyword='cl_other_current_liabilities';
+
+
+
+13. Deferred Taxes: ncl_deferred_taxes
+
+main_page_include_keywords: 'deferred taxes|deferred tax liabilities'
+note_page_include_keywords: 'deferred tax liabilities|total deferred tax (assets) / liabilities'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='deferred taxes|deferred tax liabilities',
+	note_keyword = 'deferred tax liabilities|total deferred tax (assets) / liabilities'
+	WHERE meta_keyword='ncl_deferred_taxes';
+
+
+14. Minority Interest: ncl_minority_interest
+
+main_page_include_keywords: ''
+note_page_include_keywords: ''
+
+Query:
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='ncl_minority_interest';
+
+
+15. 
+Long Term Liabilities : ncl_long_term_liabilities
+
+main_page_include_keywords: ''
+note_page_include_keywords: ''
+
+Query:
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='ncl_long_term_liabilities';
+
+
+
+16. Common Stock: eqt_common_stock
+
+main_page_include_keywords: 'common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital|contributed equity'
+note_page_include_keywords: 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
+
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital |contributed equity',
+	note_keyword = 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
+	WHERE meta_keyword='eqt_common_stock';
+
+
+17. Additional Paid in Capital: eqt_additional_paid_in_capital
+
+main_page_include_keywords: ''
+note_page_include_keywords: ''
+
+Query:
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='eqt_additional_paid_in_capital';
+
+
+18. Other Reserves: eqt_other_reserves
+
+main_page_include_keywords: 'other reserves | reserves'
+note_page_include_keywords: 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other reserves | reserves',
+	note_keyword = 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
+	WHERE meta_keyword='eqt_other_reserves';
+
+
+19. Retained Earnings: eqt_retained_earnings
+
+main_page_include_keywords: 'other equity|reserves surplus|retained earnings| accumulated losses'
+note_page_include_keywords: 'retained earnings|general reserves|accumulated losses|retained earnings and dividends on equity instruments'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other equity|reserves surplus|retained earnings| accumulated losses',
+	note_keyword = 'retained earnings|general reserves|accumulated losses|retained earnings and dividends on equity instruments'
+	WHERE meta_keyword='eqt_retained_earnings';
+
+20. Others: eqt_others
+
+main_page_include_keywords: 'minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+note_page_include_keywords: 
+
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+	WHERE meta_keyword='eqt_others';
+
+
+Profit and loss
+
+
+21. SG&A Expense : sga_total_sga_expenses
+main_page_include_keywords: 'other expenses| depreciation|Distribution expenses| Marketing expenses| Occupancy expenses| Administrative expenses| Other expenses| Depreciation expenses| Selling & distribution expenses| Administrative and other expenses| Lease expenses| Occupancy | Administration expenses| Advertising expenses| Selling Expenses| Depreciation expenses| Amortisation expenses| Management expenses| Logistics and distribution| Sales and marketing| Other expenses'
+
+note_page_include_keywords= 'consum|power|machinery|charges|research|analytical|equipment|exchange|loss on|donation|csr|social|miscellaneous|loss allowance|Included in administrative expenses| Depreciation – property| plant and equipment| Depreciation – right-of-use assets| Administrative expenses| Wages and salaries| Compulsory superannuation contributions| Payroll on-costs (excluding employee benefit provision)| Staff welfare'
+
+Indian CRM code reference: sga_total_sga_expenses  | get_total_other_expense()
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other expenses| depreciation|Distribution expenses| Marketing expenses| Occupancy expenses| Administrative expenses| Other expenses| Depreciation expenses| Selling & distribution expenses| Administrative and other expenses| Lease expenses| Occupancy | Administration expenses| Advertising expenses| Selling Expenses| Depreciation expenses| Amortisation expenses| Management expenses| Logistics and distribution| Sales and marketing| Other expenses' , 
+	note_keyword='consum|power|machinery|charges|research|analytical|equipment|exchange|loss on|donation|csr|social|miscellaneous|loss allowance|Included in administrative expenses| Depreciation – property| plant and equipment| Depreciation – right-of-use assets| Administrative expenses| Wages and salaries| Compulsory superannuation contributions| Payroll on-costs (excluding employee benefit provision)| Staff welfare'
+	WHERE meta_keyword='sga_total_sga_expenses';
+
+
+
+22. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 date 24 July 2023
 6. Interest Income : smr_interest_income
@@ -23,6 +303,24 @@ query:  UPDATE public."CRM_nlp_bucketing"
 	 note_keyword='loan|debt|debenture|cash credit|borrowings|bank facilities|bonds|interest|Interest expenses| Discount unwind on the provision for asset retirement obligation|  Other interest expense| Interest on leases| Interest on bank overdrafts and loans (other than those from related parties)| Interest accrued on loans| Interest accrued on lease liabilities| Lease interest expense| Interest expense on financial liabilities using the effective interest rate method - other| Interest expense using the effective interest rate method - AASB 16 application lease liabilities| Lease liabilities interest expense',
 	exclude_note_keyword = 'interest income'
 	WHERE meta_keyword='smr_interest_expense';
+
+
+
+Others: eqt_others
+
+main_page_include_keywords: 'minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+note_page_include_keywords: 
+
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+	WHERE meta_keyword='eqt_others';
+
+
+
+
+
+
 
 
 

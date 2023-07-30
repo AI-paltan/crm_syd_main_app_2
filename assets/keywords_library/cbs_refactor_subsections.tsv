@@ -1,9 +1,16 @@
 key	keyword
 current	current assets
 noncurrent	noncurrent assets
+current	currentassets
+noncurrent	noncurrentassets
 current	current liabilities
+current	currentliabilities
 noncurrent	noncurrent liabilities
 noncurrent	non current assets
 noncurrent	non current liabilities
+noncurrent	noncurrentliabilities
+noncurrent	noncurrentassets
+noncurrent	noncurrentliabilities
 equity	equity and liabilities
 equity	equity
+equity	equityandliabilities

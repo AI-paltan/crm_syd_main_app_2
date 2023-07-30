@@ -436,6 +436,25 @@ def remove_total_lines_main_pages(df_datasheet,filepath,statement_type,obj_techf
         return df_datasheet
 
 
+def remove_main_page_line_items_if_no_notes_items(temp_dict):
+    ### for fields like rent in P&L statements
+    hrzntl_note_df = temp_dict["notes_horizontal_table_df"]
+    if len(hrzntl_note_df) == 0:
+        temp_dict["main_page_year_total"] = [0,0]
+        temp_dict["main_page_cropped_df"] = []
+    return temp_dict
+
+
+def append_main_page_line_item_with_notes_items():
+    ### for fields like other current assets, other noncurrent assets, other liabilities etc.
+    ###
+    pass
+
+def remove_main_page_line_items_if_no_notes_items_for_particular_statement(temp_dict,statement_type):
+    ###
+    pass
+
+
 ### sepecific utility fucntion for particular line items in particular statement type
 
 def second_filter_PPE(std_hrzntl_note_df,month):

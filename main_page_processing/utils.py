@@ -326,6 +326,28 @@ def set_headers(df,data_start_x,data_end_y,headers):
 
 
 def check_and_remove_duplicate_column(nte_df):
+    try:
+        cnt = 0
+        row_duplicate = 0
+        ratio_duplicate = 0
+        # if particular_end_col > 0 and particular_end_col==1:
+        for idx,row in nte_df.iterrows():
+            if not pd.isnull(row[1]):
+                if (fuzz.partial_ratio(str(row[1]),str(row[0])) > 95):
+                    row_duplicate = row_duplicate+1
+                cnt=cnt+1
+        if row_duplicate > 0:
+            ratio_duplicate = (row_duplicate/cnt)*100
+            if ratio_duplicate >= 90:  ## original 90 changed to 80 for kanematsu from 10 files on 26 july for new model as problem with row_col model
+                nte_df = nte_df.drop(nte_df.columns[1], axis=1).T.reset_index(drop=True).T
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: check_and_remove_duplicate_column")
+        Logger.logr.error(f"error occured: {e}")
+    # print(f"ratio_duplicate  = {ratio_duplicate}")
+    return nte_df
+
+def check_and_remove_duplicate_column_main_page(nte_df):
     cnt = 0
     row_duplicate = 0
     ratio_duplicate = 0
@@ -337,10 +359,80 @@ def check_and_remove_duplicate_column(nte_df):
             cnt=cnt+1
     if row_duplicate > 0:
         ratio_duplicate = (row_duplicate/cnt)*100
-        if ratio_duplicate >= 90:  ## original 90 changed to 80 for kanematsu from 10 files on 26 july for new model as problem with row_col model
+        # print(ratio_duplicate)
+        if ratio_duplicate >= 60:  ## original 90 changed to 80 for kanematsu from 10 files on 26 july for new model as problem with row_col model
+            ### for mrging data from dropped column to 1st column
+            for idx,row in nte_df.iterrows():
+                if not pd.isnull(row[1]):
+                    if (fuzz.partial_ratio(str(row[1]),str(row[0])) < 95):
+                        nte_df.at[idx,0] = nte_df.at[idx,0] + nte_df.at[idx,1]
             nte_df = nte_df.drop(nte_df.columns[1], axis=1).T.reset_index(drop=True).T
+
     # print(f"ratio_duplicate  = {ratio_duplicate}")
     return nte_df
+
+
+def find_and_remove_all_duplicate_columns(df):
+    # first identify all text columns
+    ## find all duplicate columns and drop them
+    ## take 1st column and find duplicate columns and merge them
+    ## then continue this procss from next to duplicate columns:
+    ## eg 1 and 2 are duplicate then next time take 3rd column and tsrt finding duplicate
+    def is_duplicate_fun(nte_df,col1,col2):
+        duplicate_flag  = False
+        cnt = 0
+        row_duplicate = 0
+        ratio_duplicate = 0
+        for idx,row in nte_df.iterrows():
+            if not pd.isnull(row[col2]):
+                if (fuzz.partial_ratio(str(row[col2]),str(row[col1])) > 95):
+                    row_duplicate = row_duplicate+1
+                cnt=cnt+1
+        if row_duplicate > 0:
+            ratio_duplicate = (row_duplicate/cnt)*100
+            # print(ratio_duplicate)
+            if ratio_duplicate >= 50: 
+                duplicate_flag = True
+        
+        return duplicate_flag
+    
+    def merge_two_columns(nte_df,col1,col2):
+        for idx,row in nte_df.iterrows():
+                if not pd.isnull(row[col2]):
+                    if (fuzz.partial_ratio(str(row[1]),str(row[0])) < 95):
+                        nte_df.at[idx,col1] = str(nte_df.at[idx,col1]) + str(nte_df.at[idx,col2])
+
+        return nte_df
+
+    # cnt = 0
+    # row_duplicate = 0
+    # ratio_duplicate = 0
+    try:
+        colmns_len = len(df.columns)
+        columns_done = 0
+        columns_to_drop = []
+        # for i in range(len(colmns_len)):
+        i = 0
+        j = 1
+        while i < colmns_len and j < colmns_len:
+            is_duplicate = is_duplicate_fun(df,i,j)
+            if is_duplicate:
+                columns_to_drop.append(j)
+                # print(f"i = {i} , j= {j}")
+                df = merge_two_columns(df,i,j)
+                j=j+1
+            else:
+                i = j + 1
+                j = i + 1
+
+        df = df.drop(df.columns[columns_to_drop], axis=1).T.reset_index(drop=True).T
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: find_and_remove_all_duplicate_columns")
+        Logger.logr.error(f"error occured: {e}")
+    return df
+    
+
 
 
 def main_page_table_preprocessing(table_df):
@@ -349,7 +441,7 @@ def main_page_table_preprocessing(table_df):
         cleaned_table_list = []
         for idx,value in sorted_table_df.iterrows():
             tb_df = pd.read_html(value.html_string)[0]
-            clean_tb_df  = check_and_remove_duplicate_column(nte_df=tb_df)
+            clean_tb_df  = check_and_remove_duplicate_column_main_page(nte_df=tb_df)
             cleaned_table_list.append(clean_tb_df)
         # print(cleaned_table_list)
         merged_table_df = merge_columnwise_tables(table_df_list=cleaned_table_list)
@@ -383,16 +475,17 @@ def merge_columnwise_tables(table_df_list):
     ### if column matched then merge columnwise as it it else 
     ## iterate over column and merge from last
     merged_table_df = []
-    merged_table_df = [table_df_list[0]]
-    if len(table_df_list)>1:
-        for table in table_df_list[1:]:
-            if len(merged_table_df[0].columns) == len(table.columns):
-                merged_table_df.append(table)
-                # merged_table_df = pd.concat(merged_table_df)
-            else:
-                ##check column length for tables (merged_table_df and next table from list)
-                ##table having more columns will get appended from data   
-                # for col1,col2 in zip():
-                pass
+    if len(table_df_list) > 0:
+        merged_table_df = [table_df_list[0]]
+        if len(table_df_list)>1:
+            for table in table_df_list[1:]:
+                if len(merged_table_df[0].columns) == len(table.columns):
+                    merged_table_df.append(table)
+                    # merged_table_df = pd.concat(merged_table_df)
+                else:
+                    ##check column length for tables (merged_table_df and next table from list)
+                    ##table having more columns will get appended from data   
+                    # for col1,col2 in zip():
+                    pass
     merged_table_df = pd.concat(merged_table_df)
     return merged_table_df

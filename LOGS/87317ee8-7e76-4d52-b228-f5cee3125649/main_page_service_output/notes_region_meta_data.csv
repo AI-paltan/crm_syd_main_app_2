@@ -1,0 +1,12 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+7,,[22],"[[190, 779, 508, 807]]",8,[22],"[[191, 1210, 1093, 1236]]",[UUID('df0110f4-e898-3866-8e36-9b61b50cb841')],"[[0, 1, 2, 3, 4, 5, 6, 7]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d597d3370>],['7']
+8,,[22],"[[191, 1210, 1093, 1236]]",9,[23],"[[190, 182, 644, 210]]",[],[],[],['8']
+9,,[23],"[[190, 182, 644, 210]]",10,[23],"[[190, 476, 600, 504]]",[UUID('80e0a238-0ec8-3261-a711-b1b20d4f2a94')],"[[0, 1, 2, 3, 4, 5, 6, 7]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d59795af0>],['9']
+10,,[23],"[[190, 476, 600, 504]]",11,[24],"[[188, 210, 503, 236]]",[UUID('80e0a238-0ec8-3261-a711-b1b20d4f2a94')],"[[7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d59795af0>],['10']
+11,,[24],"[[188, 210, 503, 236]]",12,[24],"[[187, 516, 772, 542]]",[UUID('7fe8a97e-7a0d-3d71-ab93-3709e82e3840')],"[[0, 1, 2, 3, 4, 5]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d5983f610>],['11']
+12,,[24],"[[187, 516, 772, 542]]",13,[24],"[[187, 687, 596, 713]]",[],[],[],['12']
+13,,[24],"[[187, 687, 596, 713]]",14,[24],"[[187, 1114, 457, 1142]]",[UUID('b7b45bb5-f567-3ec2-9ea7-f2f0c053d240')],"[[0, 1, 2, 3, 4, 5, 6]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d597cba30>],['13']
+14,,[24],"[[187, 1114, 457, 1142]]",15,[25],"[[188, 210, 722, 236]]",[UUID('e771120a-b67f-370d-9428-08e5afbc8640')],"[[0, 1, 2]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d59831880>],['14']
+15,,[25],"[[188, 210, 722, 236]]",16,[25],"[[187, 876, 478, 902]]","[UUID('eb30d9a2-368a-330f-9216-7e6b4f3b8722'), UUID('e50133d1-e81d-39aa-a586-090b96981a76')]","[[0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5]]","[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d597a3280>, <CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d597a3520>]",['15']
+16,,[25],"[[187, 876, 478, 902]]",17,[25],"[[187, 1256, 415, 1284]]",[UUID('0ea175ba-6570-30df-99a6-ffac23fe919e')],"[[0, 1, 2, 3, 4, 5, 6]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d5982b850>],"['16', '16']"
+17,,[25],"[[187, 1256, 415, 1284]]",18,[26],"[[187, 292, 525, 320]]",[UUID('7dfaddb8-7dab-3bbc-b77b-a2a89e683c4f')],"[[0, 1, 2]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f5d5982b880>],['17']
