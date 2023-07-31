@@ -1,3 +1,150 @@
+date 31 July 2023
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='cash and cash equivalents|bank balances other than cash and cash equivalents|bank balances other than above|other bank balances|cash and bank balances|cash and short term deposits| cash and cash equivalents|cash asset|Cash and short term deposits|cash asset'
+	WHERE meta_keyword='ca_cash_and_cash_equivalents';
+
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  
+	note_keyword = 'trade receivables| related party receivables| other debtors| share of joint venture receivables| net trade debtors|charges paid in advance'
+	WHERE meta_keyword='ca_account_receivables';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='plant property equipment|property plant equipment|plant and equipment'
+	WHERE meta_keyword='nca_gross_ppe';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='plant property equipment|property plant equipment|plant and equipment'
+	WHERE meta_keyword='nca_accumulated_depreciation';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword = ''
+	WHERE meta_keyword='nca_other_tangible_assets';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword =  'intangible assets|intangible under development|intangible assets under development'
+	WHERE meta_keyword='nca_other_intangible_assets';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other assets|non-current| financial assets| other non-current assets| exploration and evaluation expenditure| other assets| loan receivables| other non-current assets| leased assets| leases'
+	note_keyword = 'finance receivables| allowance for expected credit losses| electricity derivatives at fair value| defined benefit plans| right-of-use-assets| exploration and evaluation expenditure| total properties| warehouse and office equipment| motor vehicles'
+	WHERE meta_keyword='nca_other_assets';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='short term debt|short-term debt|borrowings|shortterm debt|shortterm borrowings|lease liabilities| loans and borrowings| bank overdraft| leases| interest bearing liabilites',
+	note_keyword = 'bank borrowings| utilised – bank borrowings| leases| not later than 1 year| not later than one year| secured long-term bank loans| loans from related party| lease liabilities - current| lease liabilities| bank overdraft| balance at the end of period'
+	WHERE meta_keyword='cl_short_term_debt';
+
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='cl_long_term_debt_due_in_year';
+
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='cl_note_payable_debt';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='trade and other payables|trade payable|other trade payables',
+	note_keyword = 'trade creditors| trade and other payables| trade payables| trade payables - other parties| trade payables| amounts payable to controlling entity| other trade payables'
+	WHERE meta_keyword='cl_accounts_payable';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='trade and other payables',
+	note_keyword = 'accrued expenses|interest accrued'
+	WHERE meta_keyword='cl_accrued_expenses';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='current tax liabilities| income tax payable|tax|provision'
+	note_keyword = 'income tax (refundable)/payable | provision for income tax'
+	WHERE meta_keyword='cl_tax_payable';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='trade and other payables',
+	note_keyword = 'accrued expenses|interest accrued'
+	WHERE meta_keyword='cl_accrued_expenses';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other current liabilities|provisions| financial liabilities| trade and other payables| employee benefits| other current liabilities| other financial liabilities| deferred revenue| customer deposits| foreign exchange contract liability',
+	note_keyword = 'other creditors and accruals| ultimate parent entity| other related parties| other creditors| derivative contracts - at fair value| loan payable to relayed party under tax funding agreement| secured long-term bank loans| loans from related party| other creditors| gst payable and accruals| employee benefits - current| current - liability for annual and long service leave| provisions - current| contract liabilites - current| share of joint venture payables| gst payables| employee benefits - payroll| abandonment and decommissioning costs| provision for associate funding| arising from service contracts| make good provisions| gst liabilities| gst| rebates| forward exchange contracts| other creditors| restructuring| warranty| other| total current employee benefits'
+	WHERE meta_keyword='cl_other_current_liabilities';
+
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='deferred taxes|deferred tax liabilities',
+	note_keyword = 'deferred tax liabilities|total deferred tax (assets) / liabilities'
+	WHERE meta_keyword='ncl_deferred_taxes';
+
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='ncl_minority_interest';
+
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='ncl_long_term_liabilities';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital |contributed equity',
+	note_keyword = 'ordinary shares| fully paid ordinary shares| issued and paid-up share capital| retained profits| ordinary shares fully paid| total issued capital'
+	WHERE meta_keyword='eqt_common_stock';
+
+
+UPDATE public."CRM_nlp_bucketing"
+SET  target_keyword='',
+note_keyword = ''
+WHERE meta_keyword='eqt_additional_paid_in_capital';
+
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other reserves | reserves',
+	note_keyword = 'foreign currency translation reserve| cash flow hedge reserve| reserve in joint venture| other reserve| total other reserves'
+	WHERE meta_keyword='eqt_other_reserves';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other equity|reserves surplus|retained earnings| accumulated losses',
+	note_keyword = 'retained earnings|general reserves|accumulated losses|retained earnings and dividends on equity instruments'
+	WHERE meta_keyword='eqt_retained_earnings';
+
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='minority interest|non controlling interest|noncontrolling interest|minority interest| non-controlling interest'
+	WHERE meta_keyword='eqt_others';
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='other expenses| depreciation|Distribution expenses| Marketing expenses| Occupancy expenses| Administrative expenses| Other expenses| Depreciation expenses| Selling & distribution expenses| Administrative and other expenses| Lease expenses| Occupancy | Administration expenses| Advertising expenses| Selling Expenses| Depreciation expenses| Amortisation expenses| Management expenses| Logistics and distribution| Sales and marketing| Other expenses' , 
+	note_keyword='consum|power|machinery|charges|research|analytical|equipment|exchange|loss on|donation|csr|social|miscellaneous|loss allowance|Included in administrative expenses| Depreciation – property| plant and equipment| Depreciation – right-of-use assets| Administrative expenses| Wages and salaries| Compulsory superannuation contributions| Payroll on-costs (excluding employee benefit provision)| Staff welfare'
+	WHERE meta_keyword='sga_total_sga_expenses';
+
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='revenue from operations|sale of products|net sales|revenue from contracts with customers|transmission and distribution business|from trading business|Revenue from contract with customers| Sale of coal| Sales revenue| Revenue| revenue from continuing activities'
+	WHERE meta_keyword='smr_sales';	
+
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='purchase of stock-in-trade|expense|expenditure|total expenses|total expenditure|cost of sales|Cost of sales| Cost of product sold| cost of coal sold| Cost of goods and services sold| Cost of inventory sold| Personnel costs| cost of goods sold'
+	WHERE meta_keyword='cost_of_sales';
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 11 July 2023
 UPDATE public."CRM_nlp_bucketing"
 	SET  target_keyword='common stock|share capital|equity share capital|perpetual equity instrument|contributed equity| issued capital| share capital |contributed equity',

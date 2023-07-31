@@ -43,9 +43,10 @@ class DataDump:
     def get_year_list(self):
         for k,v in self.meta_dict.items():
             # print(v)
-            self.years_list = v["year_list"]
-            self.years_list = sorted(self.years_list)
-            break
+            if len(v)>1:
+                self.years_list = v["year_list"]
+                self.years_list = sorted(self.years_list)
+                break
 
     def get_crm_nlp_df(self,statement_type):
         df_crm_nlp_bucket_master = db.query(db_models.CRM_nlp_bucketing)

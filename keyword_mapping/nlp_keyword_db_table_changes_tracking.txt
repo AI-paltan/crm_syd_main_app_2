@@ -1,22 +1,22 @@
 date 29 July 2023
 
 1.  Cash and cash equivalents  : ca_cash_and_cash_equivalents
-included main page keywords = 'cash and cash equivalents|bank balances other than cash and cash equivalents|bank balances other than above|other bank balances|cash and bank balances|cash and short term deposits| cash and cash equivalents|cash asset|Cash and short term deposits'
+included main page keywords = 'cash and cash equivalents|bank balances other than cash and cash equivalents|bank balances other than above|other bank balances|cash and bank balances|cash and short term deposits| cash and cash equivalents|cash asset|Cash and short term deposits|cash asset'
 note_page_include_keywords = 'cash on hand| cash at bank| cash at bank and on hand| short term deposits| cash at banks earns interest at floating rates based on daily bank deposit rates| cash and cash equivalents| cash on hand and at bank '
 
 
 Query: UPDATE public."CRM_nlp_bucketing"
-	SET  target_keyword='cash and cash equivalents|bank balances other than cash and cash equivalents|bank balances other than above|other bank balances|cash and bank balances|cash and short term deposits| cash and cash equivalents|cash asset|Cash and short term deposits'
+	SET  target_keyword='cash and cash equivalents|bank balances other than cash and cash equivalents|bank balances other than above|other bank balances|cash and bank balances|cash and short term deposits| cash and cash equivalents|cash asset|Cash and short term deposits|cash asset'
 	WHERE meta_keyword='ca_cash_and_cash_equivalents';
 
 
 2. Account Receivables : ca_account_receivables
 main_page_targat_keywords = 'account receivables|trade receivables|government subsidies receivable|receivable|billed|unbilled|trade and other receivables'
-note_page_include_keywords = 'trade receivables| related party receivables| other debtors| share of joint venture receivables| net trade debtors'
+note_page_include_keywords = 'trade receivables| related party receivables| other debtors| share of joint venture receivables| net trade debtors|charges paid in advance'
 
 Query: UPDATE public."CRM_nlp_bucketing"
 	SET  
-	note_keyword = 'trade receivables| related party receivables| other debtors| share of joint venture receivables| net trade debtors'
+	note_keyword = 'trade receivables| related party receivables| other debtors| share of joint venture receivables| net trade debtors|charges paid in advance'
 	WHERE meta_keyword='ca_account_receivables';
 
 
@@ -30,6 +30,37 @@ Query: UPDATE public."CRM_nlp_bucketing"
 	note_keyword = 'other assets|foreign exchange derivatives at fair value| electricity derivatives at fair value| accrued interest| other| related party disclosures| income tax receivable from related parties| derivative contracts - fair value| long service leave receivable| other receivables - related party| other deposits receivable - related party| deposits| amount receivable from controlling entity| interest receivable| bank guarantee| rental bond| related party receivable| share of jv prepayments| current investments| lng| condensate| foreign exchange forward contracts| accrued rebates| forward exchange contracts| other debtors and prepayments'
 	
 	WHERE meta_keyword='ca_other_current_assets';
+
+
+A
+(Gross Plant Property Equipment): nca_gross_ppe
+
+main_page_include_keywords: 'plant property equipment|property plant equipment|plant and equipment'
+note_page_include_keywords: 'cost|gross'
+note_page_exclude_keywords : 'depreciatio|accumulated depreciation|net value|net book value'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='plant property equipment|property plant equipment||plant and equipment
+	WHERE meta_keyword='nca_gross_ppe';
+
+### getting only total columns
+UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='plant property equipment|property plant equipment|plant and equipment'
+	WHERE meta_keyword='nca_gross_ppe';
+
+
+B
+(Accumulated Depreciation) ( - ): nca_accumulated_depreciation
+
+main_page_include_keywords: 'plant property equipment|property plant equipment|plant and equipment'
+note_page_include_keywords: 'depreciatio|accumulated depreciation'
+note_page_exclude_keywords : 'cost|gross|net value|net book value'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='plant property equipment|property plant equipment|plant and equipment'
+	WHERE meta_keyword='nca_accumulated_depreciation';
+
+
 
 
 4. Other Tangible Assets: nca_other_tangible_assets
@@ -62,11 +93,11 @@ Query: UPDATE public."CRM_nlp_bucketing"
 
 7. Short Term Debt: cl_short_term_debt
 
-main_page_include_keywords: 'short term debt|short-term debt|borrowings|shortterm debt|shortterm borrowings|lease liabilities| loans and borrowings| bank overdraft| leases'
+main_page_include_keywords: 'short term debt|short-term debt|borrowings|shortterm debt|shortterm borrowings|lease liabilities| loans and borrowings| bank overdraft| leases | interest bearing liabilites'
 note_page_include_keywords: 'bank borrowings| utilised – bank borrowings| leases| not later than 1 year| not later than one year| secured long-term bank loans| loans from related party| lease liabilities - current| lease liabilities| bank overdraft| balance at the end of period'
 
 Query: UPDATE public."CRM_nlp_bucketing"
-	SET  target_keyword='short term debt|short-term debt|borrowings|shortterm debt|shortterm borrowings|lease liabilities| loans and borrowings| bank overdraft| leases',
+	SET  target_keyword='short term debt|short-term debt|borrowings|shortterm debt|shortterm borrowings|lease liabilities| loans and borrowings| bank overdraft| leases| interest bearing liabilites',
 	note_keyword = 'bank borrowings| utilised – bank borrowings| leases| not later than 1 year| not later than one year| secured long-term bank loans| loans from related party| lease liabilities - current| lease liabilities| bank overdraft| balance at the end of period'
 	WHERE meta_keyword='cl_short_term_debt';
 
@@ -107,6 +138,17 @@ Query: UPDATE public."CRM_nlp_bucketing"
 	note_keyword = 'trade creditors| trade and other payables| trade payables| trade payables - other parties| trade payables| amounts payable to controlling entity| other trade payables'
 	WHERE meta_keyword='cl_accounts_payable';
 
+
+
+D:
+ Tax Payable: cl_tax_payable
+main_page_include_keywords: 'current tax liabilities| income tax payable|tax|provision'
+note_page_include_keywords: 'income tax (refundable)/payable | provision for income tax'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='current tax liabilities| income tax payable|tax|provision'
+	note_keyword = 'income tax (refundable)/payable | provision for income tax'
+	WHERE meta_keyword='cl_tax_payable';
 
 
 11. Accrued Expenses: cl_accrued_expenses
@@ -241,7 +283,24 @@ Query: UPDATE public."CRM_nlp_bucketing"
 
 
 22. 
+Sales : smr_sales
+included main page keywords = 'revenue from operations|sale of products|net sales|revenue from contracts with customers|transmission and distribution business|from trading business|Revenue from contract with customers| Sale of coal| Sales revenue| Revenue | revenue from continuing activities'
+note_page_include_keywords= 'Sale of goods| LNG| Condensate| Domgas| Feed gas income| Gas transportation income| Sale of goods - Cars| Sale of goods - Motorcycles| Sale of goods - Marine| Sale of goods - Spareparts| Total Revenue| Goods sold to customer from warehouse| Goods sold to customer direct from supplier'
 
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='revenue from operations|sale of products|net sales|revenue from contracts with customers|transmission and distribution business|from trading business|Revenue from contract with customers| Sale of coal| Sales revenue| Revenue| revenue from continuing activities'
+	WHERE meta_keyword='smr_sales';
+
+
+
+23. 
+Cost of Sales : cost_of_sales
+included main page keywords = 'purchase of stock-in-trade|expense|expenditure|total expenses|total expenditure|cost of sales|Cost of sales| Cost of product sold| cost of coal sold| Cost of goods and services sold| Cost of inventory sold| Personnel costs | cost of goods sold'
+Included note keywords = 'Included in cost of sales'
+
+Query: UPDATE public."CRM_nlp_bucketing"
+	SET  target_keyword='purchase of stock-in-trade|expense|expenditure|total expenses|total expenditure|cost of sales|Cost of sales| Cost of product sold| cost of coal sold| Cost of goods and services sold| Cost of inventory sold| Personnel costs| cost of goods sold'
+	WHERE meta_keyword='cost_of_sales';
 
 
 
@@ -406,7 +465,7 @@ UPDATE public."CRM_nlp_bucketing"
 
 
 7. 
-(Accumulated Depreciation) ( - ): nca_gross_ppe
+(Accumulated Depreciation) ( - ): nca_accumulated_depreciation
 
 main_page_include_keywords: 'plant property equipment|property plant equipment'
 note_page_include_keywords: 'depreciatio|accumulated depreciation'

@@ -323,10 +323,13 @@ def convert_note_df_to_hotizontal(note_df):
 
 
 def get_matched_main_page_df(main_page_data_indices,df):
-    # if len(main_page_data_indices)>0:
-    # print(df)
-    df.reset_index(drop=True,inplace=False)
-    matched_main_page_df = df.iloc[main_page_data_indices]
+    matched_main_page_df = pd.DataFrame()
+    if len(main_page_data_indices)>0:
+    # df.reset_index(drop=True,inplace=False)
+        # print(df)
+        # print(main_page_data_indices)
+        # print(df.iloc[main_page_data_indices])
+        matched_main_page_df = df.iloc[main_page_data_indices]
     # else:
     #     matched_main_page_df = df
     return matched_main_page_df

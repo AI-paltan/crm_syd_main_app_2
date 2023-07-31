@@ -102,6 +102,8 @@ class ProfitLossDataBucketing():
         main_page_particular_text_list = []
         main_page_value_list = []
         self.df_datasheet = remove_total_lines_main_pages(df_datasheet=self.df_datasheet,filepath=keyword_mapping_settings.mastersheet_filter_particulars,statement_type='cpl',obj_techfuzzy=self.obj_techfuzzy)
+        self.df_datasheet = self.df_datasheet.reset_index(drop=True)
+        # print(self.df_datasheet)
         for year in self.years_list:
             # print(year)
             main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh,match_type=match_type)
