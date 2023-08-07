@@ -38,11 +38,15 @@ class BalanceSheetDataBucketing():
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: Keyword Mapping , File:BalanceSheetDataBucketing.py,  function: fetch_report")
         self.report_data_tuning()
+        self.get_TOTAL_CURRENT_ASSETS()
+        self.get_TOTAL_NON_CURRENT_ASSET()
+        self.get_TOTAL_CURRENT_LIABILITIES()
+        self.get_TOTAL_NON_CURRENT_LIABILITIES()
         self.get_CASH_AND_CASH_EQUIVALENTS()
         self.get_INVENTORIES()
         self.get_PREPAID_EXPNS()
         self.get_OTHER_CURR_AST()
-        self.get_CURR_AST()
+        # self.get_CURR_AST()
         self.get_ACCUMLATED_DEPRE()
         self.get_NET_PLANT_PRPTY_AND_EQPMNT()
         self.get_OTHER_TANGIBLE_AST()
@@ -53,7 +57,7 @@ class BalanceSheetDataBucketing():
         self.get_INVSTMENT()
         self.get_DEFFERED_CHARGES()
         self.get_OTHER_AST()
-        self.get_NON_CURR_AST_TOTAL() ## can skip this as this is excel formula
+        # self.get_NON_CURR_AST_TOTAL() ## can skip this as this is excel formula
         self.get_SHORT_TERM_DEBT()
         self.get_LONG_TERM_DEBT_DUE_IN_ONE_Y()
         self.get_NOTE_PAYABLE()
@@ -61,7 +65,7 @@ class BalanceSheetDataBucketing():
         self.get_ACCURED_EXPNS()
         self.get_TAX_PAYABLE()
         self.get_OTHER_CURR_LIAB()
-        self.get_CURR_LIAB() ## can skip this as this is excel formula
+        # self.get_CURR_LIAB() ## can skip this as this is excel formula
         self.get_LONG_TERM_DEBT()
         self.get_LONG_TERM_BORROWING()
         self.get_BOND()
@@ -101,11 +105,15 @@ class BalanceSheetDataBucketing():
         main_page_data_indices = []
         main_page_year_total_lst = []
         main_page_raw_note_list = []
+        main_page_note_list = []
         main_page_particular_text_list = []
         main_page_value_list = []
         matched_main_page_df = []
         notes_table_df = []
         temp_horizontal_df = []
+        main_page_notes_found_main_page_particular = []
+        main_page_notes_notfound_main_page_particular  =[]
+        remaning_temp_horizontal_df = []
         ## clear total keyowrds line items from main pages
         try:
             df_datasheet = remove_total_lines_main_pages(df_datasheet=df_datasheet,filepath=keyword_mapping_settings.mastersheet_filter_particulars,statement_type='cbs',obj_techfuzzy=self.obj_techfuzzy)
@@ -120,33 +128,81 @@ class BalanceSheetDataBucketing():
                 main_page_value_list.append(main_page_best_match.get("line_item_value"))
                 # print(list(main_page_best_match.get("label")))
             # print(f"main_page_best_match:= {main_page_best_match}")
-            filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cbs")
+            filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list,notes_found_main_page_particular,notes_notfound_main_page_particular = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cbs")
             # print(f"1.raw_note_list: {raw_note_list},note_number_list: {note_number_list},sbnoue: {subnote_number_list},tableid:{tableid_list}")
             # print(f"len of std dict {len(filtered_standardised_tables_dict)} and len of trasnformed std dict: {len(filtered_transformed_standardised_tables_dict)}")
-            noted_dict_respnse_after_filtering_keywrods = get_notes_dfDict_after_filtering_keywords(note_number_list=note_number_list,subnote_number_list=subnote_number_list,tableid_list=tableid_list,filtered_transformed_standardised_tables_dict=filtered_transformed_standardised_tables_dict,obj_techfuzzy=self.obj_techfuzzy,conf_score=self.conf_score_thresh,match_type='partial',notes_include_keywords=note_page_include_keywords,notes_exclude_keywords=notes_page_exclude_keywords)
+            # print(notes_found_main_page_particular)
+            main_page_raw_note_list = list(set(raw_note_list))
+            main_page_note_list = list(set(note_number_list))
+            
+            main_page_notes_found_main_page_particular = list(set(notes_found_main_page_particular))
+            main_page_notes_notfound_main_page_particular = list(set(notes_notfound_main_page_particular))
+            # print("upper mainpage: ",main_page_notes_found_main_page_particular)
+            noted_dict_respnse_after_filtering_keywrods,remaining_response_notes_dict = get_notes_dfDict_after_filtering_keywords(note_number_list=note_number_list,subnote_number_list=subnote_number_list,tableid_list=tableid_list,filtered_transformed_standardised_tables_dict=filtered_transformed_standardised_tables_dict,obj_techfuzzy=self.obj_techfuzzy,conf_score=self.conf_score_thresh,match_type='partial',notes_include_keywords=note_page_include_keywords,notes_exclude_keywords=notes_page_exclude_keywords)
+            # not_visited_notes_line_items_df_var = not_visited_notes_line_items_df
             temp_df,temp_horizontal_df = prepare_df_for_dumping2(raw_note_list,note_number_list,subnote_number_list,tableid_list,noted_dict_respnse_after_filtering_keywrods)
-            notes_table_df = pd.concat([notes_table_df,temp_df],ignore_index=True)
-            main_page_raw_note_list = raw_note_list
+            # notes_table_df = pd.concat([notes_table_df,temp_df],ignore_index=True)
+            remaining_temp_df,remaning_temp_horizontal_df = prepare_df_for_dumping2(raw_note_list,note_number_list,subnote_number_list,tableid_list,remaining_response_notes_dict)
+
+            
             # print(main_page_data_indices)
             matched_main_page_df = get_matched_main_page_df(main_page_data_indices=main_page_data_indices,df=self.df_datasheet)
             temp_horizontal_df = postprocessing_note_df(std_hrzntl_nte_df=temp_horizontal_df)
+            remaning_temp_horizontal_df = postprocessing_note_df(remaning_temp_horizontal_df)
+            ## remaining notes df conversion and post processing
+
+
         except Exception as e:
             from ..logging_module.logging_wrapper import Logger
             Logger.logr.debug("module: Keyword Mapping , File:BalanceSheetDataBucketing.py,  function: get_cdm_item_data_buckets")
             Logger.logr.error(f"error occured: {e}")
+            print(e)
             # get_notes_pages_line_items()
         temp_dict ={}
         temp_dict["main_page_row_indices"] = main_page_data_indices
         temp_dict["main_page_year_total"] =main_page_year_total_lst
         temp_dict["main_page_year_list"] = self.years_list
         temp_dict["main_page_raw_note"] =main_page_raw_note_list
+        temp_dict["main_page_note_number_list"] = main_page_note_list
         temp_dict["main_page_particular_text_list"] = main_page_particular_text_list
         temp_dict["main_page_value_list"] = main_page_value_list
         temp_dict["main_page_cropped_df"] = matched_main_page_df
         temp_dict["notes_table_df"] = notes_table_df
         temp_dict["notes_horizontal_table_df"] = temp_horizontal_df
+        temp_dict["remaining_notes_horizontal_table_df"] = remaning_temp_horizontal_df
+        # print("lower ",main_page_notes_found_main_page_particular)
+        temp_dict["main_page_notes_found_main_page_particular"] = main_page_notes_found_main_page_particular
+        temp_dict["main_page_notes_notfound_main_page_particular"] = main_page_notes_notfound_main_page_particular
         return temp_dict
   
+
+    def get_TOTAL_CURRENT_ASSETS(self):
+        meta_keywrods = "ca_total_current_assets"
+        total_subset_df = get_main_page_total_subsections(df_datasheet=self.df_datasheet,filepath=keyword_mapping_settings.mastersheet_total_particulars,field_meta_tag="ca_total_current_assets",obj_techfuzzy=self.obj_techfuzzy)
+        temp_dict = {}
+        temp_dict["total_subset_df"] = total_subset_df
+        self.bs_bucketing_dict[meta_keywrods] = temp_dict
+                                                           
+    def get_TOTAL_NON_CURRENT_ASSET(self):
+        meta_keywrods = "nca_total_non_current_assets"
+        total_subset_df = get_main_page_total_subsections(df_datasheet=self.df_datasheet,filepath=keyword_mapping_settings.mastersheet_total_particulars,field_meta_tag="nca_total_non_current_assets",obj_techfuzzy=self.obj_techfuzzy)
+        temp_dict = {}
+        temp_dict["total_subset_df"] = total_subset_df
+        self.bs_bucketing_dict[meta_keywrods] = temp_dict
+
+    def get_TOTAL_CURRENT_LIABILITIES(self):
+        meta_keywrods = "cl_total_current_liabilities"
+        total_subset_df = get_main_page_total_subsections(df_datasheet=self.df_datasheet,filepath=keyword_mapping_settings.mastersheet_total_particulars,field_meta_tag="cl_total_current_liabilities",obj_techfuzzy=self.obj_techfuzzy)
+        temp_dict = {}
+        temp_dict["total_subset_df"] = total_subset_df
+        self.bs_bucketing_dict[meta_keywrods] = temp_dict
+
+    def get_TOTAL_NON_CURRENT_LIABILITIES(self):
+        meta_keywrods = "ncl_total_non_current_liabilities"
+        total_subset_df = get_main_page_total_subsections(df_datasheet=self.df_datasheet,filepath=keyword_mapping_settings.mastersheet_total_particulars,field_meta_tag="ncl_total_non_current_liabilities",obj_techfuzzy=self.obj_techfuzzy)
+        temp_dict = {}
+        temp_dict["total_subset_df"] = total_subset_df
+        self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_CASH_AND_CASH_EQUIVALENTS(self):
         meta_keywrods = "ca_cash_and_cash_equivalents"
@@ -194,6 +250,7 @@ class BalanceSheetDataBucketing():
         # current noncurrent filtering
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = current_word_filter(std_hrzntl_note_df=hrzntl_df)
+        temp_dict = calculate_other_current_assets(self.bs_bucketing_dict['ca_total_current_assets']['total_subset_df'],self.bs_bucketing_dict,temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_CURR_AST(self):
@@ -312,6 +369,7 @@ class BalanceSheetDataBucketing():
         ## noncurrent filtering
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = noncurrent_word_filter(std_hrzntl_note_df=hrzntl_df)
+        temp_dict = calculate_other_non_current_assets(self.bs_bucketing_dict['nca_total_non_current_assets']['total_subset_df'],self.bs_bucketing_dict,temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_NON_CURR_AST_TOTAL(self):
@@ -401,6 +459,7 @@ class BalanceSheetDataBucketing():
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,df_datasheet=df_data,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = current_word_filter(std_hrzntl_note_df=hrzntl_df)
+        temp_dict = calculate_other_current_liabilities(self.bs_bucketing_dict['cl_total_current_liabilities']['total_subset_df'],self.bs_bucketing_dict,temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_CURR_LIAB(self):

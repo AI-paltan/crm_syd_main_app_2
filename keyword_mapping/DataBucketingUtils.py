@@ -104,7 +104,10 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
     subnote_number_list =[]
     tableid_list_main = []
     prcoessed_tabelids = []
+    notes_found_main_page_particular = []
+    notes_notfound_main_page_particular = []
     # print(notes_region_meta_data)
+<<<<<<< HEAD
     try:
         for account,note_nums in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers')):
             # print(f"account: {account} and note= {note_nums}")
@@ -157,8 +160,68 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: keyword_mapping , File:DataBucketingUtils.py,  function: get_notes_tables_from_meta_dict_and_standardized_notes_dict")
         Logger.logr.error(f"error occured: {e}")                
+=======
+    for account,note_nums in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers')):
+        # print(f"account: {account} and note= {note_nums}")
+        # if len(note_nums) >= 1:
+        reference_notes_dict = notes_reference_dict.get(statement_type)
+        # print(f"reference_notes_dict = {reference_notes_dict}")
+        # for account in account_list:
+            # print(f"account = {account}")
+        
+        for refe_notes in reference_notes_dict:
+            # print(f"refe_notes = {refe_notes}")
+            if str(account) == str(refe_notes.get('particular')):
+                # print("yes matched")
+                
+                for note,subnote in zip(refe_notes.get('main_note_number'),refe_notes.get('subnote_number')):
+                    # note = refe_notes.get('main_note_number')
+                    # subnote = refe_notes.get('subnote_number')
+                    # print(notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values)
+                    lst = notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values
+                    if len(lst)>0:
+                        ##visited
+                    # tableid_list = notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values[0]
+                        tableid_list = list(set(lst[0]))
+                        # for idx,tableid_row in tableid_list.iterrows():
+                        # print(f"note : {note} nad subnote: {subnote}")
+                        # print(f"tableid list : {tableid_list}")
+                        # print(len(tableid_list))
+                        if len(tableid_list)>=1:
+                            for i in range(len(tableid_list)):
+                                # print(f"i{i}")
+                                
+                                tableid = tableid_list[i]
+                                if tableid not in prcoessed_tabelids:
+                                    # print(f"note : {note} nad subnote: {subnote}")
+                                    # print(f"tableid list : {tableid_list}")
+                                    # print(f"tableid={tableid}")
+                                    combo_key = str(note)+"_"+str(subnote)+"_"+str(tableid)
+                                    # print(f"combo key = {combo_key}")
+                                    # filtered_standardised_tables_dict[tableid] = standardised_cropped_dict.get(tableid)
+                                    # filtered_transformed_standardised_tables_dict[tableid] = trasnformed_standardised_cropped_dict.get(tableid)
+                                    filtered_standardised_tables_dict[combo_key] = standardised_cropped_dict.get(combo_key)
+                                    # print(filtered_standardised_tables_dict[combo_key])
+                                    filtered_transformed_standardised_tables_dict[combo_key] = trasnformed_standardised_cropped_dict.get(combo_key)
+                                    # print(filtered_transformed_standardised_tables_dict[combo_key])
+                                    raw_note_list.append(refe_notes.get('raw_note_no'))
+                                    note_number_list.append(note)
+                                    subnote_number_list.append(subnote)
+                                    tableid_list_main.append(tableid)
+                                    prcoessed_tabelids.append(tableid)
+                                    notes_found_main_page_particular.append(account)
+                        else:
+                            ## if no notes tables found code to tack those main page line items
+                            notes_notfound_main_page_particular.append(account)
+            else:
+                ## if no notes tables found code to tack those main page line items
+                notes_notfound_main_page_particular.append(account)
+>>>>>>> e2d2a49956d43c908d112f91e74d346d2a520299
 
-    return filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list_main
+                        
+    # print(notes_found_main_page_particular)
+    notes_notfound_main_page_particular = set(notes_notfound_main_page_particular).difference(set(notes_found_main_page_particular))
+    return filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list_main,notes_found_main_page_particular,notes_notfound_main_page_particular
 
 
 # def convert_standaradised_notes_to_column_row_year(note_df,year_list,standard_note_meta_dict_item):
@@ -230,6 +293,8 @@ def filter_notes_row_indices(included_keyword_best_match,excluded_keyword_best_m
 
 def get_notes_dfDict_after_filtering_keywords(note_number_list,subnote_number_list,tableid_list,filtered_transformed_standardised_tables_dict,obj_techfuzzy,conf_score,match_type='partial',notes_include_keywords=[],notes_exclude_keywords=[]):
     repsonse_notes_dict = {}
+    remaining_response_notes_dict = {}
+    not_visited_notes_line_items_df = pd.DataFrame()
     # print(notes_include_keywords,notes_exclude_keywords)
     if "NULL" in notes_include_keywords:
         notes_include_keywords.remove("NULL")
@@ -250,11 +315,13 @@ def get_notes_dfDict_after_filtering_keywords(note_number_list,subnote_number_li
                     else:
                         data_indices = include_best_match.get('data_index')
                     remain_notes_df = _df.iloc[data_indices]
+                    not_visited_notes_line_items_df = _df.iloc[~_df.index.isin(data_indices)]  # or df.drop data indices
                     repsonse_notes_dict[combo_key] = remain_notes_df
+                    remaining_response_notes_dict[combo_key] = not_visited_notes_line_items_df
                 else:
                     repsonse_notes_dict[combo_key] = _df
 
-    return repsonse_notes_dict
+    return repsonse_notes_dict,remaining_response_notes_dict#not_visited_notes_line_items_df
 
 def prepare_df_for_dumping(raw_note_list,note_number_list,subnote_number_list,tableid_list,filtered_transformed_standardised_tables_dict):
     temp_df = pd.DataFrame(columns=["raw_note_no","note_no","subnote_no","line_item","year","value"])
@@ -327,6 +394,7 @@ def convert_note_df_to_hotizontal(note_df):
 
 
 def get_matched_main_page_df(main_page_data_indices,df):
+<<<<<<< HEAD
     matched_main_page_df = pd.DataFrame()
     if len(main_page_data_indices)>0:
     # df.reset_index(drop=True,inplace=False)
@@ -334,6 +402,13 @@ def get_matched_main_page_df(main_page_data_indices,df):
         # print(main_page_data_indices)
         # print(df.iloc[main_page_data_indices])
         matched_main_page_df = df.iloc[main_page_data_indices]
+=======
+    # if len(main_page_data_indices)>0:
+    # print(df)
+    df.reset_index(drop=True,inplace=False)
+    matched_main_page_df = df.iloc[main_page_data_indices]
+
+>>>>>>> e2d2a49956d43c908d112f91e74d346d2a520299
     # else:
     #     matched_main_page_df = df
     return matched_main_page_df
@@ -385,6 +460,7 @@ def remove_0_value_line_items(std_horzntl_note_df):
 
 def postprocessing_note_df(std_hrzntl_nte_df):
     if len(std_hrzntl_nte_df) > 0:
+        # print("inside postprocessing std hrzntl nte df")
         std_hrzntl_nte_df = clean_note_df(std_horzntl_note_df=std_hrzntl_nte_df)
         std_hrzntl_nte_df = adding_total_keyowrds(std_horzntl_note_df=std_hrzntl_nte_df)
         std_hrzntl_nte_df = remove_0_value_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
@@ -442,6 +518,25 @@ def remove_total_lines_main_pages(df_datasheet,filepath,statement_type,obj_techf
 
         return df_datasheet
 
+
+def get_main_page_total_subsections(df_datasheet,filepath,field_meta_tag,obj_techfuzzy):
+    total_particulars = get_keywords_library(filepath)
+    total_particulars = total_particulars[field_meta_tag]
+    # print(total_particulars)
+    total_index = []
+    for df_index, df_row in df_datasheet.iterrows():
+        particular_text = string_cleaning(df_row['Particulars'])
+        res_match = obj_techfuzzy.token_sort_pro(particular_text, total_particulars)
+        if res_match[0][1] >= 95:
+            total_index.append(df_index)
+
+    total_index = list(set(total_index))
+    # print(total_fvindex)
+    total_particular_df = pd.DataFrame()
+    if len(total_index)>0:
+            total_particular_df = df_datasheet.iloc[total_index]
+
+    return total_particular_df
 
 def remove_main_page_line_items_if_no_notes_items(temp_dict):
     ### for fields like rent in P&L statements
