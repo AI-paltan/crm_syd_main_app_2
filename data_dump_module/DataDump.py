@@ -139,7 +139,9 @@ class DataDump:
                                     if statement_type=='cbs':
                                         cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[year]
                                     if statement_type=='cpl':
-                                        cbs_worksheet.cell(row=excel_row_num,column=year_column).value = abs(row_note[year])
+                                        # cbs_worksheet.cell(row=excel_row_num,column=year_column).value = abs(row_note[year])
+                                        cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[year]
+
                                 except:
                                     cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
                     else:
@@ -158,7 +160,9 @@ class DataDump:
                                         if statement_type=='cbs':
                                             cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[str(year)]
                                         if statement_type=='cpl':
-                                            cbs_worksheet.cell(row=excel_row_num,column=year_column).value = abs(row_note[str(year)])
+                                            # cbs_worksheet.cell(row=excel_row_num,column=year_column).value = abs(row_note[str(year)])
+                                            cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[str(year)]
+
                                     except:
                                         cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
                         else:
@@ -168,7 +172,9 @@ class DataDump:
                                     if statement_type=='cbs':
                                         cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = value
                                     if statement_type=='cpl':
-                                        cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = abs(value)
+                                        # cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = abs(value)
+                                        cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = value
+
                                 except:
                                     cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = 0.0  
 

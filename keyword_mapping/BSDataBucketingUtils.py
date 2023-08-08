@@ -138,12 +138,18 @@ def remove_main_page_line_items_if_no_notes_items():
 
 # def get
 def get_years_values(df):
-    col_avoid = ['Particulars','Notes','statement_section','statement_sub_section']
-    year_cols = [i for i in df.columns if i not in col_avoid]
     year_dict = {}
-    if len(year_cols) > 0:
-        for year in year_cols:
-            year_dict[int(year)] = df[year].sum()
+    try:
+        if len(df) > 0:
+            col_avoid = ['Particulars','Notes','statement_section','statement_sub_section']
+            year_cols = [i for i in df.columns if i not in col_avoid]
+            if len(year_cols) > 0:
+                for year in year_cols:
+                    year_dict[int(year)] = df[year].sum()
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_years_values")
+        Logger.logr.error(f"error occured: {e}")   
     return year_dict
 
 def get_toal_current_assets(df):
@@ -169,17 +175,22 @@ def get_total_equity(df):
 
 
 def get_subfields_sum(meta_dict):
-    note_df = meta_dict['notes_horizontal_table_df']
     year_dict = {}
-    if len(note_df) > 0:
-        year_col = [i for i in note_df.columns if i not in ["line_item"]]
-        for year in year_col:
-            # year = int(year)
-            year_dict[int(year)] = note_df[year].sum()
-    else:
-        for value,year in zip(meta_dict["main_page_year_total"],meta_dict["main_page_year_list"]):
-            # year = int(year)
-            year_dict[int(year)] = value    
+    try:
+        note_df = meta_dict['notes_horizontal_table_df']
+        if len(note_df) > 0:
+            year_col = [i for i in note_df.columns if i not in ["line_item"]]
+            for year in year_col:
+                # year = int(year)
+                year_dict[int(year)] = note_df[year].sum()
+        else:
+            for value,year in zip(meta_dict["main_page_year_total"],meta_dict["main_page_year_list"]):
+                # year = int(year)
+                year_dict[int(year)] = value  
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_subfields_sum")
+        Logger.logr.error(f"error occured: {e}")   
     return year_dict
 
 
@@ -187,38 +198,48 @@ def get_Current_Section_fields_total(bs_bucketing_dict):
     meta_keywords = ["ca_cash_and_cash_equivalents","ca_account_receivables","ca_inventories","ca_prepaid_expenses"]
     current_assets_section_year_sum = {}
     total_of_all_upper_fields = {}
-    for meta_keyword in meta_keywords:
-        if meta_keyword in bs_bucketing_dict.keys():
-            meta_dict =  bs_bucketing_dict[meta_keyword]
-            year_dict = get_subfields_sum(meta_dict=meta_dict)
-            current_assets_section_year_sum[meta_keyword] = year_dict
-            for year,value in year_dict.items():
-                if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
-                    total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
-                else:
-                    total_of_all_upper_fields[year] = value
+    try:
+        for meta_keyword in meta_keywords:
+            if meta_keyword in bs_bucketing_dict.keys():
+                meta_dict =  bs_bucketing_dict[meta_keyword]
+                year_dict = get_subfields_sum(meta_dict=meta_dict)
+                current_assets_section_year_sum[meta_keyword] = year_dict
+                for year,value in year_dict.items():
+                    if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
+                        total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
+                    else:
+                        total_of_all_upper_fields[year] = value
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_Current_Section_fields_total")
+        Logger.logr.error(f"error occured: {e}")   
     return current_assets_section_year_sum,total_of_all_upper_fields
 
 def get_Non_Current_Section_fields_total(bs_bucketing_dict):
     meta_keywords = ["nca_gross_ppe","nca_accumulated_depreciation","nca_other_tangible_assets","nca_goodwill","nca_intangible_assets","nca_investments","nca_deffered_charges"]
     current_assets_section_year_sum = {}
     total_of_all_upper_fields = {}
-    for meta_keyword in meta_keywords:
-        if meta_keyword in bs_bucketing_dict.keys():
-            meta_dict =  bs_bucketing_dict[meta_keyword]
-            year_dict = get_subfields_sum(meta_dict=meta_dict)
-            current_assets_section_year_sum[meta_keyword] = year_dict
-            for year,value in year_dict.items():
-                if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
-                    if meta_keyword != "nca_accumulated_depreciation":
-                        total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
+    try:
+        for meta_keyword in meta_keywords:
+            if meta_keyword in bs_bucketing_dict.keys():
+                meta_dict =  bs_bucketing_dict[meta_keyword]
+                year_dict = get_subfields_sum(meta_dict=meta_dict)
+                current_assets_section_year_sum[meta_keyword] = year_dict
+                for year,value in year_dict.items():
+                    if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
+                        if meta_keyword != "nca_accumulated_depreciation":
+                            total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
+                        else:
+                            total_of_all_upper_fields[year] = total_of_all_upper_fields[year]-value
                     else:
-                        total_of_all_upper_fields[year] = total_of_all_upper_fields[year]-value
-                else:
-                    if meta_keyword != "nca_accumulated_depreciation":
-                        total_of_all_upper_fields[year] = value
-                    else:
-                        total_of_all_upper_fields[year] = -value
+                        if meta_keyword != "nca_accumulated_depreciation":
+                            total_of_all_upper_fields[year] = value
+                        else:
+                            total_of_all_upper_fields[year] = -value
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_Non_Current_Section_fields_total")
+        Logger.logr.error(f"error occured: {e}")   
     return current_assets_section_year_sum,total_of_all_upper_fields
 
 
@@ -227,16 +248,21 @@ def get_Current_liabilities_Section_fields_total(bs_bucketing_dict):
     meta_keywords = ["cl_short_term_debt","cl_long_term_debt_due_in_year","cl_note_payable_debt","cl_accounts_payable","cl_accrued_expenses","cl_tax_payable"]
     current_assets_section_year_sum = {}
     total_of_all_upper_fields = {}
-    for meta_keyword in meta_keywords:
-        if meta_keyword in bs_bucketing_dict.keys():
-            meta_dict =  bs_bucketing_dict[meta_keyword]
-            year_dict = get_subfields_sum(meta_dict=meta_dict)
-            current_assets_section_year_sum[meta_keyword] = year_dict
-            for year,value in year_dict.items():
-                if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
-                    total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
-                else:
-                    total_of_all_upper_fields[year] = value
+    try:
+        for meta_keyword in meta_keywords:
+            if meta_keyword in bs_bucketing_dict.keys():
+                meta_dict =  bs_bucketing_dict[meta_keyword]
+                year_dict = get_subfields_sum(meta_dict=meta_dict)
+                current_assets_section_year_sum[meta_keyword] = year_dict
+                for year,value in year_dict.items():
+                    if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
+                        total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
+                    else:
+                        total_of_all_upper_fields[year] = value
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_Current_liabilities_Section_fields_total")
+        Logger.logr.error(f"error occured: {e}")   
     return current_assets_section_year_sum,total_of_all_upper_fields
 
 
@@ -244,16 +270,44 @@ def get_non_Current_liabilities_Section_fields_total(bs_bucketing_dict):
     meta_keywords = ["ncl_long_term_debt","ncl_long_term_borrowing","ncl_bond","ncl_suboardinate_debt","ncl_deferred_taxes","ncl_other_long_term_liabilities","ncl_minority_interest"]
     current_assets_section_year_sum = {}
     total_of_all_upper_fields = {}
-    for meta_keyword in meta_keywords:
-        if meta_keyword in bs_bucketing_dict.keys():
-            meta_dict =  bs_bucketing_dict[meta_keyword]
-            year_dict = get_subfields_sum(meta_dict=meta_dict)
-            current_assets_section_year_sum[meta_keyword] = year_dict
-            for year,value in year_dict.items():
-                if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
-                    total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
-                else:
-                    total_of_all_upper_fields[year] = value
+    try:
+        for meta_keyword in meta_keywords:
+            if meta_keyword in bs_bucketing_dict.keys():
+                meta_dict =  bs_bucketing_dict[meta_keyword]
+                year_dict = get_subfields_sum(meta_dict=meta_dict)
+                current_assets_section_year_sum[meta_keyword] = year_dict
+                for year,value in year_dict.items():
+                    if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
+                        total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
+                    else:
+                        total_of_all_upper_fields[year] = value
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_non_Current_liabilities_Section_fields_total")
+        Logger.logr.error(f"error occured: {e}")   
+    return current_assets_section_year_sum,total_of_all_upper_fields
+
+
+
+def get_Equity_Section_fields_total(bs_bucketing_dict):
+    meta_keywords = ["eqt_common_stock","eqt_additional_paid_in_capital","eqt_retained_earnings","eqt_others","eqt_shareholder_equity"]
+    current_assets_section_year_sum = {}
+    total_of_all_upper_fields = {}
+    try:
+        for meta_keyword in meta_keywords:
+            if meta_keyword in bs_bucketing_dict.keys():
+                meta_dict =  bs_bucketing_dict[meta_keyword]
+                year_dict = get_subfields_sum(meta_dict=meta_dict)
+                current_assets_section_year_sum[meta_keyword] = year_dict
+                for year,value in year_dict.items():
+                    if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
+                        total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
+                    else:
+                        total_of_all_upper_fields[year] = value
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_Equity_Section_fields_total")
+        Logger.logr.error(f"error occured: {e}")   
     return current_assets_section_year_sum,total_of_all_upper_fields
 
 # def get_Noncurrent_Section_fields_total(bs_bucketing_dict
@@ -268,33 +322,37 @@ def get_non_Current_liabilities_Section_fields_total(bs_bucketing_dict):
 def calculate_other_current_assets(total_current_assets_df_main_page,bs_bucketing_dict,other_current_assets_meta_dict):
     ## get total current assets
     ##
-    main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
-    current_assets_section_year_sum,total_of_all_upper_fields = get_Current_Section_fields_total(bs_bucketing_dict)
-    other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
-    balanced_amount = {}
-    year_list = []
-    year_list = list(other_current_year_dict.keys())
-    if len(year_list)==0:
-        year_list = list(total_of_all_upper_fields.keys())
-    for year in year_list:
-        balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-        if balance_val > 0:
-            balanced_amount[year] = balance_val
-        else:
-            balanced_amount[year] = 0.0
+    try:
+        main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
+        current_assets_section_year_sum,total_of_all_upper_fields = get_Current_Section_fields_total(bs_bucketing_dict)
+        other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
+        balanced_amount = {}
+        year_list = []
+        year_list = list(other_current_year_dict.keys())
+        if len(year_list)==0:
+            year_list = list(total_of_all_upper_fields.keys())
+        for year in year_list:
+            balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
+            if balance_val > 0:
+                balanced_amount[year] = balance_val
+            else:
+                balanced_amount[year] = 0.0
+            
         
-    
-    add_row = {'line_item':'Other current asset *'}
-    for year,value in balanced_amount.items():
-        add_row[year]= value
-    
-    nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
-    if len(nt_df) > 0:
-        nt_df = nt_df.append(add_row,ignore_index=True)
-    else:
-        nt_df = pd.DataFrame(add_row,index=[0])
-    other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
-
+        add_row = {'line_item':'Other current asset *'}
+        for year,value in balanced_amount.items():
+            add_row[year]= value
+        
+        nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
+        if len(nt_df) > 0:
+            nt_df = nt_df.append(add_row,ignore_index=True)
+        else:
+            nt_df = pd.DataFrame(add_row,index=[0])
+        other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: calculate_other_current_assets")
+        Logger.logr.error(f"error occured: {e}")   
     return other_current_assets_meta_dict
 
 
@@ -302,98 +360,150 @@ def calculate_other_current_assets(total_current_assets_df_main_page,bs_bucketin
 def calculate_other_non_current_assets(total_current_assets_df_main_page,bs_bucketing_dict,other_current_assets_meta_dict):
     ## get total current assets
     ##
-    main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
-    current_assets_section_year_sum,total_of_all_upper_fields = get_Non_Current_Section_fields_total(bs_bucketing_dict)
-    other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
-    balanced_amount = {}
-    year_list = []
-    year_list = list(other_current_year_dict.keys())
-    if len(year_list)==0:
-        year_list = list(total_of_all_upper_fields.keys())
-    for year in year_list:
-        balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-        if balance_val > 0:
-            balanced_amount[year] = balance_val
-        else:
-            balanced_amount[year] = 0.0
+    try:
+        main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
+        current_assets_section_year_sum,total_of_all_upper_fields = get_Non_Current_Section_fields_total(bs_bucketing_dict)
+        other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
+        balanced_amount = {}
+        year_list = []
+        year_list = list(other_current_year_dict.keys())
+        if len(year_list)==0:
+            year_list = list(total_of_all_upper_fields.keys())
+        for year in year_list:
+            balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
+            if balance_val > 0:
+                balanced_amount[year] = balance_val
+            else:
+                balanced_amount[year] = 0.0
+            
+        add_row = {'line_item':'Other non-current asset *'}
+        for year,value in balanced_amount.items():
+            add_row[year]= value
         
-    
-    add_row = {'line_item':'Other non-current asset *'}
-    for year,value in balanced_amount.items():
-        add_row[year]= value
-    
-    nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
-    if len(nt_df) > 0:
-        nt_df = nt_df.append(add_row,ignore_index=True)
-    else:
-        nt_df = pd.DataFrame(add_row,index=[0])
-    other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
+        nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
+        if len(nt_df) > 0:
+            nt_df = nt_df.append(add_row,ignore_index=True)
+        else:
+            nt_df = pd.DataFrame(add_row,index=[0])
+        other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
 
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: calculate_other_non_current_assets")
+        Logger.logr.error(f"error occured: {e}")   
     return other_current_assets_meta_dict
 
 
 def calculate_other_current_liabilities(total_current_assets_df_main_page,bs_bucketing_dict,other_current_assets_meta_dict):
     ## get total current assets
     ##
-    main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
-    current_assets_section_year_sum,total_of_all_upper_fields = get_Current_liabilities_Section_fields_total(bs_bucketing_dict)
-    other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
-    balanced_amount = {}
-    year_list = []
-    year_list = list(other_current_year_dict.keys())
-    if len(year_list)==0:
-        year_list = list(total_of_all_upper_fields.keys())
-    for year in year_list:
-        balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-        if balance_val > 0:
-            balanced_amount[year] = balance_val
-        else:
-            balanced_amount[year] = 0.0
+    try:
+        main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
+        current_assets_section_year_sum,total_of_all_upper_fields = get_Current_liabilities_Section_fields_total(bs_bucketing_dict)
+        other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
+        balanced_amount = {}
+        year_list = []
+        year_list = list(other_current_year_dict.keys())
+        if len(year_list)==0:
+            year_list = list(total_of_all_upper_fields.keys())
+        for year in year_list:
+            balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
+            if balance_val > 0:
+                balanced_amount[year] = balance_val
+            else:
+                balanced_amount[year] = 0.0
+            
         
-    
-    add_row = {'line_item':'Other current liabilities *'}
-    for year,value in balanced_amount.items():
-        add_row[year]= value
-    
-    nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
-    if len(nt_df) > 0:
-        nt_df = nt_df.append(add_row,ignore_index=True)
-    else:
-        nt_df = pd.DataFrame(add_row,index=[0])
-    other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
+        add_row = {'line_item':'Other current liabilities *'}
+        for year,value in balanced_amount.items():
+            add_row[year]= value
+        
+        nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
+        if len(nt_df) > 0:
+            nt_df = nt_df.append(add_row,ignore_index=True)
+        else:
+            nt_df = pd.DataFrame(add_row,index=[0])
+        other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
+
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: calculate_other_current_liabilities")
+        Logger.logr.error(f"error occured: {e}")   
 
     return other_current_assets_meta_dict
 
 def calculate_other_non_current_liabilities(total_current_assets_df_main_page,bs_bucketing_dict,other_current_assets_meta_dict):
     ## get total current assets
     ##
-    main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
-    current_assets_section_year_sum,total_of_all_upper_fields = get_non_Current_liabilities_Section_fields_total(bs_bucketing_dict)
-    other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
-    balanced_amount = {}
-    year_list = []
-    year_list = list(other_current_year_dict.keys())
-    if len(year_list)==0:
-        year_list = list(total_of_all_upper_fields.keys())
-    for year in year_list:
-        balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-        if balance_val > 0:
-            balanced_amount[year] = balance_val
-        else:
-            balanced_amount[year] = 0.0
+    try:
+        main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
+        current_assets_section_year_sum,total_of_all_upper_fields = get_non_Current_liabilities_Section_fields_total(bs_bucketing_dict)
+        other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
+        balanced_amount = {}
+        year_list = []
+        year_list = list(other_current_year_dict.keys())
+        if len(year_list)==0:
+            year_list = list(total_of_all_upper_fields.keys())
+        for year in year_list:
+            balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
+            if balance_val > 0:
+                balanced_amount[year] = balance_val
+            else:
+                balanced_amount[year] = 0.0
+            
         
-    
-    add_row = {'line_item':'Other non-current liabilities *'}
-    for year,value in balanced_amount.items():
-        add_row[year]= value
-    
-    nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
-    if len(nt_df) > 0:
-        nt_df = nt_df.append(add_row,ignore_index=True)
-    else:
-        nt_df = pd.DataFrame(add_row,index=[0])
-    other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
+        add_row = {'line_item':'Other non-current liabilities *'}
+        for year,value in balanced_amount.items():
+            add_row[year]= value
+        
+        nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
+        if len(nt_df) > 0:
+            nt_df = nt_df.append(add_row,ignore_index=True)
+        else:
+            nt_df = pd.DataFrame(add_row,index=[0])
+        other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
 
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: calculate_other_non_current_liabilities")
+        Logger.logr.error(f"error occured: {e}")   
+    return other_current_assets_meta_dict
+
+
+def calculate_other_Reserves_equity(total_current_assets_df_main_page,bs_bucketing_dict,other_current_assets_meta_dict):
+    ## get total current assets
+    ##
+    try:
+        main_page_total_year_sum = get_toal_current_assets(df=total_current_assets_df_main_page)
+        current_assets_section_year_sum,total_of_all_upper_fields = get_Equity_Section_fields_total(bs_bucketing_dict)
+        other_current_year_dict = get_subfields_sum(meta_dict=other_current_assets_meta_dict)
+        balanced_amount = {}
+        year_list = []
+        year_list = list(other_current_year_dict.keys())
+        if len(year_list)==0:
+            year_list = list(total_of_all_upper_fields.keys())
+        for year in year_list:
+            balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
+            if balance_val > 0:
+                balanced_amount[year] = balance_val
+            else:
+                balanced_amount[year] = 0.0
+            
+        
+        add_row = {'line_item':'Other Reserves *'}
+        for year,value in balanced_amount.items():
+            add_row[year]= value
+        
+        nt_df = other_current_assets_meta_dict['notes_horizontal_table_df']
+        if len(nt_df) > 0:
+            nt_df = nt_df.append(add_row,ignore_index=True)
+        else:
+            nt_df = pd.DataFrame(add_row,index=[0])
+        other_current_assets_meta_dict['notes_horizontal_table_df'] = nt_df
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: calculate_other_Reserves_equity")
+        Logger.logr.error(f"error occured: {e}")  
     return other_current_assets_meta_dict
 # def calculate_other_noncurrent_assets(total_noncurrent_assets_df_main_page,bs_bucketing_dict,other_noncurrent_assets_meta_dict):
    

@@ -7,6 +7,9 @@ cl_total_current_liabilities	total current liabilities
 ncl_total_non_current_liabilities	total non current liabilities
 ncl_total_non_current_liabilities	total noncurrent liabilities
 ncl_total_non_current_liabilities	total non-current liabilities
+eqt_total	total equity
+eqt_total	total shareholder's equity
+eqt_total	total shareholders equity
 
 
 

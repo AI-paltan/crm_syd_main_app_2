@@ -90,5 +90,29 @@ def interest_expense_filter(temp_dict):
 
 
 
+def make_all_positive(temp_dict):
+    ## convert values from notes_horizontal_table_df, main_page_cropped_df , main_page_year_total to positive
+    notes_horizontal_table_df = temp_dict['notes_horizontal_table_df']
+    main_page_cropped_df = temp_dict['main_page_cropped_df']
+    main_page_year_total = temp_dict['main_page_year_total']
+    notes_cols = ["line_item"]
+    main_page_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
+    if len(notes_horizontal_table_df) > 0 :
+        if isinstance(notes_horizontal_table_df,pd.DataFrame):
+            year_cols = [i for i in notes_horizontal_table_df.columns if i not in notes_cols]
+            notes_horizontal_table_df[year_cols] = notes_horizontal_table_df[year_cols].abs()
+    if len(main_page_cropped_df) > 0:
+        if isinstance(main_page_cropped_df,pd.DataFrame):
+            year_cols = [i for i in main_page_cropped_df.columns if i not in main_page_cols]
+            main_page_cropped_df[year_cols] = main_page_cropped_df[year_cols].abs()
+    if len(main_page_year_total)>0:
+        main_page_year_total = [abs(x) for x in main_page_year_total]
+
+    temp_dict['notes_horizontal_table_df'] = notes_horizontal_table_df
+    temp_dict['main_page_cropped_df'] = main_page_cropped_df
+    temp_dict['main_page_year_total'] = main_page_year_total
+    return temp_dict
+    
+
 
 

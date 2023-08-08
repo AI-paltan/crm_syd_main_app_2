@@ -42,6 +42,7 @@ class BalanceSheetDataBucketing():
         self.get_TOTAL_NON_CURRENT_ASSET()
         self.get_TOTAL_CURRENT_LIABILITIES()
         self.get_TOTAL_NON_CURRENT_LIABILITIES()
+        self.get_TOTAL_EQUITY()
         self.get_CASH_AND_CASH_EQUIVALENTS()
         self.get_INVENTORIES()
         self.get_PREPAID_EXPNS()
@@ -71,15 +72,15 @@ class BalanceSheetDataBucketing():
         self.get_BOND()
         self.get_SUBORDINATE_DEBT()
         self.get_DEFFERED_TAXES()
-        self.get_OTHER_LONG_TERM_LIAB() ## can skip this as this is excel formula
         self.get_MINORITY_INT()
+        self.get_OTHER_LONG_TERM_LIAB() ## can skip this as this is excel formula
         self.get_LONG_TERM_LIAB()
         self.get_COMMON_STOCK()
         self.get_ADDITIONAL_PAID_IN_CAPITAL()
-        self.get_OTHER_RSRV()
         self.get_RETAINED_EARNINGS()
         self.get_OTHERS()
         self.get_SHAREHOLDERS_EQUITY()
+        self.get_OTHER_RSRV()
         self.get_TOTAL_LIAB_AND_EQUITY()
         self.get_LIAB_TOTAL()
         self.get_TOTAL_AST()
@@ -117,6 +118,7 @@ class BalanceSheetDataBucketing():
         ## clear total keyowrds line items from main pages
         try:
             df_datasheet = remove_total_lines_main_pages(df_datasheet=df_datasheet,filepath=keyword_mapping_settings.mastersheet_filter_particulars,statement_type='cbs',obj_techfuzzy=self.obj_techfuzzy)
+            df_datasheet = df_datasheet.reset_index(drop=True)
             for year in self.years_list:
                 # print(year)
                 main_page_best_match= get_main_page_line_items(df_datasheet=df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh,match_type=match_type)
@@ -200,6 +202,13 @@ class BalanceSheetDataBucketing():
     def get_TOTAL_NON_CURRENT_LIABILITIES(self):
         meta_keywrods = "ncl_total_non_current_liabilities"
         total_subset_df = get_main_page_total_subsections(df_datasheet=self.df_datasheet,filepath=keyword_mapping_settings.mastersheet_total_particulars,field_meta_tag="ncl_total_non_current_liabilities",obj_techfuzzy=self.obj_techfuzzy)
+        temp_dict = {}
+        temp_dict["total_subset_df"] = total_subset_df
+        self.bs_bucketing_dict[meta_keywrods] = temp_dict
+
+    def get_TOTAL_EQUITY(self):
+        meta_keywrods = "eqt_total"
+        total_subset_df = get_main_page_total_subsections(df_datasheet=self.df_datasheet,filepath=keyword_mapping_settings.mastersheet_total_particulars,field_meta_tag="eqt_total",obj_techfuzzy=self.obj_techfuzzy)
         temp_dict = {}
         temp_dict["total_subset_df"] = total_subset_df
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
@@ -536,6 +545,7 @@ class BalanceSheetDataBucketing():
         ## second level filtering for non-current keyword
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = noncurrent_word_filter(std_hrzntl_note_df=hrzntl_df)
+        temp_dict = calculate_other_non_current_liabilities(self.bs_bucketing_dict['ncl_total_non_current_liabilities']['total_subset_df'],self.bs_bucketing_dict,temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_MINORITY_INT(self):
@@ -556,6 +566,7 @@ class BalanceSheetDataBucketing():
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,df_datasheet=df_data,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_COMMON_STOCK(self):
@@ -591,6 +602,7 @@ class BalanceSheetDataBucketing():
         ### month wise filter
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
+        temp_dict = calculate_other_Reserves_equity(self.bs_bucketing_dict['eqt_total']['total_subset_df'],self.bs_bucketing_dict,temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_RETAINED_EARNINGS(self):

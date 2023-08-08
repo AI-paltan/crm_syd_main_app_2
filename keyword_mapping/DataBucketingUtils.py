@@ -107,7 +107,6 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
     notes_found_main_page_particular = []
     notes_notfound_main_page_particular = []
     # print(notes_region_meta_data)
-<<<<<<< HEAD
     try:
         for account,note_nums in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers')):
             # print(f"account: {account} and note= {note_nums}")
@@ -156,67 +155,17 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
                                         subnote_number_list.append(subnote)
                                         tableid_list_main.append(tableid)
                                         prcoessed_tabelids.append(tableid)
+                                        notes_found_main_page_particular.append(account)
+                            else:
+                                ## if no notes tables found code to tack those main page line items
+                                notes_notfound_main_page_particular.append(account)
+                else:
+                    ## if no notes tables found code to tack those main page line items
+                    notes_notfound_main_page_particular.append(account)
     except Exception as e:
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: keyword_mapping , File:DataBucketingUtils.py,  function: get_notes_tables_from_meta_dict_and_standardized_notes_dict")
         Logger.logr.error(f"error occured: {e}")                
-=======
-    for account,note_nums in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers')):
-        # print(f"account: {account} and note= {note_nums}")
-        # if len(note_nums) >= 1:
-        reference_notes_dict = notes_reference_dict.get(statement_type)
-        # print(f"reference_notes_dict = {reference_notes_dict}")
-        # for account in account_list:
-            # print(f"account = {account}")
-        
-        for refe_notes in reference_notes_dict:
-            # print(f"refe_notes = {refe_notes}")
-            if str(account) == str(refe_notes.get('particular')):
-                # print("yes matched")
-                
-                for note,subnote in zip(refe_notes.get('main_note_number'),refe_notes.get('subnote_number')):
-                    # note = refe_notes.get('main_note_number')
-                    # subnote = refe_notes.get('subnote_number')
-                    # print(notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values)
-                    lst = notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values
-                    if len(lst)>0:
-                        ##visited
-                    # tableid_list = notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values[0]
-                        tableid_list = list(set(lst[0]))
-                        # for idx,tableid_row in tableid_list.iterrows():
-                        # print(f"note : {note} nad subnote: {subnote}")
-                        # print(f"tableid list : {tableid_list}")
-                        # print(len(tableid_list))
-                        if len(tableid_list)>=1:
-                            for i in range(len(tableid_list)):
-                                # print(f"i{i}")
-                                
-                                tableid = tableid_list[i]
-                                if tableid not in prcoessed_tabelids:
-                                    # print(f"note : {note} nad subnote: {subnote}")
-                                    # print(f"tableid list : {tableid_list}")
-                                    # print(f"tableid={tableid}")
-                                    combo_key = str(note)+"_"+str(subnote)+"_"+str(tableid)
-                                    # print(f"combo key = {combo_key}")
-                                    # filtered_standardised_tables_dict[tableid] = standardised_cropped_dict.get(tableid)
-                                    # filtered_transformed_standardised_tables_dict[tableid] = trasnformed_standardised_cropped_dict.get(tableid)
-                                    filtered_standardised_tables_dict[combo_key] = standardised_cropped_dict.get(combo_key)
-                                    # print(filtered_standardised_tables_dict[combo_key])
-                                    filtered_transformed_standardised_tables_dict[combo_key] = trasnformed_standardised_cropped_dict.get(combo_key)
-                                    # print(filtered_transformed_standardised_tables_dict[combo_key])
-                                    raw_note_list.append(refe_notes.get('raw_note_no'))
-                                    note_number_list.append(note)
-                                    subnote_number_list.append(subnote)
-                                    tableid_list_main.append(tableid)
-                                    prcoessed_tabelids.append(tableid)
-                                    notes_found_main_page_particular.append(account)
-                        else:
-                            ## if no notes tables found code to tack those main page line items
-                            notes_notfound_main_page_particular.append(account)
-            else:
-                ## if no notes tables found code to tack those main page line items
-                notes_notfound_main_page_particular.append(account)
->>>>>>> e2d2a49956d43c908d112f91e74d346d2a520299
 
                         
     # print(notes_found_main_page_particular)
@@ -394,7 +343,6 @@ def convert_note_df_to_hotizontal(note_df):
 
 
 def get_matched_main_page_df(main_page_data_indices,df):
-<<<<<<< HEAD
     matched_main_page_df = pd.DataFrame()
     if len(main_page_data_indices)>0:
     # df.reset_index(drop=True,inplace=False)
@@ -402,13 +350,6 @@ def get_matched_main_page_df(main_page_data_indices,df):
         # print(main_page_data_indices)
         # print(df.iloc[main_page_data_indices])
         matched_main_page_df = df.iloc[main_page_data_indices]
-=======
-    # if len(main_page_data_indices)>0:
-    # print(df)
-    df.reset_index(drop=True,inplace=False)
-    matched_main_page_df = df.iloc[main_page_data_indices]
-
->>>>>>> e2d2a49956d43c908d112f91e74d346d2a520299
     # else:
     #     matched_main_page_df = df
     return matched_main_page_df
@@ -521,6 +462,7 @@ def remove_total_lines_main_pages(df_datasheet,filepath,statement_type,obj_techf
 
 def get_main_page_total_subsections(df_datasheet,filepath,field_meta_tag,obj_techfuzzy):
     total_particulars = get_keywords_library(filepath)
+    # print(total_particulars)
     total_particulars = total_particulars[field_meta_tag]
     # print(total_particulars)
     total_index = []

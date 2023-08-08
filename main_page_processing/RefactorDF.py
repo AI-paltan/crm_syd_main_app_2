@@ -21,6 +21,7 @@ class RefactorCBS:
         # print(self.df)
         try:
             self.df = find_and_remove_all_duplicate_columns(df=self.df)
+            # print(self.df)
             col_num = self.find_template()
             if col_num == 4 :
                 standard_df, temp_df = self.ideal_format_processing()
