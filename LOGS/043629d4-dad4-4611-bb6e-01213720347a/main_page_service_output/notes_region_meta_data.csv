@@ -1,0 +1,12 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+9,,[25],"[[96, 322, 1028, 348]]",10,[25],"[[97, 483, 1028, 508]]",[UUID('23986dce-3fe2-3ca0-91ba-43ad8cd56dc1')],"[[0, 1, 2, 3, 4]]",[<UAT_app.database.db_models.TableLogs object at 0x7fc049e33d00>],['9']
+10,,[25],"[[97, 483, 1028, 508]]",11,[25],"[[97, 777, 1027, 800]]",[UUID('23986dce-3fe2-3ca0-91ba-43ad8cd56dc1')],"[[4, 5, 6, 7, 8, 9, 10, 11, 12]]",[<UAT_app.database.db_models.TableLogs object at 0x7fc049e33d00>],['10']
+11,,[25],"[[97, 777, 1027, 800]]",12,[26],"[[190, 216, 539, 240]]",[UUID('23986dce-3fe2-3ca0-91ba-43ad8cd56dc1')],"[[12, 13, 14, 15, 16, 17, 18]]",[<UAT_app.database.db_models.TableLogs object at 0x7fc049e33d00>],['11']
+12,,[26],"[[190, 216, 539, 240]]",13,[27],"[[98, 322, 1028, 348]]",[UUID('8be11cb6-fff4-39eb-b74e-687aaec1f45c')],"[[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]]",[<UAT_app.database.db_models.TableLogs object at 0x7fc04e513a30>],['12']
+13,,[27],"[[98, 322, 1028, 348]]",14,[27],"[[97, 549, 1027, 573]]",[UUID('bf0ed3e3-74bc-326c-b65c-9b8e5575f7b0')],"[[0, 1, 2, 3, 4, 5, 6]]",[<UAT_app.database.db_models.TableLogs object at 0x7fbfa7f19430>],['13']
+14,,[27],"[[97, 549, 1027, 573]]",15,[27],"[[98, 848, 1028, 871]]",[UUID('bf0ed3e3-74bc-326c-b65c-9b8e5575f7b0')],"[[6, 7, 8, 9, 10, 11, 12, 13, 14]]",[<UAT_app.database.db_models.TableLogs object at 0x7fbfa7f19430>],"['14', '14']"
+15,,[27],"[[98, 848, 1028, 871]]",16,[28],"[[97, 320, 205, 345]]",[UUID('bf0ed3e3-74bc-326c-b65c-9b8e5575f7b0')],"[[14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]]",[<UAT_app.database.db_models.TableLogs object at 0x7fbfa7f19430>],"['15', '15']"
+4,,[22],"[[96, 292, 1027, 317]]",5,[22],"[[96, 460, 1028, 485]]",[UUID('bb7d3615-6fb5-3982-a4a2-9347171ea606')],"[[0, 1, 2, 3, 4]]",[<UAT_app.database.db_models.TableLogs object at 0x7fc04e2cbdc0>],['4']
+5,,[22],"[[96, 460, 1028, 485]]",6,[22],"[[96, 710, 1027, 736]]",[UUID('bb7d3615-6fb5-3982-a4a2-9347171ea606')],"[[4, 5, 6, 7, 8, 9, 10, 11]]",[<UAT_app.database.db_models.TableLogs object at 0x7fc04e2cbdc0>],['5']
+6,,[22],"[[96, 710, 1027, 736]]",7,[22],"[[96, 894, 1050, 917]]",[UUID('bb7d3615-6fb5-3982-a4a2-9347171ea606')],"[[11, 12, 13, 14, 15, 16]]",[<UAT_app.database.db_models.TableLogs object at 0x7fc04e2cbdc0>],['6']
+7,,[22],"[[96, 894, 1050, 917]]",8,[23],"[[96, 319, 1027, 343]]",[UUID('bb7d3615-6fb5-3982-a4a2-9347171ea606')],"[[16, 17, 18, 19, 20]]",[<UAT_app.database.db_models.TableLogs object at 0x7fc04e2cbdc0>],['7']

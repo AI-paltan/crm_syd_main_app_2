@@ -230,12 +230,12 @@ def get_Non_Current_Section_fields_total(bs_bucketing_dict):
                         if meta_keyword != "nca_accumulated_depreciation":
                             total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
                         else:
-                            total_of_all_upper_fields[year] = total_of_all_upper_fields[year]-value
+                            total_of_all_upper_fields[year] = total_of_all_upper_fields[year]-abs(value)
                     else:
                         if meta_keyword != "nca_accumulated_depreciation":
                             total_of_all_upper_fields[year] = value
                         else:
-                            total_of_all_upper_fields[year] = -value
+                            total_of_all_upper_fields[year] = - abs(value)
     except Exception as e:
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_Non_Current_Section_fields_total")

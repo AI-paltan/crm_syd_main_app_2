@@ -1,0 +1,2 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+6,,[24],"[[141, 315, 459, 342]]",7,[24],"[[140, 468, 426, 491]]",[UUID('c628a900-6efe-3b48-9485-678390a6e160')],"[[0, 1, 2, 3, 4]]",[<UAT_app.database.db_models.TableLogs object at 0x7fe71c3e20d0>],['6']

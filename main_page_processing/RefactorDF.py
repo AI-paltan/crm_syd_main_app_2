@@ -73,6 +73,7 @@ class RefactorCBS:
             from ..logging_module.logging_wrapper import Logger
             Logger.logr.debug("module: MainPage_processing_Service , File:RefactorDF.py,  function: ideal_format_processing")
             Logger.logr.error(f"error occured: {e}")
+            print(e)
         return standard_df, temp_df
 
     def non_ideal_format_without_notes_processing(self):

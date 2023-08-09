@@ -30,6 +30,17 @@ def get_note_column(df):
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_note_column")
         Logger.logr.error(f"error occured: {e}")
+    try:
+        if note_row_num == -1 and note_col_num == -1:
+            total = df.iloc[:,1].sum()
+            # print(total)
+            if total>10.0:
+                note_col_num = 1
+                note_row_num = 0
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_note_column")
+        Logger.logr.error(f"error occured: {e}")
     return note_row_num,note_col_num
 
 def get_years_and_positions_with_notes(df,notes_indices):

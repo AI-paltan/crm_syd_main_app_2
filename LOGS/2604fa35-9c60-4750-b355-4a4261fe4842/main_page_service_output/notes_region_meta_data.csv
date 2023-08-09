@@ -1,0 +1,2 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+8,,[22],"[[82, 803, 381, 827]]",9,[22],"[[83, 1021, 394, 1046]]","[UUID('6dc506d4-3e2b-3feb-9f0b-a44e0aeba3c0'), UUID('dc9e4fa9-40a7-33cc-8a07-67f378126ba4')]","[[0, 1, 2, 3, 4, 5, 6], [0, 1, 2, 3, 4, 5, 6]]","[<UAT_app.database.db_models.TableLogs object at 0x7fea12435b80>, <UAT_app.database.db_models.TableLogs object at 0x7fe88c5c5be0>]",['8']
