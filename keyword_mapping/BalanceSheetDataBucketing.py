@@ -148,7 +148,7 @@ class BalanceSheetDataBucketing():
 
             
             # print(main_page_data_indices)
-            matched_main_page_df = get_matched_main_page_df(main_page_data_indices=main_page_data_indices,df=self.df_datasheet)
+            matched_main_page_df = get_matched_main_page_df(main_page_data_indices=main_page_data_indices,df=df_datasheet)
             temp_horizontal_df = postprocessing_note_df(std_hrzntl_nte_df=temp_horizontal_df)
             remaning_temp_horizontal_df = postprocessing_note_df(remaning_temp_horizontal_df)
             ## remaining notes df conversion and post processing
@@ -285,6 +285,8 @@ class BalanceSheetDataBucketing():
         # temp_dict["notes_horizontal_table_df"] = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
         month_filtered_df = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
         temp_dict["notes_horizontal_table_df"] = ppe_total_keyword_filter(month_filtered_df)
+        ### temperory fix for no notes processed and get correct net PPE value
+        temp_dict['main_page_cropped_df'] = pd.DataFrame()
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_NET_PLANT_PRPTY_AND_EQPMNT(self):
@@ -379,6 +381,8 @@ class BalanceSheetDataBucketing():
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = noncurrent_word_filter(std_hrzntl_note_df=hrzntl_df)
         temp_dict = calculate_other_non_current_assets(self.bs_bucketing_dict['nca_total_non_current_assets']['total_subset_df'],self.bs_bucketing_dict,temp_dict)
+        ##removing main page from accumulation and deprication ppe. temp fix
+        # self.bs_bucketing_dict["nca_accumulated_depreciation"] ['main_page_cropped_df'] = pd.DataFrame()
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_NON_CURR_AST_TOTAL(self):
@@ -444,8 +448,14 @@ class BalanceSheetDataBucketing():
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,df_datasheet=df_data,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        # hrzntl_df = temp_dict["notes_horizontal_table_df"]
+        # print(hrzntl_df)
+        # current_filtered_df = current_word_filter(std_hrzntl_note_df=hrzntl_df)
+        # print(current_filtered_df)
+        # Sanja Code
+        temp_dict = accrued_word_filter(temp_dict=temp_dict)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
-        temp_dict["notes_horizontal_table_df"] = current_word_filter(std_hrzntl_note_df=hrzntl_df)
+        temp_dict["notes_horizontal_table_df"]  = current_word_filter(std_hrzntl_note_df=hrzntl_df)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_TAX_PAYABLE(self):

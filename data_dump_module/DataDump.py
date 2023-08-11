@@ -6,6 +6,7 @@ from ..database.database import get_db1
 from ..database import db_models
 from .data_dump_config import datadump_core_settings
 from openpyxl.utils import get_column_letter
+from .get_client_currency import *
 
 db = get_db1()
 
@@ -33,6 +34,7 @@ class DataDump:
         self.dump_cbs_data()
         self.dump_cpl_data()
         self.dump_ccf_data()
+        self.insert_client_info()
         self.save_excel()
         # self.calculate_and_update_accuracy()
         # file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)
@@ -248,3 +250,14 @@ class DataDump:
     #     temp_dict['accuracy'] = accuracy
     #     # print(accuracy)
     #     file_query.update(temp_dict, synchronize_session=False)
+
+
+
+#sanjay code:
+    def insert_client_info(self) :
+        client_name,client_currency,input_units = get_client_nd_currency(fileid=self.fileid)
+
+        bs_main_worksheet = self.workbook["BS"]
+        bs_main_worksheet['B2'] = client_name
+        bs_main_worksheet['B7'] = client_currency
+        bs_main_worksheet['B8'] = input_units

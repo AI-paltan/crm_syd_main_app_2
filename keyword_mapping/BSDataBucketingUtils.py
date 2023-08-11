@@ -14,12 +14,12 @@ def second_filter_PPE(std_hrzntl_note_df,month):
         # print(month_indices)
         if len(month_indices)>0:
             std_hrzntl_note_df = std_hrzntl_note_df.iloc[month_indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
 
 def gross_PPE_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
         keywords = ['cost','gross']
         indices = []
         for idx,row in std_hrzntl_note_df.iterrows():
@@ -29,13 +29,13 @@ def gross_PPE_filter(std_hrzntl_note_df):
         
         if len(indices)>0:
             std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
 
 
 def accumulation_PPE_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
         keywords = ['depreciatio','accumulated depreciation']
         indices = []
         std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
@@ -46,12 +46,12 @@ def accumulation_PPE_filter(std_hrzntl_note_df):
         
         if len(indices)>0:
             std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
 
 def ppe_total_keyword_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
         keywords = ['total']
         indices = []
         std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
@@ -62,12 +62,12 @@ def ppe_total_keyword_filter(std_hrzntl_note_df):
         
         if len(indices)>0:
             std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
 
 def net_keyword_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
         keywords = ['Net','net']
         indices = []
         std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
@@ -78,12 +78,12 @@ def net_keyword_filter(std_hrzntl_note_df):
         
         if len(indices)>0:
             std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
 
 def current_word_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
         keyword = ['current']
         exclude_keywords = ['non-current','noncurrent']
         indices = []
@@ -103,12 +103,12 @@ def current_word_filter(std_hrzntl_note_df):
         
         # if len(indices)>0:
         #     std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
 
 def noncurrent_word_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
         keyword = ['non-current','noncurrent']
         indices = []
         for idx,row in std_hrzntl_note_df.iterrows():
@@ -118,7 +118,7 @@ def noncurrent_word_filter(std_hrzntl_note_df):
         
         if len(indices)>0:
             std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=False)
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
 
 
@@ -132,6 +132,31 @@ def remove_main_page_line_items_if_no_notes_items():
     ### for fields like rent in P&L statements
     pass
 
+
+
+def accrued_word_filter(temp_dict):
+    hrznt_df = temp_dict["notes_horizontal_table_df"]
+    remaining_hrznt_df = temp_dict["remaining_notes_horizontal_table_df"]
+    if isinstance(remaining_hrznt_df,pd.DataFrame):
+        remaining_hrznt_df.reset_index(drop=True,inplace=True)
+        hrznt_df.reset_index(drop=True,inplace=True)
+        keywords = ['accrued','accrual']
+        indices = []
+        for idx,row in remaining_hrznt_df.iterrows():
+            for kwrd in keywords:
+                if kwrd in row["line_item"].lower():
+                    indices.append(idx)
+        
+        if len(indices)>0:
+            hrznt_df.reset_index(drop=True,inplace=True)
+            if len(hrznt_df) > 0:
+                # std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+                filter_df = remaining_hrznt_df.iloc[indices]
+                hrznt_df.append(filter_df)
+                temp_dict["notes_horizontal_table_df"] = hrznt_df
+            else:
+                temp_dict["notes_horizontal_table_df"] = remaining_hrznt_df.iloc[indices]
+    return temp_dict
 
 
 
@@ -333,10 +358,12 @@ def calculate_other_current_assets(total_current_assets_df_main_page,bs_bucketin
             year_list = list(total_of_all_upper_fields.keys())
         for year in year_list:
             balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-            if balance_val > 0:
-                balanced_amount[year] = balance_val
-            else:
-                balanced_amount[year] = 0.0
+            balanced_amount[year] = balance_val
+            ### below code adds value only if it is positive : commenting till further confirmation
+            # if balance_val > 0:
+            #     balanced_amount[year] = balance_val
+            # else:
+            #     balanced_amount[year] = 0.0
             
         
         add_row = {'line_item':'Other current asset *'}
@@ -371,10 +398,11 @@ def calculate_other_non_current_assets(total_current_assets_df_main_page,bs_buck
             year_list = list(total_of_all_upper_fields.keys())
         for year in year_list:
             balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-            if balance_val > 0:
-                balanced_amount[year] = balance_val
-            else:
-                balanced_amount[year] = 0.0
+            balanced_amount[year] = balance_val
+            # if balance_val > 0:
+            #     balanced_amount[year] = balance_val
+            # else:
+            #     balanced_amount[year] = 0.0
             
         add_row = {'line_item':'Other non-current asset *'}
         for year,value in balanced_amount.items():
@@ -408,10 +436,11 @@ def calculate_other_current_liabilities(total_current_assets_df_main_page,bs_buc
             year_list = list(total_of_all_upper_fields.keys())
         for year in year_list:
             balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-            if balance_val > 0:
-                balanced_amount[year] = balance_val
-            else:
-                balanced_amount[year] = 0.0
+            balanced_amount[year] = balance_val
+            # if balance_val > 0:
+            #     balanced_amount[year] = balance_val
+            # else:
+            #     balanced_amount[year] = 0.0
             
         
         add_row = {'line_item':'Other current liabilities *'}
@@ -446,10 +475,11 @@ def calculate_other_non_current_liabilities(total_current_assets_df_main_page,bs
             year_list = list(total_of_all_upper_fields.keys())
         for year in year_list:
             balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-            if balance_val > 0:
-                balanced_amount[year] = balance_val
-            else:
-                balanced_amount[year] = 0.0
+            balanced_amount[year] = balance_val
+            # if balance_val > 0:
+            #     balanced_amount[year] = balance_val
+            # else:
+            #     balanced_amount[year] = 0.0
             
         
         add_row = {'line_item':'Other non-current liabilities *'}
@@ -484,10 +514,11 @@ def calculate_other_Reserves_equity(total_current_assets_df_main_page,bs_bucketi
             year_list = list(total_of_all_upper_fields.keys())
         for year in year_list:
             balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
-            if balance_val > 0:
-                balanced_amount[year] = balance_val
-            else:
-                balanced_amount[year] = 0.0
+            balanced_amount[year] = balance_val
+            # if balance_val > 0:
+            #     balanced_amount[year] = balance_val
+            # else:
+            #     balanced_amount[year] = 0.0
             
         
         add_row = {'line_item':'Other Reserves *'}

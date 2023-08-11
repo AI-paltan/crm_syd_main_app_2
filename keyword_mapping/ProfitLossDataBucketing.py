@@ -187,6 +187,12 @@ class ProfitLossDataBucketing():
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
+        
+        #Sanjay code
+        main_pg_df = self.df_datasheet
+        main_pg_cropped_df = temp_dict["main_page_cropped_df"]        
+        temp_dict['main_page_cropped_df'] = cost_of_sales_additional_keyword_filter(main_pg_cropped_df, main_pg_df)
+
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_SGNA_EXPENSE(self):

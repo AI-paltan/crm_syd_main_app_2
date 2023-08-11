@@ -9,5 +9,6 @@ class DataDumpCoreSettings(BaseSettings):
     bs_breakdown_particular_colidx = 2
     pl_breakdown_particular_colidx = 2
     cdm_template_save_dir : str = os.path.join(path.dirname(__file__),"../CDM_Output")
+    client_list : str = os.path.join(path.dirname(__file__),"../assets/client_list/Client_names_for_Sydney_Region.xlsx")
     
 datadump_core_settings = DataDumpCoreSettings()

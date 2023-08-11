@@ -114,5 +114,32 @@ def make_all_positive(temp_dict):
     return temp_dict
     
 
+def cost_of_sales_additional_keyword_filter(main_pg_cropped_df, main_pg_df):
+
+    #first finding frommain page of PL if "Change in Invemtory" keyword present in any of line items
+    if isinstance(main_pg_df,pd.DataFrame):
+        main_pg_df.reset_index(drop=True,inplace=False)
+        keywords = ['change in inventory', 'changes in inventory', 'change in inventories', 'changes in inventories']
+        indices = []
+        main_pg_df = main_pg_df.reset_index(drop=True)
+        for idx,row in main_pg_df.iterrows():
+            for kwrd in keywords:
+                if kwrd in row["Particulars"].lower():
+                    indices.append(idx)
+        
+        if len(indices)>0:
+            main_pg_df = main_pg_df.iloc[indices]
+        main_pg_df.reset_index(drop=True,inplace=False)
+    
+    #appending the above data in main_pg_cropped_df    
+    if isinstance(main_pg_cropped_df,pd.DataFrame):
+        main_pg_cropped_df.reset_index(drop=True,inplace=False)
+        if len(main_pg_cropped_df) > 0:
+            main_pg_cropped_df.append(main_pg_df)
+        else:
+            main_pg_cropped_df = main_pg_df
+    main_pg_cropped_df.reset_index(drop=True,inplace=False)
+    return main_pg_cropped_df
+
 
 
