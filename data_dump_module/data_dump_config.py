@@ -2,6 +2,7 @@ from pydantic import BaseSettings
 from dotenv import load_dotenv
 from os import path
 import os
+from .data_dump_config import datadump_core_settings
 
 
 class DataDumpCoreSettings(BaseSettings):
