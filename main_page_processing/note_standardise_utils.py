@@ -380,7 +380,7 @@ def find_data_block_location(note_df,date_block_coordinates):
                 particular_start_row = find_particulars_start_row(note_df,particular_col,first_data_row)
                 last_data_col = len(df.columns)-1
                 last_data_row = len(df)-1
-            except:
+            except Exception as e:
                 from ..logging_module.logging_wrapper import Logger
                 Logger.logr.debug("module: main_page_processing_service , File:note_standardise_utils.py,  function: find_data_block_location")
                 Logger.logr.error(f"error occured inside inner try block: {e}")

@@ -198,25 +198,47 @@ class mainPageProcess:
     
     def notes_number_processing_cls(self):
         notes_dict = NestedDefaultDict()
-        cbs_key = list(self.cbs_df_dict.keys())[0]
-        cpl_key = list(self.cpl_df_dict.keys())[0]
-        ccf_key = list(self.ccf_df_dict.keys())[0]
-        cbs_meta = self.meta_dict.get(cbs_key)
-        cpl_meta = self.meta_dict.get(cpl_key)
-        ccf_meta = self.meta_dict.get(ccf_key)
+        cbs_key = 0
+        cpl_key = 0
+        ccf_key = 0
+        cbs_meta = {}
+        cpl_meta = {}
+        ccf_meta = {}
+        # print(f"len(self.cbs_df_dict) = {len(self.cbs_df_dict)}")
+        # print(f"set(self.cbs_df_dict.keys())={set(self.cbs_df_dict.keys())}")
+        if len(self.cbs_df_dict) > 0 and len(set(self.cbs_df_dict.keys())) > 0 :
+            cbs_key = list(self.cbs_df_dict.keys())[0]
+        if len(self.cpl_df_dict) > 0 and len(set(self.cpl_df_dict.keys())) > 0 :
+            cpl_key = list(self.cpl_df_dict.keys())[0]
+        if len(self.ccf_df_dict) > 0 and len(set(self.ccf_df_dict.keys())) > 0 :
+            ccf_key = list(self.ccf_df_dict.keys())[0]
+        # print(f"cbs_key = {cbs_key}")   
+        # print(f"cpl_key = {cpl_key}")  
+        # print(f"ccf_key = {ccf_key}")  
+        # if len(cbs_key)>0:
+        #     cbs_meta = self.meta_dict.get(cbs_key)
+        
+        # if len(cpl_key)>0:
+        #     cpl_meta = self.meta_dict.get(cpl_key)
+        
+        # if len(ccf_key)>0:
+        #     ccf_meta = self.meta_dict.get(ccf_key)
         try:
+            cbs_meta = self.meta_dict.get(cbs_key)
             cbs_header = cbs_meta['headers']
         except Exception as e:
             from ..logging_module.logging_wrapper import Logger
             Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: notes_number_processing_cls CBS")
             Logger.logr.error(f"error occured: {e}")
         try:
+            cpl_meta = self.meta_dict.get(cpl_key)
             cpl_header = cpl_meta['headers']
         except Exception as e:
             from ..logging_module.logging_wrapper import Logger
             Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: notes_number_processing_cls CPL")
             Logger.logr.error(f"error occured: {e}")
         try:
+            ccf_meta = self.meta_dict.get(ccf_key)
             ccf_header = ccf_meta['headers']
         except Exception as e:
             from ..logging_module.logging_wrapper import Logger
@@ -227,11 +249,13 @@ class mainPageProcess:
         try:
             if 'Notes' in cbs_header:
                 ref_list_cbs,notes_dict = notes_number_processing(self.cbs_df_dict.get(cbs_key),[cbs_meta['note_col_x'],cbs_meta['note_col_y']],cbs_meta['data_start_x'],cbs_meta['particulars_y'],notes_dict)
+                # print(ref_list_cbs)
                 self.notes_ref_dict['cbs'] = ref_list_cbs
         except Exception as e:
             from ..logging_module.logging_wrapper import Logger
             Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: notes_number_processing_cls CBS notes_number_processing")
             Logger.logr.error(f"error occured: {e}")
+            print(e)
         # if len(cpl_header) > 0:
         try:
             if 'Notes' in cpl_header:

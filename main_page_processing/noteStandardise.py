@@ -54,11 +54,21 @@ class NoteStandardised:
                             raw_text = raw_text_s
                             extracted_year = extracted_year_s
                             note_df  = mod_df
+                    meta_dict["date_column_number"] = columns_number
+                    meta_dict["date_row_number"] = row_number
+                    meta_dict["date_raw_text"] = raw_text
+                    meta_dict["date_extracted_year"] = extracted_year
                     data_row_coords,particular_end_col,particular_start_row = find_data_block_location(note_df=note_df.copy(),date_block_coordinates=(columns_number,row_number))
+                    meta_dict["data_first_column"] = data_row_coords[0]
+                    meta_dict["data_first_row"] = data_row_coords[1]
                     header_indices = find_col_headers(note_df,data_row_coords,particular_end_col,particular_start_row)
+                    meta_dict["header_indices"] = header_indices
                     nte_df,particular_end_col = check_and_remove_duplicate_particulars_column(note_df,particular_end_col,particular_start_row)
+                    meta_dict["data_particular_end_col"] = particular_end_col
+                    meta_dict["data_particular_start_row"] = particular_start_row
                     databox_end_coordinates = (len(nte_df.columns)-1,len(nte_df)-1)
                     row_header_indices = find_row_headers(nte_df,particular_end_col,particular_start_row)
+                    meta_dict["row_header_indices"] = row_header_indices
                     fill_missing_multilevel_header_df = fill_missing_multilevel_header(nte_df,header_indices,particular_end_col)
                     blankrows,total_keywrd_added_df = set_totalKeyword_line_items(nte_df=fill_missing_multilevel_header_df,particulars_endcol_coordinates=particular_end_col,particulars_start_row=particular_start_row)
                     row_header_to_columns_df = convert_row_header_to_columns(total_keywrd_added_df,row_header_indices,particular_start_row)
@@ -67,29 +77,31 @@ class NoteStandardised:
                     # print(key)
                     # final_df,year_column_header_name = set_year_column_for_final_df(fin_df,(columns_number,row_number),header_indices)
                     final_df,year_column_header_name = set_year_column_for_final_df2(fin_df,(columns_number,row_number),header_indices,raw_text,extracted_year)
+                    meta_dict["year_column_header_name"] = year_column_header_name
                     final_df = numbers_processing(final_df)
                     final_transformed_df = convert_standaradised_notes_to_column_row_year(note_df=final_df,year_column_header_name_in=year_column_header_name)
-                    meta_dict["date_column_number"] = columns_number
-                    meta_dict["date_row_number"] = row_number
-                    meta_dict["date_raw_text"] = raw_text
-                    meta_dict["date_extracted_year"] = extracted_year
-                    meta_dict["data_first_column"] = data_row_coords[0]
-                    meta_dict["data_first_row"] = data_row_coords[1]
-                    meta_dict["data_particular_end_col"] = particular_end_col
-                    meta_dict["data_particular_start_row"] = particular_start_row
-                    meta_dict["header_indices"] = header_indices
-                    meta_dict["row_header_indices"] = row_header_indices
-                    meta_dict["header_indices"] = header_indices
-                    meta_dict["header_indices"] = header_indices
-                    meta_dict["header_indices"] = header_indices
-                    meta_dict["header_indices"] = header_indices
-                    meta_dict["header_indices"] = header_indices
-                    meta_dict["header_indices"] = header_indices
-                    meta_dict["year_column_header_name"] = year_column_header_name
+                    # meta_dict["date_column_number"] = columns_number
+                    # meta_dict["date_row_number"] = row_number
+                    # meta_dict["date_raw_text"] = raw_text
+                    # meta_dict["date_extracted_year"] = extracted_year
+                    # meta_dict["data_first_column"] = data_row_coords[0]
+                    # meta_dict["data_first_row"] = data_row_coords[1]
+                    # meta_dict["data_particular_end_col"] = particular_end_col
+                    # meta_dict["data_particular_start_row"] = particular_start_row
+                    # meta_dict["header_indices"] = header_indices
+                    # meta_dict["row_header_indices"] = row_header_indices
+                    # meta_dict["header_indices"] = header_indices
+                    # meta_dict["header_indices"] = header_indices
+                    # meta_dict["header_indices"] = header_indices
+                    # meta_dict["header_indices"] = header_indices
+                    # meta_dict["header_indices"] = header_indices
+                    # meta_dict["header_indices"] = header_indices
+                    # meta_dict["year_column_header_name"] = year_column_header_name
                 except Exception as e:
                     from ..logging_module.logging_wrapper import Logger
                     Logger.logr.debug("module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing")
                     Logger.logr.error(f"error occured: {e}")
+                    # print(e)
                 self.standard_note_df[key] = final_df
                 self.standard_note_meta_dict[key] = meta_dict
                 self.transformed_standardised_cropped_dict[key] = final_transformed_df

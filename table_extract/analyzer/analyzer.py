@@ -20,6 +20,7 @@ from .missing_cell_add_service import MissingCellAddService
 from .segment_custom import TableSegmentationService
 from ..config import core_settings
 from .missing_row_add_service import MissingRowAddService
+from .missing_col_add_service import MissingColAddService
 
 
 # config_path = os.path.join(path.dirname(__file__),'deepdoctection_configs/conf_dd_one_custom.yaml')
@@ -101,8 +102,13 @@ def build_analyzer():
     
     missing_cell_add = MissingCellAddService()
     pipe_component_list.append(missing_cell_add)
+
     missing_row_add = MissingRowAddService()
     pipe_component_list.append(missing_row_add)
+
+    missing_col_add = MissingColAddService()
+    pipe_component_list.append(missing_col_add)
+
     table_segmentation = TableSegmentationService(
             cfg.SEGMENTATION.ASSIGNMENT_RULE,
             cfg.SEGMENTATION.IOU_THRESHOLD_ROWS
