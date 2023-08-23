@@ -17,7 +17,7 @@ def remove_main_page_line_items_if_no_notes_items(df):
 
 def extract_positive_values_rows(df):
     df = df.reset_index(drop=True)
-    other_col = ["line_item","Particulars","Notes"]
+    other_col = ["line_item","Particulars","Notes","Note"]
     # main_page_other_cols = []
     year_cols = [i for i in df.columns if i not in other_col]
     positive_indices = []
@@ -95,7 +95,7 @@ def make_all_positive(temp_dict):
     notes_horizontal_table_df = temp_dict['notes_horizontal_table_df']
     main_page_cropped_df = temp_dict['main_page_cropped_df']
     main_page_year_total = temp_dict['main_page_year_total']
-    notes_cols = ["line_item"]
+    notes_cols = ["line_item","Note"]
     main_page_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
     if len(notes_horizontal_table_df) > 0 :
         if isinstance(notes_horizontal_table_df,pd.DataFrame):

@@ -97,6 +97,7 @@ class NoteStandardised:
                     # meta_dict["header_indices"] = header_indices
                     # meta_dict["header_indices"] = header_indices
                     # meta_dict["year_column_header_name"] = year_column_header_name
+                    final_transformed_df = add_note_column_to_standardised_note_df(key=key,note_df=final_transformed_df)
                 except Exception as e:
                     from ..logging_module.logging_wrapper import Logger
                     Logger.logr.debug("module: main_page_processing_service , File:noteStandardise.py,  function: ideal_template_processing")

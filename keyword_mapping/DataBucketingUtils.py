@@ -103,12 +103,15 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
     note_number_list= []
     subnote_number_list =[]
     tableid_list_main = []
-    prcoessed_tabelids = []
+    # prcoessed_tabelids = []
     notes_found_main_page_particular = []
     notes_notfound_main_page_particular = []
+    note_account_mapping_dict = {}
+    notes_notfound_main_page_note_number = []
     # print(notes_region_meta_data)
     try:
         for account,note_nums in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers')):
+            prcoessed_tabelids = []
             # print(f"account: {account} and note= {note_nums}")
             # if len(note_nums) >= 1:
             reference_notes_dict = notes_reference_dict.get(statement_type)
@@ -156,9 +159,12 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
                                         tableid_list_main.append(tableid)
                                         prcoessed_tabelids.append(tableid)
                                         notes_found_main_page_particular.append(account)
+                                        note_account_mapping_dict[account] = note
+                                        # notes_found_main_page_note_number.append(note)
                             else:
                                 ## if no notes tables found code to tack those main page line items
                                 notes_notfound_main_page_particular.append(account)
+                                # notes_notfound_main_page_note_number.append(note)
                 else:
                     ## if no notes tables found code to tack those main page line items
                     notes_notfound_main_page_particular.append(account)
@@ -170,7 +176,7 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
                         
     # print(notes_found_main_page_particular)
     notes_notfound_main_page_particular = set(notes_notfound_main_page_particular).difference(set(notes_found_main_page_particular))
-    return filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list_main,notes_found_main_page_particular,notes_notfound_main_page_particular
+    return filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list_main,notes_found_main_page_particular,notes_notfound_main_page_particular,note_account_mapping_dict
 
 
 # def convert_standaradised_notes_to_column_row_year(note_df,year_list,standard_note_meta_dict_item):
@@ -302,9 +308,11 @@ def prepare_df_for_dumping2(raw_note_list,note_number_list,subnote_number_list,t
             if key == combo_key:
                 _df = value
                 if len(_df)>0:
+                    # print(_df)
                     std_df["line_item"] =  _df[["columns","rows"]].fillna('').apply(" ".join, axis=1)
                     std_df["year"] = _df["year"]
                     std_df["value"] = _df["value"]
+                    std_df["Note"] = _df["Note"] #new code to add note
                     horizontal_note_df = convert_note_df_to_hotizontal(std_df)
                     temp_horizontal_df = temp_horizontal_df.append(horizontal_note_df)
         std_df["raw_note_no"]=raw_note
@@ -320,7 +328,7 @@ def convert_note_df_to_hotizontal(note_df):
     # try:
     years = sorted(list(note_df.year.unique()))
     years = map(int, years)
-    col_list = ["line_item"]
+    col_list = ["line_item","Note"] #new code to add note
     col_list.extend(years)
     # print(col_list)
     for col in col_list:
@@ -332,6 +340,7 @@ def convert_note_df_to_hotizontal(note_df):
         else:
             tmp_df = dict.fromkeys(col_list)
             tmp_df["line_item"] =  row["line_item"]
+            tmp_df["Note"] = row["Note"] #new code to add note
             tmp_df[row["year"]] = row["value"]
             new_horizontal_note_df = new_horizontal_note_df.append(tmp_df, ignore_index=True)
     # except Exception as e:
@@ -384,6 +393,7 @@ def remove_total_line_items(std_horzntl_note_df):
     return std_horzntl_note_df
 
 def remove_0_value_line_items(std_horzntl_note_df):
+    ### convert year columns to pd.to_numeric to avoid summation error for NAN values and to get those rows removed from final output. Later do this
     year_cols = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
     std_horzntl_note_df[year_cols] = std_horzntl_note_df[year_cols].fillna(value=0)
     remove_indics = []
@@ -513,6 +523,82 @@ def second_filter_PPE(std_hrzntl_note_df,month):
         std_hrzntl_note_df = std_hrzntl_note_df.iloc[month_indices]
     std_hrzntl_note_df.reset_index(drop=True,inplace=False)
     return std_hrzntl_note_df
+
+
+
+
+def include_main_page_value_if_no_notes_found(main_page_notes_notfound_main_page_particular,matched_main_page_df,temp_horizontal_df):
+    # print(f"matched_main_page_df={matched_main_page_df}")
+    main_non_year_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
+    year_cols = []
+    if len(matched_main_page_df)>0:
+        year_cols = [int(i) for i in matched_main_page_df.columns if i not in main_non_year_cols]
+    # matched_main_page_df.columns = [int(i) for i in matched_main_page_df.columns if i not in main_non_year_cols]
+    main_dfcols = []
+    for col in matched_main_page_df.columns:
+        if col not in main_non_year_cols:
+            main_dfcols.append(int(col))
+        else:
+            main_dfcols.append(col)
+    matched_main_page_df.columns = main_dfcols
+    years = year_cols
+    col_list = ["line_item","Note"] #new code to add note
+    col_list.extend(years)
+    new_horizontal_note_df = pd.DataFrame(columns=col_list)
+    # for col in col_list:
+    #     # new_horizontal_note_df[col] = None
+    #     new_horizontal_note_df
+    # new_horizontal_note_df.columns= col_list
+    def add_row_in_temp_horizontal_df(row,temp_horizontal_df,years):
+        if isinstance(temp_horizontal_df,pd.DataFrame):
+            # print(row)
+            tmp_df = dict.fromkeys(col_list)
+            tmp_df["line_item"] =  row["Particulars"]
+            tmp_df["Note"] = row["Notes"] #new code to add note
+            # print(f"years = {years}")
+            # print(f" row year = {row[years[0]]}")
+            for year in years:
+                tmp_df[year] = row[year]
+                
+            # temp_horizontal_df = temp_horizontal_df.append(tmp_df, ignore_index=True)
+            # if len(temp_horizontal_df)>0:
+            temp_horizontal_df = temp_horizontal_df.append(tmp_df, ignore_index=True)
+            # else:
+            #     temp_horizontal_df["line_item"] = row["Particulars"]
+            #     temp_horizontal_df["Note"] = row["Notes"]
+            #     for year in years:
+            #         temp_horizontal_df[year] = row[year]
+                # if row["Particulars"] in set(temp_horizontal_df['line_item']):
+                #     for year in years:
+                #         temp_horizontal_df.loc[temp_horizontal_df.line_item == row["Particulars"],row[year]] = row[year]
+
+
+        return temp_horizontal_df
+
+    new_temp_hrznt_df = temp_horizontal_df
+    for no_notes_particulars in main_page_notes_notfound_main_page_particular:
+        if isinstance(matched_main_page_df,pd.DataFrame):
+            if len(matched_main_page_df)>0:
+                for idx,row in matched_main_page_df.iterrows():
+                    if row["Particulars"] == no_notes_particulars:
+                        # print(f"no_notes_particulars = {no_notes_particulars}")
+                        # print(len(new_horizontal_note_df))
+                        # print(row)
+                        if isinstance(temp_horizontal_df,pd.DataFrame):
+                            if len(temp_horizontal_df)>0:
+                                new_temp_hrznt_df = add_row_in_temp_horizontal_df(row,temp_horizontal_df=temp_horizontal_df,years=years)
+                            else:
+                                new_temp_hrznt_df = add_row_in_temp_horizontal_df(row,new_horizontal_note_df,years=years)
+                        # print(new_temp_hrznt_df)
+                        temp_horizontal_df = new_temp_hrznt_df
+                        
+    # print(temp_horizontal_df)
+    
+    return temp_horizontal_df
+
+
+
+
 
 
 

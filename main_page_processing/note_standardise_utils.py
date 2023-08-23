@@ -752,6 +752,8 @@ def find_date_loc_super(df,main_page_notes_ref_dict,key,prev_column_number,prev_
                     main_page_year_values = note_ref_items["year_values"] 
                     # print(f"main_page_year_values: {main_page_year_values}")
                     index_dict = get_year_value_match_row_indices(main_page_year_values,df_copy,index_dict=index_dict)
+                    #### ADDING NOTE NUMBER TO DF 22 AUG 2023
+                    # df_copy['Note'] = nte_no
                     # print(f"df = {df_copy}")
                     # print(f"index dict = {index_dict}")
             # if note_ref_items["main_note_number"] == note_no:
@@ -763,6 +765,8 @@ def find_date_loc_super(df,main_page_notes_ref_dict,key,prev_column_number,prev_
 
     # final_col_number,final_row_number,mod_df = cross_checking_with_pev_date_fun_result()            
     final_df,final_col_number,final_row_number,final_raw_text,final_extrated_year = cross_checking_with_pev_date_fun_result(prev_column_number=prev_column_number,prev_row_number=prev_row_number,index_dict=index_dict,df_copy=df_copy,main_page_year_values=year_list)
+    #### ADDING NOTE NUMBER TO DF 22 AUG 2023
+    # final_df['Note'] = note_no
     return final_df,final_col_number,final_row_number,final_raw_text,final_extrated_year
 
 
@@ -958,6 +962,14 @@ def validating_row_or_column(index_dict):
 
 
 
+def add_note_column_to_standardised_note_df(key,note_df):
+    note_no = str(key).split("_")[0]
+    added_key_note_df = pd.DataFrame()
+    if isinstance(note_df,pd.DataFrame):
+        added_key_note_df = note_df.copy()
+        added_key_note_df['Note']=note_no
+    
+    return added_key_note_df
 
 
 
