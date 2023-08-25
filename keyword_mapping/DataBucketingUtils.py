@@ -415,8 +415,8 @@ def remove_0_value_line_items(std_horzntl_note_df):
     return std_horzntl_note_df
 
 def postprocessing_note_df(std_hrzntl_nte_df):
-    print(f"postprocessing std_hrzntl_nte_df = {std_hrzntl_nte_df}")
-    print(len(std_hrzntl_nte_df))
+    # print(f"postprocessing std_hrzntl_nte_df = {std_hrzntl_nte_df}")
+    # print(len(std_hrzntl_nte_df))
     if len(std_hrzntl_nte_df) > 0:
         # print("inside postprocessing std hrzntl nte df")
         std_hrzntl_nte_df = clean_note_df(std_horzntl_note_df=std_hrzntl_nte_df)

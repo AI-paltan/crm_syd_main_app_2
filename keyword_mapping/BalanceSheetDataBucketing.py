@@ -157,7 +157,7 @@ class BalanceSheetDataBucketing():
             matched_main_page_df = get_matched_main_page_df(main_page_data_indices=main_page_data_indices,df=df_datasheet)
 
             temp_horizontal_df = include_main_page_value_if_no_notes_found(main_page_notes_notfound_main_page_particular,matched_main_page_df,temp_horizontal_df)
-            print(f"temp_horizontal_df = {temp_horizontal_df}")
+            # print(f"temp_horizontal_df = {temp_horizontal_df}")
             temp_horizontal_df = postprocessing_note_df(std_hrzntl_nte_df=temp_horizontal_df)
             remaning_temp_horizontal_df = postprocessing_note_df(remaning_temp_horizontal_df)
             # temp_hrznt_df_with_meta_data = postprocessing_note_df(std_hrzntl_nte_df=temp_df)
