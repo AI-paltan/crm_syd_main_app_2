@@ -105,6 +105,7 @@ class mainPageProcess:
                     from ..logging_module.logging_wrapper import Logger
                     Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: get_standardize_main_pages CBS")
                     Logger.logr.error(f"error occured: {e}")
+                    # print(e)
 
             if page.page_number  in self.filtered_cpl_pages:
                 try:
@@ -125,6 +126,7 @@ class mainPageProcess:
                     from ..logging_module.logging_wrapper import Logger
                     Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: get_standardize_main_pages CPL")
                     Logger.logr.error(f"error occured: {e}")
+                    # print(e)
 
             if page.page_number  in self.filtered_ccf_pages:
                 try:
@@ -145,6 +147,7 @@ class mainPageProcess:
                     from ..logging_module.logging_wrapper import Logger
                     Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: get_standardize_main_pages CCF")
                     Logger.logr.error(f"error occured: {e}")
+                    # print(e)
 
 
     def merge_df(self):
@@ -215,9 +218,9 @@ class mainPageProcess:
         if len(self.ccf_df_dict) > 0 and len(set(self.ccf_df_dict.keys())) > 0 :
             # ccf_key = list(self.ccf_df_dict.keys())[0]
             ccf_key = list(self.ccf_df_dict.keys())
-        print(f"cbs_key = {cbs_key}")   
-        print(f"cpl_key = {cpl_key}")  
-        print(f"ccf_key = {ccf_key}")  
+        # print(f"cbs_key = {cbs_key}")   
+        # print(f"cpl_key = {cpl_key}")  
+        # print(f"ccf_key = {ccf_key}")  
         # if len(cbs_key)>0:
         #     cbs_meta = self.meta_dict.get(cbs_key)
         
@@ -278,9 +281,9 @@ class mainPageProcess:
             Logger.logr.debug("module: main_page_processing_service , File:process_core.py,  function: notes_number_processing_cls CCF")
             Logger.logr.error(f"error occured: {e}")
         
-        print(f"cbs_header = {cbs_header}")   
-        print(f"cpl_header = {cpl_header}")  
-        print(f"ccf_header = {ccf_header}")  
+        # print(f"cbs_header = {cbs_header}")   
+        # print(f"cpl_header = {cpl_header}")  
+        # print(f"ccf_header = {ccf_header}")  
         # if len(cbs_header) > 0 : 
         try:
             if 'Notes' in cbs_header:

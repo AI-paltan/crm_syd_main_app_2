@@ -31,6 +31,7 @@ class NoteStandardised:
 
     def ideal_template_processing(self):
         for key,note_df in self.cropped_table_dict.items():
+            # print(f"key={key}")
             if len(note_df)>0:
                 final_df = pd.DataFrame()
                 meta_dict : Dict = {}
@@ -40,7 +41,15 @@ class NoteStandardised:
                     columns_number,row_number,raw_text,extracted_year = find_date_location(note_df,self.years_list)
                     # find_date_loc_super(df=note_df,main_page_notes_ref_dict=self.main_page_notes_ref_dict,key=key,prev_column_number=columns_number,prev_row_number=row_number)
                     mod_df,column_numbr_s,row_number_s,raw_text_s,extracted_year_s = find_date_loc_super(df=note_df,main_page_notes_ref_dict=self.main_page_notes_ref_dict,key=key,prev_column_number=columns_number,prev_row_number=row_number,year_list=self.years_list)
-                    
+                    # print(f"raw_text_s = {raw_text_s}")
+                    # print(f"extracted_year_s = {extracted_year_s}")
+                    # print(f"column_numbr_s = {column_numbr_s}")
+                    # print(f"row_number_s = {row_number_s}")
+                    # print(f"columns_number = {columns_number}")
+                    # print(f"row_number = {row_number}")
+                    # print(f"raw_text = {raw_text}")
+                    # print(f"extracted_year = {extracted_year}")
+
                     if len(raw_text_s) > 0:
                         if raw_text_s[0][0] == -1:
                             columns_number = columns_number

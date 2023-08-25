@@ -41,7 +41,7 @@ def extract_positive_values_rows(df):
 
 
 
-def interest_income_filter(temp_dict):
+def interest_income_filter_old(temp_dict):
     ## check if note df
     ## if note df present extracts only positive value rows.
     ## if not extract only positive value rows from main pages
@@ -65,6 +65,15 @@ def interest_income_filter(temp_dict):
 
     return temp_dict
 
+
+def interest_income_filter(temp_dict):
+     not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+     check_str = "finance cost"
+     temp = '\t'.join(not_found_main_page_particular)
+     res = check_str in temp.lower()
+
+     if res:
+         pass
     
 
 def interest_expense_filter(temp_dict):

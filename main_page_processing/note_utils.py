@@ -61,6 +61,7 @@ def find_next_note_subnote(note,subnote=''):
     next_note = ''
     next_subnote = ''
     try:
+        note = int(''.join(filter(str.isdigit,str(note))))
         next_note = int(note)+1
         next_subnote = ''
         if len(subnote)<=2 and len(subnote)>0 :

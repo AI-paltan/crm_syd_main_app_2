@@ -919,13 +919,20 @@ def get_year_value_match_row_indices(year_dict,number_converted_df,index_dict):
             # print(colidx)
             # print(series)
             for idx,value in enumerate(series):
-                value = clean_number(str(value))
-                if str(value).isdigit():
+                try:
+                    value = clean_number(str(value))
+                    # print(f"value = {value}")
+                    # print(f"year_value = {year_value}")
+                    # print(str(value).isdigit())
+                    # print(float(value) == float(year_value))
+                    # if str(value).isdigit():
                     if float(value) == float(year_value):
                         row_idx.append(idx)
                         col_idx.append(colidx)
-                        # print(row_idx)
-                        # print(col_idx)
+                        # print(f"row_idx={row_idx}")
+                        # print(f"col_idx={col_idx}")
+                except Exception as e:
+                    pass
         inside_dict['row_indices'] = row_idx
         inside_dict['col_indices'] = col_idx
         # index_dict[year] = inside_dict
