@@ -52,28 +52,28 @@ class RefactorCBS:
         temp_df = {}
         try:
             note_row_num,note_col_num = get_note_column(self.df)
-            year_list,year_indices,raw_year_text = get_years_and_positions_with_notes(df=self.df,notes_indices=[note_row_num,note_col_num])
-            data_start_x,data_start_y,data_end_y,particulars_y = get_data_chunk_span_with_notes(df=self.df,notes_indices=[note_row_num,note_col_num],years_indices= year_indices)
-            df_numeric = number_data_processing(df=self.df,data_start_x= data_start_x,data_start_y= data_start_y,data_end_y= data_end_y)
-            headers = ['Particulars','Notes',year_list[0],year_list[1]]
-            standard_df = set_headers(df_numeric,data_start_x,data_end_y,headers)
-            temp_df = {}
             temp_df["note_col_x"] = note_row_num
             temp_df["note_col_y"] = note_col_num
+            year_list,year_indices,raw_year_text = get_years_and_positions_with_notes(df=self.df,notes_indices=[note_row_num,note_col_num])
             temp_df["year_list"] = year_list
             temp_df["year_indices"] = year_indices
             temp_df["raw_text_year"] = raw_year_text
+            data_start_x,data_start_y,data_end_y,particulars_y = get_data_chunk_span_with_notes(df=self.df,notes_indices=[note_row_num,note_col_num],years_indices= year_indices)
             temp_df["data_start_x"] = data_start_x
             temp_df["data_satrt_y"] = data_start_y
             temp_df["data_end_y"] = data_end_y
             temp_df["particulars_y"] = particulars_y
+            df_numeric = number_data_processing(df=self.df,data_start_x= data_start_x,data_start_y= data_start_y,data_end_y= data_end_y)
+            headers = ['Particulars','Notes',year_list[0],year_list[1]]
+            standard_df = set_headers(df_numeric,data_start_x,data_end_y,headers)
+            # temp_df = {}           
             temp_df["headers"] = headers
             temp_df["total_columns"] = 4
         except Exception as e:
             from ..logging_module.logging_wrapper import Logger
             Logger.logr.debug("module: MainPage_processing_Service , File:RefactorDF.py,  function: ideal_format_processing")
             Logger.logr.error(f"error occured: {e}")
-            print(e)
+            # print(e)
         return standard_df, temp_df
 
     def non_ideal_format_without_notes_processing(self):

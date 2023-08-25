@@ -146,39 +146,41 @@ class DataDump:
 
                                 except:
                                     cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
-                    else:
-                        if len(main_page_cropped_df) > 0:
-                            main_page_cropped_df.reset_index(drop=True,inplace=True)
-                            # print("len: ", len(notes_horizontal_table_df))
-                            self.value_present_count = self.value_present_count + 1
-                            cbs_worksheet,record_inserted = self.insert_rows(worksheet=cbs_worksheet,df_len=len(main_page_cropped_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"],record_inserted=record_inserted)
-                            for idx_row,row_note in main_page_cropped_df.iterrows():
-                                excel_row_num = int(row["cdm_keyword_start_row_map"]) + idx_row+1
-                                # print(f"excel_row_num: {excel_row_num}")
-                                cbs_worksheet.cell(row=excel_row_num,column=2).value = row_note["Particulars"]
-                                for year in years_list:
-                                    year_column = year_excel_col_map_dict.get(int(year))
-                                    try:
-                                        if statement_type=='cbs':
-                                            cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[str(year)]
-                                        if statement_type=='cpl':
-                                            # cbs_worksheet.cell(row=excel_row_num,column=year_column).value = abs(row_note[str(year)])
-                                            cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[str(year)]
+                    ### commenting below old code before 23 august as logic is modified
+                    ### and all required data is available in notes_horizontal_df
+                    # else:
+                    #     if len(main_page_cropped_df) > 0:
+                    #         main_page_cropped_df.reset_index(drop=True,inplace=True)
+                    #         # print("len: ", len(notes_horizontal_table_df))
+                    #         self.value_present_count = self.value_present_count + 1
+                    #         cbs_worksheet,record_inserted = self.insert_rows(worksheet=cbs_worksheet,df_len=len(main_page_cropped_df),start_template_rwo=row["cdm_keyword_start_row_map"],total_end_template_row=row["cdm_total_row_map"],record_inserted=record_inserted)
+                    #         for idx_row,row_note in main_page_cropped_df.iterrows():
+                    #             excel_row_num = int(row["cdm_keyword_start_row_map"]) + idx_row+1
+                    #             # print(f"excel_row_num: {excel_row_num}")
+                    #             cbs_worksheet.cell(row=excel_row_num,column=2).value = row_note["Particulars"]
+                    #             for year in years_list:
+                    #                 year_column = year_excel_col_map_dict.get(int(year))
+                    #                 try:
+                    #                     if statement_type=='cbs':
+                    #                         cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[str(year)]
+                    #                     if statement_type=='cpl':
+                    #                         # cbs_worksheet.cell(row=excel_row_num,column=year_column).value = abs(row_note[str(year)])
+                    #                         cbs_worksheet.cell(row=excel_row_num,column=year_column).value = row_note[str(year)]
 
-                                    except:
-                                        cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
-                        else:
-                            for main_year,value in zip(repsonse_dict.get("main_page_year_list"),repsonse_dict.get("main_page_year_total")):
-                                year_column = year_excel_col_map_dict.get(int(main_year))
-                                try:
-                                    if statement_type=='cbs':
-                                        cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = value
-                                    if statement_type=='cpl':
-                                        # cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = abs(value)
-                                        cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = value
+                    #                 except:
+                    #                     cbs_worksheet.cell(row=excel_row_num,column=year_column).value = 0.0
+                    #     else:
+                    #         for main_year,value in zip(repsonse_dict.get("main_page_year_list"),repsonse_dict.get("main_page_year_total")):
+                    #             year_column = year_excel_col_map_dict.get(int(main_year))
+                    #             try:
+                    #                 if statement_type=='cbs':
+                    #                     cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = value
+                    #                 if statement_type=='cpl':
+                    #                     # cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = abs(value)
+                    #                     cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = value
 
-                                except:
-                                    cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = 0.0  
+                    #             except:
+                    #                 cbs_worksheet.cell(row=total_row_num-1,column=year_column).value = 0.0  
 
         if record_inserted:
             sheet_names = ["BS (Assets) breakdown","BS (Liabilities) breakdown","P & L breakdown"]

@@ -147,24 +147,35 @@ def get_data_chunk_span_with_notes(df,notes_indices,years_indices):
     particulars_y = -1
     data_start_y = -1
     data_end_y = -1
+    # print(df.info())
     try:
         notes_x = notes_indices[0]
         notes_y = notes_indices[1]
         max_year_x = list(np.max(np.array(years_indices),axis=0))[0]#max(years_indices,key=max)[0]
         min_year_y = list(np.min(np.array(years_indices),axis=0))[1]#min(years_indices,key=min)[1]
         max_year_y = list(np.max(np.array(years_indices),axis=0))[1]#max(years_indices,key=max)[1]
+        # print(f"max_year_x = {max_year_x}")
+        # print(f"min_year_y = {min_year_y}")
+        # print(f"max_year_y = {max_year_y}")
         max_header = max([notes_x,max_year_x])
+        # print(f"max_header={max_header}")
         for i in range(max_header+1,len(df)):
-            if not pd.isnull(df.loc[i,notes_y-1]):
+            # print(f"inside loop = {df.iat[i,notes_y-1]}")
+            if not pd.isnull(df.iat[i,notes_y-1]):
                 data_start_x = i
                 particulars_y = notes_y-1
                 data_start_y = min_year_y
                 data_end_y = max_year_y
                 break
+        # print(f"data_start_x={data_start_x}")
+        # print(f"particulars_y={particulars_y}")
+        # print(f"data_start_y={data_start_y}")
+        # print(f"data_end_y={data_end_y}")
     except Exception as e:
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_data_chunk_span_with_notes")
         Logger.logr.error(f"error occured: {e}")
+        # print(e)
     return data_start_x,data_start_y,data_end_y,particulars_y
     
 
@@ -294,6 +305,7 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
                 tmp_year_value_dct = {}
                 for year in year_col_list:
                     tmp_year_value_dct[year] = df.iloc[idx][year]
+                    # tmp_year_value_dct[year] = df.iat[idx][year]
                 temp_dict["year_values"] = tmp_year_value_dct
                 ref_list.append(temp_dict)
                 # print(note_no)
@@ -306,6 +318,7 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: notes_number_processing")
         Logger.logr.error(f"error occured: {e}")
+        print(e)
     # print("ref list:", ref_list)
     return ref_list,notes_dict
 
@@ -320,6 +333,7 @@ def number_data_processing(df,data_start_x,data_start_y,data_end_y):
         pass
     for i in range(data_start_y,data_end_y+1):
         df.iloc[data_start_x:,i] = df.iloc[data_start_x:,i].apply(clean_number).apply(pd.to_numeric , errors='coerce').fillna(0)
+        # df.iat[data_start_x:,i] = df.iat[data_start_x:,i].apply(clean_number).apply(pd.to_numeric , errors='coerce').fillna(0)
 #     for idx,row in df.iterrows()
     return df
 
@@ -327,6 +341,7 @@ def number_data_processing(df,data_start_x,data_start_y,data_end_y):
 def set_headers(df,data_start_x,data_end_y,headers):
     try:
         subset_df = df.iloc[data_start_x:,:]
+        # subset_df = df.iat[data_start_x:,:]
         subset_df.columns = headers
         subset_df = subset_df.reset_index(drop=True)
     except Exception as e:

@@ -114,7 +114,12 @@ class BalanceSheetDataBucketing():
         temp_horizontal_df = []
         main_page_notes_found_main_page_particular = []
         main_page_notes_notfound_main_page_particular  =[]
+        main_page_notes_found_note_number = []
+        main_page_notes_notfound_note_number  =[]
         remaning_temp_horizontal_df = []
+        temp_hrznt_df_with_meta_data = pd.DataFrame()
+        remaining_temp_hrznt_df_with_meta_data = pd.DataFrame()
+        main_note_account_mapping_dict = {}
         ## clear total keyowrds line items from main pages
         try:
             df_datasheet = remove_total_lines_main_pages(df_datasheet=df_datasheet,filepath=keyword_mapping_settings.mastersheet_filter_particulars,statement_type='cbs',obj_techfuzzy=self.obj_techfuzzy)
@@ -130,12 +135,13 @@ class BalanceSheetDataBucketing():
                 main_page_value_list.append(main_page_best_match.get("line_item_value"))
                 # print(list(main_page_best_match.get("label")))
             # print(f"main_page_best_match:= {main_page_best_match}")
-            filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list,notes_found_main_page_particular,notes_notfound_main_page_particular = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cbs")
+            filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list,notes_found_main_page_particular,notes_notfound_main_page_particular,note_account_mapping_dict = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cbs")
             # print(f"1.raw_note_list: {raw_note_list},note_number_list: {note_number_list},sbnoue: {subnote_number_list},tableid:{tableid_list}")
             # print(f"len of std dict {len(filtered_standardised_tables_dict)} and len of trasnformed std dict: {len(filtered_transformed_standardised_tables_dict)}")
             # print(notes_found_main_page_particular)
             main_page_raw_note_list = list(set(raw_note_list))
             main_page_note_list = list(set(note_number_list))
+            main_note_account_mapping_dict = note_account_mapping_dict
             
             main_page_notes_found_main_page_particular = list(set(notes_found_main_page_particular))
             main_page_notes_notfound_main_page_particular = list(set(notes_notfound_main_page_particular))
@@ -149,8 +155,13 @@ class BalanceSheetDataBucketing():
             
             # print(main_page_data_indices)
             matched_main_page_df = get_matched_main_page_df(main_page_data_indices=main_page_data_indices,df=df_datasheet)
+
+            temp_horizontal_df = include_main_page_value_if_no_notes_found(main_page_notes_notfound_main_page_particular,matched_main_page_df,temp_horizontal_df)
+            # print(temp_horizontal_df)
             temp_horizontal_df = postprocessing_note_df(std_hrzntl_nte_df=temp_horizontal_df)
             remaning_temp_horizontal_df = postprocessing_note_df(remaning_temp_horizontal_df)
+            # temp_hrznt_df_with_meta_data = postprocessing_note_df(std_hrzntl_nte_df=temp_df)
+            # remaining_temp_hrznt_df_with_meta_data = postprocessing_note_df(remaining_temp_df)
             ## remaining notes df conversion and post processing
 
 
@@ -175,6 +186,9 @@ class BalanceSheetDataBucketing():
         # print("lower ",main_page_notes_found_main_page_particular)
         temp_dict["main_page_notes_found_main_page_particular"] = main_page_notes_found_main_page_particular
         temp_dict["main_page_notes_notfound_main_page_particular"] = main_page_notes_notfound_main_page_particular
+        temp_dict["main_note_account_mapping_dict"] = main_note_account_mapping_dict
+        temp_dict["temp_hrznt_df_with_meta_data"] = temp_hrznt_df_with_meta_data
+        temp_dict["remaining_temp_hrznt_df_with_meta_data"] = remaining_temp_hrznt_df_with_meta_data
         return temp_dict
   
 
@@ -240,6 +254,7 @@ class BalanceSheetDataBucketing():
 
     def get_PREPAID_EXPNS(self):
         meta_keywrods = "ca_prepaid_expenses"
+        print(meta_keywrods)
         main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
@@ -286,7 +301,7 @@ class BalanceSheetDataBucketing():
         month_filtered_df = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
         temp_dict["notes_horizontal_table_df"] = ppe_total_keyword_filter(month_filtered_df)
         ### temperory fix for no notes processed and get correct net PPE value
-        temp_dict['main_page_cropped_df'] = pd.DataFrame()
+        # temp_dict['main_page_cropped_df'] = pd.DataFrame()
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_NET_PLANT_PRPTY_AND_EQPMNT(self):

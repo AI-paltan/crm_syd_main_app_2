@@ -69,7 +69,7 @@ class getNotesDataTables:
                     # print("notes_endpage and notes end bbox:",notes_end_page,notes_end_bbox )
                     if len(notes_pages)<=0:
                         if len(subnote) > 0:
-                            print(f"{subnote} {account}")
+                            # print(f"{subnote} {account}")
                             note_pattern = str(subnote)
                             notes_pages,notes_start_bbox= find_note_start_index(note_pattern,account,self.ocr_line_df_dict,self.max_main_page)
                             next_note,next_subnote = find_next_note_subnote(note,subnote)

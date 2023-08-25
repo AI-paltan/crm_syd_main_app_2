@@ -12,6 +12,11 @@ class CBSsections:
     def __init__(self,df) -> None:
         self.cbs_dataframe = df
         self.section_master = {'section': 'statement_section', 'sub_section': 'statement_sub_section'}
+        self.assets_current_total = ["total current assets"]
+        self.assets_noncurrent_total = ["total non current assets","total noncurrent assets","total non-current assets"]
+        self.liability_current = ["total current liabilities"]
+        self.liability_noncurrent = ["total non current liabilities","total noncurrent liabilities","total non-current liabilities"]
+
 
     def get_keywords_library(self,filepath):
         res_dict = {}
@@ -77,6 +82,11 @@ class CBSsections:
                             curr_section = key
                             break
 
+                ## if first line add current assets sections
+                if curr_section is None:
+                    if df_index==0:
+                        curr_section="assets"
+                                   
                 # section_score = process.extract(particular_text, dict_main_sections, limit=1)
                 # if section_score[0][1] >= 90:
                 #     # app.logger.debug(f'{df_row["Particulars"]} | {section_score}')
@@ -107,6 +117,33 @@ class CBSsections:
                 # if subsection_score[0][1] >= 90:
                 #     curr_subsection = subsection_score[0][2]
                 #     app.logger.debug(f'{particular_text} | {subsection_score}')
+
+                 ## if first line add current assets sub sections
+                if curr_subsection is None:
+                    if df_index==0:
+                        curr_subsection="current"
+
+
+                if df_index > 1:
+                    previous_particular_text = self.cbs_dataframe.iloc[df_index-1]['Particulars']
+                    previous_particular_text = self.string_cleaning(previous_particular_text)
+                    res_match = obj_techfuzzy.token_sort_pro(previous_particular_text, self.assets_current_total)
+                    if res_match[0][1] >= 95:
+                        curr_section = "assets"
+                        curr_subsection="noncurrent"
+                    res_match = obj_techfuzzy.token_sort_pro(previous_particular_text, self.assets_noncurrent_total)
+                    if res_match[0][1] >= 95:
+                        curr_section = "equity_liabilities"
+                        curr_subsection="current"
+                    res_match = obj_techfuzzy.token_sort_pro(previous_particular_text, self.liability_current)
+                    if res_match[0][1] >= 95:
+                        curr_section = "equity_liabilities"
+                        curr_subsection="noncurrent"
+                    res_match = obj_techfuzzy.token_sort_pro(previous_particular_text, self.liability_noncurrent)
+                    if res_match[0][1] >= 95:
+                        curr_section = "equity_liabilities"
+                        curr_subsection="equity"
+
 
                 self.cbs_dataframe.at[df_index, self.section_master['section']] = curr_section
                 self.cbs_dataframe.at[df_index, self.section_master['sub_section']] = curr_subsection

@@ -208,6 +208,7 @@ def get_subfields_sum(meta_dict):
             for year in year_col:
                 # year = int(year)
                 year_dict[int(year)] = note_df[year].sum()
+        ### commenting below code 23 aug as we want to consider availbale line items from notes horizontal df only
         else:
             for value,year in zip(meta_dict["main_page_year_total"],meta_dict["main_page_year_list"]):
                 # year = int(year)
