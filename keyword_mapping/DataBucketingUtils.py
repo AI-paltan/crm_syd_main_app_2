@@ -108,6 +108,7 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
     notes_notfound_main_page_particular = []
     note_account_mapping_dict = {}
     notes_notfound_main_page_note_number = []
+    account_visited = False
     # print(notes_region_meta_data)
     try:
         for account,note_nums in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers')):
@@ -160,22 +161,39 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
                                         prcoessed_tabelids.append(tableid)
                                         notes_found_main_page_particular.append(account)
                                         note_account_mapping_dict[account] = note
+                                        account_visited = True
                                         # notes_found_main_page_note_number.append(note)
                             else:
                                 ## if no notes tables found code to tack those main page line items
                                 notes_notfound_main_page_particular.append(account)
+                                account_visited = True
                                 # notes_notfound_main_page_note_number.append(note)
                 else:
                     ## if no notes tables found code to tack those main page line items
                     notes_notfound_main_page_particular.append(account)
+                    account_visited = True
+            
+            # print(f"account_visited =-{account_visited}")
+            if not account_visited:
+                notes_notfound_main_page_particular.append(account)
+
+        # print(f"account_visited =-{account_visited}")
+        if not account_visited:
+            # print(main_page_best_match.get('line_item_label'))
+            for acc in main_page_best_match.get('line_item_label'):
+                notes_notfound_main_page_particular.append(acc)
+            # print(f"notes_notfound_main_page_note_number={notes_notfound_main_page_particular}")
+
     except Exception as e:
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: keyword_mapping , File:DataBucketingUtils.py,  function: get_notes_tables_from_meta_dict_and_standardized_notes_dict")
-        Logger.logr.error(f"error occured: {e}")                
+        Logger.logr.error(f"error occured: {e}")       
+        # print(e)         
 
                         
     # print(notes_found_main_page_particular)
     notes_notfound_main_page_particular = set(notes_notfound_main_page_particular).difference(set(notes_found_main_page_particular))
+    # print(f"notes_notfound_main_page_particular={notes_notfound_main_page_particular}")
     return filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list_main,notes_found_main_page_particular,notes_notfound_main_page_particular,note_account_mapping_dict
 
 
@@ -558,10 +576,15 @@ def include_main_page_value_if_no_notes_found(main_page_notes_notfound_main_page
     # new_horizontal_note_df.columns= col_list
     def add_row_in_temp_horizontal_df(row,temp_horizontal_df,years):
         if isinstance(temp_horizontal_df,pd.DataFrame):
-            # print(row)
+            # print(f"add_row_in_temp_horizontal_df row={row}")
+            # print("Notes" in row)
             tmp_df = dict.fromkeys(col_list)
             tmp_df["line_item"] =  row["Particulars"]
-            tmp_df["Note"] = row["Notes"] #new code to add note
+            if "Notes" in row:
+                tmp_df["Note"] = row["Notes"] #new code to add note
+            else:
+                tmp_df["Note"] = ""
+            # tmp_df["Note"] = row["Notes"] #new code to add note
             # print(f"years = {years}")
             # print(f" row year = {row[years[0]]}")
             for year in years:
@@ -569,6 +592,7 @@ def include_main_page_value_if_no_notes_found(main_page_notes_notfound_main_page
                 
             # temp_horizontal_df = temp_horizontal_df.append(tmp_df, ignore_index=True)
             # if len(temp_horizontal_df)>0:
+            # print(f"inside tmp_df = {tmp_df}")
             temp_horizontal_df = temp_horizontal_df.append(tmp_df, ignore_index=True)
             # else:
             #     temp_horizontal_df["line_item"] = row["Particulars"]
@@ -579,27 +603,31 @@ def include_main_page_value_if_no_notes_found(main_page_notes_notfound_main_page
                 #     for year in years:
                 #         temp_horizontal_df.loc[temp_horizontal_df.line_item == row["Particulars"],row[year]] = row[year]
 
-
+        # print(f"temp_horizontal_df={temp_horizontal_df}")
         return temp_horizontal_df
 
     new_temp_hrznt_df = temp_horizontal_df
     for no_notes_particulars in main_page_notes_notfound_main_page_particular:
+        # print(f"no_notes_particulars = {no_notes_particulars}")
+        # print(f"matched_main_page_df = {matched_main_page_df}")
         if isinstance(matched_main_page_df,pd.DataFrame):
             if len(matched_main_page_df)>0:
                 for idx,row in matched_main_page_df.iterrows():
                     if row["Particulars"] == no_notes_particulars:
                         # print(f"no_notes_particulars = {no_notes_particulars}")
                         # print(len(new_horizontal_note_df))
-                        # print(row)
+                        # print(f"row= {row}")
                         if isinstance(temp_horizontal_df,pd.DataFrame):
                             if len(temp_horizontal_df)>0:
                                 new_temp_hrznt_df = add_row_in_temp_horizontal_df(row,temp_horizontal_df=temp_horizontal_df,years=years)
                             else:
                                 new_temp_hrznt_df = add_row_in_temp_horizontal_df(row,new_horizontal_note_df,years=years)
-                        # print(new_temp_hrznt_df)
+                        else:
+                            new_temp_hrznt_df = add_row_in_temp_horizontal_df(row,new_horizontal_note_df,years=years)
+                        # print(f"new_temp_hrznt_df = {new_temp_hrznt_df}")
                         temp_horizontal_df = new_temp_hrznt_df
                         
-    # print(temp_horizontal_df)
+    # print(f"temp_horizontal_df = {temp_horizontal_df}")
     
     return temp_horizontal_df
 

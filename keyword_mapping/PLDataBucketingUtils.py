@@ -66,17 +66,59 @@ def interest_income_filter_old(temp_dict):
     return temp_dict
 
 
-def interest_income_filter(temp_dict):
-     not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
-     check_str = "finance cost"
-     temp = '\t'.join(not_found_main_page_particular)
-     res = check_str in temp.lower()
+def interest_expense_filter(temp_dict):
+    not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+    check_str = "finance cost"
+    temp = '\t'.join(not_found_main_page_particular)
+    res = check_str in temp.lower()
+    std_hrzntl_note_df = temp_dict['notes_horizontal_table_df']
+    if res:
+        if isinstance(std_hrzntl_note_df,pd.DataFrame):
+            std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+            keywords = ['cost','expense']
+            indices = []
+            std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+            for idx,row in std_hrzntl_note_df.iterrows():
+                for kwrd in keywords:
+                    if kwrd in row["line_item"].lower():
+                        indices.append(idx)
+        
+        if len(indices)>0:
+            std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
 
-     if res:
-         pass
+    temp_dict['notes_horizontal_table_df'] = temp_dict['notes_horizontal_table_df']
+
+    return temp_dict
     
 
-def interest_expense_filter(temp_dict):
+def interest_income_filter(temp_dict):
+    not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+    check_str = "finance income"
+    temp = '\t'.join(not_found_main_page_particular)
+    res = check_str in temp.lower()
+    std_hrzntl_note_df = temp_dict['notes_horizontal_table_df']
+    if res:
+        if isinstance(std_hrzntl_note_df,pd.DataFrame):
+            std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+            keywords = ['income']
+            indices = []
+            std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+            for idx,row in std_hrzntl_note_df.iterrows():
+                for kwrd in keywords:
+                    if kwrd in row["line_item"].lower():
+                        indices.append(idx)
+        
+        if len(indices)>0:
+            std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+
+    temp_dict['notes_horizontal_table_df'] = temp_dict['notes_horizontal_table_df']
+
+    return temp_dict 
+    
+
+def interest_expense_filter_old(temp_dict):
     std_hrzntl_note_df = temp_dict["notes_horizontal_table_df"]
     main_page_cropped_df = temp_dict["main_page_cropped_df"]
     negaive_note_df = pd.DataFrame()
@@ -149,6 +191,14 @@ def cost_of_sales_additional_keyword_filter(main_pg_cropped_df, main_pg_df):
             main_pg_cropped_df = main_pg_df
     main_pg_cropped_df.reset_index(drop=True,inplace=False)
     return main_pg_cropped_df
+
+
+
+
+def SMR_TAXES_filter(temp_dict):
+    notes_horizontal_df = temp_dict["notes_horizontal_table_df"]
+    main_page_df = temp_dict["main_page_cropped_df"]
+    main_page_notes_notfound_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
 
 
 

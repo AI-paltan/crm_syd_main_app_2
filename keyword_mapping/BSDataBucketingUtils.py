@@ -81,6 +81,23 @@ def net_keyword_filter(std_hrzntl_note_df):
         std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
 
+
+def carrying_amount_keyword_filter(std_hrzntl_note_df):
+    if isinstance(std_hrzntl_note_df,pd.DataFrame):
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+        keywords = ['carrying amount','carrying amounts','carryingamount', 'carryingamounts']
+        indices = []
+        std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+        for idx,row in std_hrzntl_note_df.iterrows():
+            for kwrd in keywords:
+                if kwrd in row["line_item"].lower():
+                    indices.append(idx)
+        
+        if len(indices)>0:
+            std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+    return std_hrzntl_note_df
+
 def current_word_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
         std_hrzntl_note_df.reset_index(drop=True,inplace=True)

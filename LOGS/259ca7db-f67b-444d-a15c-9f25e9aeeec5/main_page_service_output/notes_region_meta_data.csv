@@ -1,0 +1,2 @@
+note,subnote,start_page,star_bbox,next_note_pattern,end_page,end_bbox,tableid,row_numbers,tableslist,raw_note_number
+3,3,[18],"[[120, 190, 304, 230]]",3.4,[19],"[[120, 741, 578, 781]]",[UUID('a8bea4e0-44ec-33b9-9768-3b99f59477d3')],"[[0, 1, 2]]",[<CRM_SYD_main_app_2.database.db_models.TableLogs object at 0x7f7609334520>],['3.3']
