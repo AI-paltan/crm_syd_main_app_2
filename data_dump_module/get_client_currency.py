@@ -63,7 +63,7 @@ def get_client_nd_currency(fileid):
         input_units = unit_mapping[detected_units[0]]
     else:
         input_units = "Full Value"
-
+    print("client_name,client_currency,input_units", client_name,client_currency,input_units)
 
     return client_name,client_currency,input_units
 
