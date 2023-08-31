@@ -64,8 +64,9 @@ class mainPageProcess:
         self.month = file_query.month
         self.get_standardize_main_pages()
         self.merge_df() # if any statement spans over 2 pages
+        self.set_sections_subsections()  ## changed order of execution 30 aug to add section and subsection in notes_ref_list
         self.notes_number_processing_cls()
-        self.set_sections_subsections()
+        # self.set_sections_subsections()
         # self.find_note_page_area()
         self.get_note_data_tables()
         self.standardize_notes_data()
@@ -347,6 +348,7 @@ class mainPageProcess:
     def set_sections_subsections(self):
         try:
             for k,v in self.cbs_df_dict.items():
+                v.reset_index(drop=True,inplace=True)
                 obj_cbs_sections = CBSsections(v)
                 obj_cbs_sections.set_section_details()
                 # print(obj_cbs_sections.cbs_dataframe)
@@ -357,6 +359,7 @@ class mainPageProcess:
             Logger.logr.error(f"error occured: {e}")
         try:
             for k,v in self.ccf_df_dict.items():
+                v.reset_index(drop=True,inplace=True)
                 obj_ccf_sections = CCFsections(v)
                 obj_ccf_sections.set_section_details()
                 self.ccf_df_dict.update({k:obj_ccf_sections.cbs_dataframe})

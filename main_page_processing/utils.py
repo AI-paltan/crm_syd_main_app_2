@@ -31,7 +31,25 @@ def get_note_column(df):
         Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_note_column")
         Logger.logr.error(f"error occured: {e}")
     try:
+        def is_number_repl_isdigit(s):
+            """ Returns True if string is a number. """
+            try:
+                # print(s)
+                return s.replace('.','',1).isdigit()
+            except:
+                return False
+        
         if note_row_num == -1 and note_col_num == -1:
+            # print(df.info())
+            # df.iloc[:,1] = df.iloc[:,1].astype(float)
+            # df.iloc[:,1] = pd.to_numeric(df.iloc[:,1], errors='coerce',downcast="float")
+            # df = df.replace(np.nan, 0, regex=True)
+            # print(df.info())
+            for i in range(len(df)):
+                if is_number_repl_isdigit(df.iloc[i,1]):
+                    df.iat[i,1] = float(df.iloc[i,1])
+                else:
+                    df.iat[i,1] = None
             total = df.iloc[:,1].sum()
             # print(total)
             if total>10.0:
@@ -41,6 +59,7 @@ def get_note_column(df):
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_note_column")
         Logger.logr.error(f"error occured: {e}")
+        print(e)
     return note_row_num,note_col_num
 
 def get_years_and_positions_with_notes(df,notes_indices):
@@ -272,7 +291,15 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
     notes_col = df['Notes']
     # particulars_col = df.iloc[notes_indices[0]+1:,particulars_y]
     particulars_col = df['Particulars']
-    year_col_list = [i for i in df.columns if i not in ["Notes","Particulars"]]
+    section_col = []
+    subsection_col = []
+    if 'statement_section' in df.columns:
+        section_col = df['statement_section']
+        subsection_col = df['statement_sub_section']
+
+    # print(f"section_col = {section_col}")
+    # print(f"subsection_col = {subsection_col}")
+    year_col_list = [i for i in df.columns if i not in ["Notes","Particulars","statement_section","statement_sub_section"]]
     ref_list : list = []
     try:
         for idx,val in enumerate(notes_col):
@@ -302,6 +329,12 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
                 temp_dict['processed_raw_note'] = notes_list
                 temp_dict['main_note_number']=note_no
                 temp_dict['subnote_number'] = subnote_no
+                if len(section_col)>0:
+                    temp_dict['section'] = section_col.iloc[idx]
+                    temp_dict['subsection'] = subsection_col.iloc[idx]
+                else:
+                    temp_dict['section'] = ''
+                    temp_dict['subsection'] = ''
                 tmp_year_value_dct = {}
                 for year in year_col_list:
                     tmp_year_value_dct[year] = df.iloc[idx][year]
@@ -318,7 +351,7 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: notes_number_processing")
         Logger.logr.error(f"error occured: {e}")
-        print(e)
+        # print(e)
     # print("ref list:", ref_list)
     return ref_list,notes_dict
 

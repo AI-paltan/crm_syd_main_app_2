@@ -199,6 +199,23 @@ def SMR_TAXES_filter(temp_dict):
     notes_horizontal_df = temp_dict["notes_horizontal_table_df"]
     main_page_df = temp_dict["main_page_cropped_df"]
     main_page_notes_notfound_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+    main_non_year_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
+    main_page_df.reset_index(drop=True,inplace=True)
+    if len(main_page_df)>0:
+        year_cols = []
+        if len(main_page_df)>0:
+            year_cols = [int(i) for i in main_page_df.columns if i not in main_page_df]
+        main_dfcols = []
+        for col in main_page_df.columns:
+            if col not in main_non_year_cols:
+                main_dfcols.append(int(col))
+            else:
+                main_dfcols.append(col)
+        main_page_df.columns = main_dfcols
+        years = year_cols
+        col_list = ["line_item","Note"] #new code to add note
+        col_list.extend(years)
+        new_horizontal_note_df = pd.DataFrame(columns=col_list)
 
 
 

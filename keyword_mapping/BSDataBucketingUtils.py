@@ -221,7 +221,7 @@ def get_subfields_sum(meta_dict):
     try:
         note_df = meta_dict['notes_horizontal_table_df']
         if len(note_df) > 0:
-            year_col = [i for i in note_df.columns if i not in ["line_item"]]
+            year_col = [i for i in note_df.columns if i not in ["line_item","Note"]]
             for year in year_col:
                 # year = int(year)
                 year_dict[int(year)] = note_df[year].sum()
@@ -234,6 +234,7 @@ def get_subfields_sum(meta_dict):
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_subfields_sum")
         Logger.logr.error(f"error occured: {e}")   
+        # print(e)
     return year_dict
 
 
@@ -340,13 +341,17 @@ def get_Equity_Section_fields_total(bs_bucketing_dict):
         for meta_keyword in meta_keywords:
             if meta_keyword in bs_bucketing_dict.keys():
                 meta_dict =  bs_bucketing_dict[meta_keyword]
+                # print(meta_keyword)
+                # print(f"meta_dict={meta_dict}")
                 year_dict = get_subfields_sum(meta_dict=meta_dict)
+                # print(f"year_dict={year_dict}")
                 current_assets_section_year_sum[meta_keyword] = year_dict
                 for year,value in year_dict.items():
                     if len(total_of_all_upper_fields)==len(list(year_dict.keys())):
                         total_of_all_upper_fields[year] = total_of_all_upper_fields[year]+value
                     else:
                         total_of_all_upper_fields[year] = value
+                # print(f"total_of_all_upper_fields={total_of_all_upper_fields}")
     except Exception as e:
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: keyword_mapping , File:BSDataBucketingUtils.py,  function: get_Equity_Section_fields_total")
@@ -530,6 +535,9 @@ def calculate_other_Reserves_equity(total_current_assets_df_main_page,bs_bucketi
         year_list = list(other_current_year_dict.keys())
         if len(year_list)==0:
             year_list = list(total_of_all_upper_fields.keys())
+        # print(f"main_page_total_year_sum = {main_page_total_year_sum}")
+        # print(f"total_of_all_upper_fields={total_of_all_upper_fields}")
+        # print(f"other_current_year_dict = {other_current_year_dict}")
         for year in year_list:
             balance_val = main_page_total_year_sum[year] - ( total_of_all_upper_fields[year] + other_current_year_dict[year])
             balanced_amount[year] = balance_val
@@ -538,7 +546,7 @@ def calculate_other_Reserves_equity(total_current_assets_df_main_page,bs_bucketi
             # else:
             #     balanced_amount[year] = 0.0
             
-        
+        # print(f"balanced_amount={balanced_amount}")
         add_row = {'line_item':'Other Reserves *'}
         for year,value in balanced_amount.items():
             add_row[year]= value

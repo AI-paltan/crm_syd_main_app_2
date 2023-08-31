@@ -111,6 +111,8 @@ class ProfitLossDataBucketing():
         temp_hrznt_df_with_meta_data = pd.DataFrame()
         remaining_temp_hrznt_df_with_meta_data = pd.DataFrame()
         main_note_account_mapping_dict = {}
+        section = ''
+        subsection = ''
         try:
             self.df_datasheet = remove_total_lines_main_pages(df_datasheet=self.df_datasheet,filepath=keyword_mapping_settings.mastersheet_filter_particulars,statement_type='cpl',obj_techfuzzy=self.obj_techfuzzy)
             self.df_datasheet = self.df_datasheet.reset_index(drop=True)
@@ -125,7 +127,7 @@ class ProfitLossDataBucketing():
                 main_page_value_list.append(main_page_best_match.get("line_item_value"))
                 # print(list(main_page_best_match.get("label")))
             # print(f"main_page_best_match:= {main_page_best_match}")
-            filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list,notes_found_main_page_particular,notes_notfound_main_page_particular,note_account_mapping_dict = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,statement_type="cpl")
+            filtered_standardised_tables_dict,filtered_transformed_standardised_tables_dict,raw_note_list,note_number_list,subnote_number_list,tableid_list,notes_found_main_page_particular,notes_notfound_main_page_particular,note_account_mapping_dict = get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match=main_page_best_match,notes_reference_dict=self.notes_ref_dict,notes_region_meta_data=self.notes_region_meta_data,standardised_cropped_dict=self.standardised_cropped_dict,trasnformed_standardised_cropped_dict=self.transformed_standardised_cropped_dict,section=section,subsection=subsection,statement_type="cpl")
             # print(f"1.raw_note_list: {raw_note_list},note_number_list: {note_number_list},sbnoue: {subnote_number_list},tableid:{tableid_list}")
             # print(f"len of std dict {len(filtered_standardised_tables_dict)} and len of trasnformed std dict: {len(filtered_transformed_standardised_tables_dict)}")
             # noted_dict_respnse_after_filtering_keywrods = get_notes_dfDict_after_filtering_keywords(note_number_list=note_number_list,subnote_number_list=subnote_number_list,tableid_list=tableid_list,filtered_transformed_standardised_tables_dict=filtered_transformed_standardised_tables_dict,obj_techfuzzy=self.obj_techfuzzy,conf_score=self.conf_score_thresh,match_type='partial',notes_include_keywords=note_page_include_keywords,notes_exclude_keywords=notes_page_exclude_keywords)
@@ -156,7 +158,7 @@ class ProfitLossDataBucketing():
             from ..logging_module.logging_wrapper import Logger
             Logger.logr.debug("module: Keyword Mapping , File:ProfitLossDataBucketing.py,  function: get_cdm_item_data_buckets")
             Logger.logr.error(f"error occured: {e}")
-            # print(e)
+            print(e)
         temp_dict ={}
         temp_dict["main_page_row_indices"] = main_page_data_indices
         temp_dict["main_page_year_total"] =main_page_year_total_lst
@@ -181,6 +183,7 @@ class ProfitLossDataBucketing():
 
     def get_REVENUES(self):
         meta_keywrods = "smr_sales"
+        print(meta_keywrods)
         main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
@@ -192,6 +195,7 @@ class ProfitLossDataBucketing():
 
     def get_COST_OF_SALES(self):
         meta_keywrods = "cost_of_sales"
+        print(meta_keywrods)
         main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
@@ -293,6 +297,7 @@ class ProfitLossDataBucketing():
     
     def get_TAXES(self):
         meta_keywrods = "smr_taxes"
+        # print(meta_keywrods)
         main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)

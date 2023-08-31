@@ -62,9 +62,11 @@ def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_
     from ..logging_module.logging_wrapper import Logger
     Logger.logr.debug("module: Keyword Mapping , File:DatabucketingUtils.py,  function: get_main_page_line_items")
     Logger.logr.debug(f"keywords = {keywords} , match_type = {match_type} , conf_score_thresh ={conf_score_thresh}")
-    best_match = {'data_index': [], 'score': 0, 'value': 0, 'line_item_label': [],'note_numbers':[],'line_item_value':[]}
+    best_match = {'data_index': [], 'score': 0, 'value': 0, 'line_item_label': [],'note_numbers':[],'line_item_value':[],'statement_section':[],'statement_sub_section':[]}
     datasheet_col_list = df_datasheet.columns.to_list()
+    # print(f"datasheet_col_list= {datasheet_col_list}")
     for data_index, data_row in df_datasheet.iterrows():
+            # print(f"data_row = {data_row}")
             # skip if data value is already found for bucketing
             # app.logger.debug(data_row["Particulars"])
             # if data_row['flg_processed']:
@@ -89,13 +91,19 @@ def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_
                 # self.cbs_drilldown_items(bucket_row, data_row)
                 (best_match['line_item_label']).append(data_row[str("Particulars")])
                 (best_match['line_item_value']).append(float(data_row[curr_year]))
+                if 'statement_section' in datasheet_col_list:
+                    (best_match['statement_section']).append(data_row['statement_section'])
+                    (best_match['statement_sub_section']).append(data_row['statement_sub_section'])
+                else:
+                    (best_match['statement_section']).append('')
+                    (best_match['statement_sub_section']).append('')
 
     Logger.logr.debug(f"best_match = {best_match}")
     return best_match
 
 
 
-def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match,notes_reference_dict,notes_region_meta_data,standardised_cropped_dict,trasnformed_standardised_cropped_dict,statement_type):
+def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_match,notes_reference_dict,notes_region_meta_data,standardised_cropped_dict,trasnformed_standardised_cropped_dict,section,subsection,statement_type):
     # main_page_account_note_numbers = main_page_best_match.get('note_numbers')
     filtered_standardised_tables_dict : Dict = {}
     filtered_transformed_standardised_tables_dict : Dict = {}
@@ -111,9 +119,10 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
     account_visited = False
     # print(notes_region_meta_data)
     try:
+        # for account,note_nums,statement_section,statement_subsection in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers'),main_page_best_match.get('statement_section'),main_page_best_match.get('statement_sub_section')):
         for account,note_nums in zip(main_page_best_match.get('line_item_label'),main_page_best_match.get('note_numbers')):
             prcoessed_tabelids = []
-            # print(f"account: {account} and note= {note_nums}")
+            # print(f"account: {account} and note= {note_nums} and statement_section = {statement_section}, statement_subsection = {statement_subsection}")
             # if len(note_nums) >= 1:
             reference_notes_dict = notes_reference_dict.get(statement_type)
             # print(f"reference_notes_dict = {reference_notes_dict}")
@@ -123,51 +132,52 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
             for refe_notes in reference_notes_dict:
                 # print(f"refe_notes = {refe_notes}")
                 if str(account) == str(refe_notes.get('particular')):
+                    if str(section) == str(refe_notes.get('section')) and str(subsection) == str(refe_notes.get('subsection')):
                     # print("yes matched")
                     
-                    for note,subnote in zip(refe_notes.get('main_note_number'),refe_notes.get('subnote_number')):
-                        # note = refe_notes.get('main_note_number')
-                        # subnote = refe_notes.get('subnote_number')
-                        # print(notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values)
-                        lst = notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values
-                        if len(lst)>0:
-                        # tableid_list = notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values[0]
-                            tableid_list = list(set(lst[0]))
-                            # for idx,tableid_row in tableid_list.iterrows():
-                            # print(f"note : {note} nad subnote: {subnote}")
-                            # print(f"tableid list : {tableid_list}")
-                            # print(len(tableid_list))
-                            if len(tableid_list)>=1:
-                                for i in range(len(tableid_list)):
-                                    # print(f"i{i}")
-                                    
-                                    tableid = tableid_list[i]
-                                    if tableid not in prcoessed_tabelids:
-                                        # print(f"note : {note} nad subnote: {subnote}")
-                                        # print(f"tableid list : {tableid_list}")
-                                        # print(f"tableid={tableid}")
-                                        combo_key = str(note)+"_"+str(subnote)+"_"+str(tableid)
-                                        # print(f"combo key = {combo_key}")
-                                        # filtered_standardised_tables_dict[tableid] = standardised_cropped_dict.get(tableid)
-                                        # filtered_transformed_standardised_tables_dict[tableid] = trasnformed_standardised_cropped_dict.get(tableid)
-                                        filtered_standardised_tables_dict[combo_key] = standardised_cropped_dict.get(combo_key)
-                                        # print(filtered_standardised_tables_dict[combo_key])
-                                        filtered_transformed_standardised_tables_dict[combo_key] = trasnformed_standardised_cropped_dict.get(combo_key)
-                                        # print(filtered_transformed_standardised_tables_dict[combo_key])
-                                        raw_note_list.append(refe_notes.get('raw_note_no'))
-                                        note_number_list.append(note)
-                                        subnote_number_list.append(subnote)
-                                        tableid_list_main.append(tableid)
-                                        prcoessed_tabelids.append(tableid)
-                                        notes_found_main_page_particular.append(account)
-                                        note_account_mapping_dict[account] = note
-                                        account_visited = True
-                                        # notes_found_main_page_note_number.append(note)
-                            else:
-                                ## if no notes tables found code to tack those main page line items
-                                notes_notfound_main_page_particular.append(account)
-                                account_visited = True
-                                # notes_notfound_main_page_note_number.append(note)
+                        for note,subnote in zip(refe_notes.get('main_note_number'),refe_notes.get('subnote_number')):
+                            # note = refe_notes.get('main_note_number')
+                            # subnote = refe_notes.get('subnote_number')
+                            # print(notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values)
+                            lst = notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values
+                            if len(lst)>0:
+                            # tableid_list = notes_region_meta_data[(notes_region_meta_data['note']==str(note)) & (notes_region_meta_data['subnote']==str(subnote))]['tableid'].values[0]
+                                tableid_list = list(set(lst[0]))
+                                # for idx,tableid_row in tableid_list.iterrows():
+                                # print(f"note : {note} nad subnote: {subnote}")
+                                # print(f"tableid list : {tableid_list}")
+                                # print(len(tableid_list))
+                                if len(tableid_list)>=1:
+                                    for i in range(len(tableid_list)):
+                                        # print(f"i{i}")
+                                        
+                                        tableid = tableid_list[i]
+                                        if tableid not in prcoessed_tabelids:
+                                            # print(f"note : {note} nad subnote: {subnote}")
+                                            # print(f"tableid list : {tableid_list}")
+                                            # print(f"tableid={tableid}")
+                                            combo_key = str(note)+"_"+str(subnote)+"_"+str(tableid)
+                                            # print(f"combo key = {combo_key}")
+                                            # filtered_standardised_tables_dict[tableid] = standardised_cropped_dict.get(tableid)
+                                            # filtered_transformed_standardised_tables_dict[tableid] = trasnformed_standardised_cropped_dict.get(tableid)
+                                            filtered_standardised_tables_dict[combo_key] = standardised_cropped_dict.get(combo_key)
+                                            # print(filtered_standardised_tables_dict[combo_key])
+                                            filtered_transformed_standardised_tables_dict[combo_key] = trasnformed_standardised_cropped_dict.get(combo_key)
+                                            # print(filtered_transformed_standardised_tables_dict[combo_key])
+                                            raw_note_list.append(refe_notes.get('raw_note_no'))
+                                            note_number_list.append(note)
+                                            subnote_number_list.append(subnote)
+                                            tableid_list_main.append(tableid)
+                                            prcoessed_tabelids.append(tableid)
+                                            notes_found_main_page_particular.append(account)
+                                            note_account_mapping_dict[account] = note
+                                            account_visited = True
+                                            # notes_found_main_page_note_number.append(note)
+                                else:
+                                    ## if no notes tables found code to tack those main page line items
+                                    notes_notfound_main_page_particular.append(account)
+                                    account_visited = True
+                                    # notes_notfound_main_page_note_number.append(note)
                 else:
                     ## if no notes tables found code to tack those main page line items
                     notes_notfound_main_page_particular.append(account)
@@ -245,6 +255,7 @@ def get_notes_pages_line_items(transformed_standardised_note_df,keywords,obj_tec
                     res_fuzz_match = obj_techfuzzy.token_sort_pro(txt_rows, list_target_keywords)
                 # app.logger.debug(f'\t\t{res_fuzz_match}')
                 Logger.logr.debug(f"txt_rows = {txt_rows} , res_fuzz_match = {res_fuzz_match}")
+                # print(f"txt_rows = {txt_rows} , res_fuzz_match = {res_fuzz_match}")
                 if res_fuzz_match[0][1] >= conf_score_thresh:
                     # if bucket_row['field_tag'] == 'multisum':
                     (best_match['value']).append(float(data_row["value"]))
@@ -280,6 +291,7 @@ def get_notes_dfDict_after_filtering_keywords(note_number_list,subnote_number_li
             # _df = filtered_transformed_standardised_tables_dict.get(tableid)
             if key == combo_key:
                 _df = value
+                _df.reset_index(drop=True,inplace=True)
                 if len(notes_include_keywords)>0:
                     include_best_match = get_notes_pages_line_items(transformed_standardised_note_df=_df,keywords=notes_include_keywords,obj_techfuzzy=obj_techfuzzy,conf_score_thresh=conf_score,match_type=match_type)
                     if len(notes_exclude_keywords) > 0:
@@ -292,7 +304,8 @@ def get_notes_dfDict_after_filtering_keywords(note_number_list,subnote_number_li
                     repsonse_notes_dict[combo_key] = remain_notes_df
                     remaining_response_notes_dict[combo_key] = not_visited_notes_line_items_df
                 else:
-                    repsonse_notes_dict[combo_key] = _df
+                    # repsonse_notes_dict[combo_key] = _df
+                    remaining_response_notes_dict[combo_key] = _df
 
     return repsonse_notes_dict,remaining_response_notes_dict#not_visited_notes_line_items_df
 
@@ -385,62 +398,86 @@ def get_matched_main_page_df(main_page_data_indices,df):
 
 def clean_note_df(std_horzntl_note_df):
     # patterns = ["consolidated","$000","$"]
-    patterns = ["consolidated","$000","$00","$'000","$"]
-    for pattrn in patterns:
-        std_horzntl_note_df["line_item"] = std_horzntl_note_df["line_item"].str.replace(re.escape(pattrn),'',flags=re.IGNORECASE)
-
+    try:
+        patterns = ["consolidated","$000","$00","$'000","$"]
+        for pattrn in patterns:
+            std_horzntl_note_df["line_item"] = std_horzntl_note_df["line_item"].str.replace(re.escape(pattrn),'',flags=re.IGNORECASE)
+    except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: Keyword Mapping , File:DataBucketingUtils.py,  function: clean_note_df")
+            Logger.logr.error(f"error occured: {e}")
     return std_horzntl_note_df
 
 
 def adding_total_keyowrds(std_horzntl_note_df):
-    std_horzntl_note_df.reset_index(drop=True,inplace=True)
-    year_cols = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
-    for idx,row in std_horzntl_note_df.iterrows():
-        txt = row["line_item"].strip()
-        if len(txt)==0:
-            std_horzntl_note_df.at[idx,"line_item"] = "Total"
+    try:
+        std_horzntl_note_df.reset_index(drop=True,inplace=True)
+        year_cols = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
+        for idx,row in std_horzntl_note_df.iterrows():
+            txt = row["line_item"].strip()
+            if len(txt)==0:
+                std_horzntl_note_df.at[idx,"line_item"] = "Total"
+        std_horzntl_note_df.reset_index(drop=True,inplace=True)
+    except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: Keyword Mapping , File:DataBucketingUtils.py,  function: adding_total_keyowrds")
+            Logger.logr.error(f"error occured: {e}")
     return std_horzntl_note_df
 
 def remove_total_line_items(std_horzntl_note_df):
-    std_horzntl_note_df.reset_index(drop=True,inplace=True)
-    remove_indices = []
-    for idx,row in std_horzntl_note_df.iterrows():
-        print(f"row = {row}")
-        print("total" in row["line_item"].lower())
-        if "total" in row["line_item"].lower():
-            remove_indices.append(idx)
-    if len(remove_indices)>0:
-        std_horzntl_note_df.drop(remove_indices,inplace=True)
-    std_horzntl_note_df.reset_index(drop=True,inplace=True)
+    try:
+        std_horzntl_note_df.reset_index(drop=True,inplace=True)
+        remove_indices = []
+        for idx,row in std_horzntl_note_df.iterrows():
+            # print(f"row = {row}")
+            # print("total" in row["line_item"].lower())
+            if "total" in row["line_item"].lower():
+                remove_indices.append(idx)
+        if len(remove_indices)>0:
+            std_horzntl_note_df.drop(remove_indices,inplace=True)
+        std_horzntl_note_df.reset_index(drop=True,inplace=True)
+    except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: Keyword Mapping , File:DataBucketingUtils.py,  function: remove_total_line_items")
+            Logger.logr.error(f"error occured: {e}")
     return std_horzntl_note_df
 
 def remove_0_value_line_items(std_horzntl_note_df):
     ### convert year columns to pd.to_numeric to avoid summation error for NAN values and to get those rows removed from final output. Later do this
-    std_horzntl_note_df.reset_index(drop=True,inplace=True)
-    year_cols = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
-    std_horzntl_note_df[year_cols] = std_horzntl_note_df[year_cols].fillna(value=0)
-    remove_indics = []
-    for idx,row in std_horzntl_note_df.iterrows():
-        sum = 0
-        for year in year_cols:
-            sum = sum+row[year]
-        if sum == 0:
-            remove_indics.append(idx)
-    if len(remove_indics)>0:
-        std_horzntl_note_df.drop(remove_indics,inplace=True)
-    std_horzntl_note_df.reset_index(drop=True,inplace=True)
+    try:
+        std_horzntl_note_df.reset_index(drop=True,inplace=True)
+        year_cols = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
+        std_horzntl_note_df[year_cols] = std_horzntl_note_df[year_cols].fillna(value=0)
+        remove_indics = []
+        for idx,row in std_horzntl_note_df.iterrows():
+            sum = 0.0
+            for year in year_cols:
+                sum = sum+float(row[year])
+            if sum == 0.0:
+                remove_indics.append(idx)
+        if len(remove_indics)>0:
+            std_horzntl_note_df.drop(remove_indics,inplace=True)
+        std_horzntl_note_df.reset_index(drop=True,inplace=True)
+    except Exception as e:
+            from ..logging_module.logging_wrapper import Logger
+            Logger.logr.debug("module: Keyword Mapping , File:DataBucketingUtils.py,  function: remove_0_value_line_items")
+            Logger.logr.error(f"error occured: {e}")
 
     return std_horzntl_note_df
 
 def postprocessing_note_df(std_hrzntl_nte_df):
     # print(f"postprocessing std_hrzntl_nte_df = {std_hrzntl_nte_df}")
     # print(len(std_hrzntl_nte_df))
+    # try:
     if len(std_hrzntl_nte_df) > 0:
         # print("inside postprocessing std hrzntl nte df")
         std_hrzntl_nte_df = clean_note_df(std_horzntl_note_df=std_hrzntl_nte_df)
         std_hrzntl_nte_df = adding_total_keyowrds(std_horzntl_note_df=std_hrzntl_nte_df)
         std_hrzntl_nte_df = remove_0_value_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
+        # print(f"after 3 fun std_hrzntl_nte_df = {std_hrzntl_nte_df}")
         std_hrzntl_nte_df = remove_total_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
+    # except Exception as e:
+    #     print(e)
     return std_hrzntl_nte_df
 
 
