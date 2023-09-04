@@ -256,6 +256,7 @@ def get_notes_pages_line_items(transformed_standardised_note_df,keywords,obj_tec
                 # app.logger.debug(f'\t\t{res_fuzz_match}')
                 Logger.logr.debug(f"txt_rows = {txt_rows} , res_fuzz_match = {res_fuzz_match}")
                 # print(f"txt_rows = {txt_rows} , res_fuzz_match = {res_fuzz_match}")
+                # print(f"conf_score_thresh = {conf_score_thresh}")
                 if res_fuzz_match[0][1] >= conf_score_thresh:
                     # if bucket_row['field_tag'] == 'multisum':
                     (best_match['value']).append(float(data_row["value"]))
@@ -267,6 +268,7 @@ def get_notes_pages_line_items(transformed_standardised_note_df,keywords,obj_tec
                     (best_match['label']).append(data_row[col])
                     (best_match['colname_found']).append(col)
     Logger.logr.debug(f"best_match = {best_match}")
+    # print(f"best_match = {best_match}")
     return best_match
 
 def filter_notes_row_indices(included_keyword_best_match,excluded_keyword_best_match):
@@ -299,6 +301,7 @@ def get_notes_dfDict_after_filtering_keywords(note_number_list,subnote_number_li
                         data_indices = filter_notes_row_indices(included_keyword_best_match=include_best_match,excluded_keyword_best_match=exclude_best_match)
                     else:
                         data_indices = include_best_match.get('data_index')
+                    # print(f"data_indices = {data_indices}")
                     remain_notes_df = _df.iloc[data_indices]
                     not_visited_notes_line_items_df = _df.iloc[~_df.index.isin(data_indices)]  # or df.drop data indices
                     repsonse_notes_dict[combo_key] = remain_notes_df

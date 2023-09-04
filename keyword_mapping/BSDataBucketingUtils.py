@@ -573,6 +573,27 @@ def calculate_other_Reserves_equity(total_current_assets_df_main_page,bs_bucketi
 
 
 
+def find_notes_found_line_items_from_hrzntl_df(temp_dict):
+    ## find line items from standardized notes df where notes found for main page line items
+    main_page_note_found_particulars = temp_dict['main_page_notes_found_main_page_particular']
+    main_note_account_mapping_dict = temp_dict['main_note_account_mapping_dict']
+    notes_list = []
+    for particulars in main_page_note_found_particulars:
+        note = str(main_note_account_mapping_dict.get(particulars))
+        notes_list.append(note)
+    standardized_hrzntl_df = temp_dict['notes_horizontal_table_df']
+    standardized_hrzntl_df.reset_index(drop=True,inplace=True)
+    include_indices = []
+    for idx,row in standardized_hrzntl_df.iterrows():
+        try:
+            if str(row['Note']) in notes_list:
+                include_indices.append(idx)
+        except:
+            pass
+    standardized_hrzntl_df = standardized_hrzntl_df.iloc[include_indices]
+    temp_dict['notes_horizontal_table_df'] = standardized_hrzntl_df
+    return temp_dict
+
 
 
 

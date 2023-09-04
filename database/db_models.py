@@ -162,3 +162,12 @@ class CRM_nlp_bucketing(Base):
     cdm_sheet_name = Column(String)
     cdm_keyword_start_row_map = Column(String)
     cdm_total_row_map = Column(String)
+
+
+class Client_Financial_Dump(Base):
+     __tablename__ = "Client_Financial_Dump"
+     id = Column(Integer, primary_key=True, nullable=False)
+     mizuho_ccif = Column(Integer)
+     cif_no = Column(Integer)
+     cust_full_nm = Column(String)
+     ccy_cd = Column(String)
