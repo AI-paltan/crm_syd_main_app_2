@@ -595,9 +595,64 @@ def find_notes_found_line_items_from_hrzntl_df(temp_dict):
     return temp_dict
 
 
+def remove_notes_not_found_line_items_from_hrzntl_df(temp_dict):
+    ## find and remove line items from standardized notes df where notes not found for main page line items
+    main_page_note_not_found_particulars = temp_dict['main_page_notes_notfound_main_page_particular']
+    main_note_account_mapping_dict = temp_dict['main_note_account_mapping_dict']
+    notes_list = []
+    for particulars in main_page_note_not_found_particulars:
+        note = str(main_note_account_mapping_dict.get(particulars))
+        notes_list.append(note)
+    standardized_hrzntl_df = temp_dict['notes_horizontal_table_df']
+    standardized_hrzntl_df.reset_index(drop=True,inplace=True)
+    include_indices = []
+    for idx,row in standardized_hrzntl_df.iterrows():
+        try:
+            if str(row['line_item']) in main_page_note_not_found_particulars:
+                include_indices.append(idx)
+        except:
+            pass
+    standardized_hrzntl_df = standardized_hrzntl_df.iloc[~standardized_hrzntl_df.index.isin(include_indices)]
+    temp_dict['notes_horizontal_table_df'] = standardized_hrzntl_df
+    return temp_dict
 
 
 
 
-
-
+def handle_deffred_charges_deffered_taxes(temp_dict):
+    ## take only main page value and ignore note values
+    notes_horizontal_df = temp_dict["notes_horizontal_table_df"]
+    main_page_df = temp_dict["main_page_cropped_df"]
+    main_page_notes_notfound_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+    main_non_year_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
+    main_page_df.reset_index(drop=True,inplace=True)
+    if len(main_page_df)>0:
+        year_cols = []
+        if len(main_page_df)>0:
+            year_cols = [int(i) for i in main_page_df.columns if i not in main_non_year_cols]
+        main_dfcols = []
+        for col in main_page_df.columns:
+            if col not in main_non_year_cols:
+                main_dfcols.append(int(col))
+            else:
+                main_dfcols.append(col)
+        main_page_df.columns = main_dfcols
+        years = year_cols
+        col_list = ["line_item","Note"] #new code to add note
+        col_list.extend(years)
+        new_horizontal_note_df = pd.DataFrame(columns=col_list)
+        for idx,row in main_page_df.iterrows():
+            tmp_df = dict.fromkeys(col_list)
+            tmp_df["line_item"] = row["Particulars"]
+            if 'Notes' in main_dfcols:
+                tmp_df["Note"] = row["Notes"]
+            else:
+                tmp_df["Note"] = ""
+            for year in years:
+                tmp_df[year] = row[year]
+        # print(f"tmp_df={tmp_df}")
+            new_horizontal_note_df = new_horizontal_note_df.append(tmp_df, ignore_index=True)
+            
+        temp_dict["notes_horizontal_table_df"] = new_horizontal_note_df
+        
+    return temp_dict

@@ -384,6 +384,7 @@ class BalanceSheetDataBucketing():
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = handle_deffred_charges_deffered_taxes(temp_dict=temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_OTHER_AST(self):
@@ -563,6 +564,7 @@ class BalanceSheetDataBucketing():
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = handle_deffred_charges_deffered_taxes(temp_dict=temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_OTHER_LONG_TERM_LIAB(self):
