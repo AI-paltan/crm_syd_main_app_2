@@ -66,17 +66,59 @@ def interest_income_filter_old(temp_dict):
     return temp_dict
 
 
-def interest_income_filter(temp_dict):
-     not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
-     check_str = "finance cost"
-     temp = '\t'.join(not_found_main_page_particular)
-     res = check_str in temp.lower()
+def interest_expense_filter(temp_dict):
+    not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+    check_str = "finance cost"
+    temp = '\t'.join(not_found_main_page_particular)
+    res = check_str in temp.lower()
+    std_hrzntl_note_df = temp_dict['notes_horizontal_table_df']
+    if res:
+        if isinstance(std_hrzntl_note_df,pd.DataFrame):
+            std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+            keywords = ['cost','expense']
+            indices = []
+            std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+            for idx,row in std_hrzntl_note_df.iterrows():
+                for kwrd in keywords:
+                    if kwrd in row["line_item"].lower():
+                        indices.append(idx)
+        
+        if len(indices)>0:
+            std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
 
-     if res:
-         pass
+    temp_dict['notes_horizontal_table_df'] = temp_dict['notes_horizontal_table_df']
+
+    return temp_dict
     
 
-def interest_expense_filter(temp_dict):
+def interest_income_filter(temp_dict):
+    not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+    check_str = "finance income"
+    temp = '\t'.join(not_found_main_page_particular)
+    res = check_str in temp.lower()
+    std_hrzntl_note_df = temp_dict['notes_horizontal_table_df']
+    if res:
+        if isinstance(std_hrzntl_note_df,pd.DataFrame):
+            std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+            keywords = ['income']
+            indices = []
+            std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+            for idx,row in std_hrzntl_note_df.iterrows():
+                for kwrd in keywords:
+                    if kwrd in row["line_item"].lower():
+                        indices.append(idx)
+        
+        if len(indices)>0:
+            std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+
+    temp_dict['notes_horizontal_table_df'] = temp_dict['notes_horizontal_table_df']
+
+    return temp_dict 
+    
+
+def interest_expense_filter_old(temp_dict):
     std_hrzntl_note_df = temp_dict["notes_horizontal_table_df"]
     main_page_cropped_df = temp_dict["main_page_cropped_df"]
     negaive_note_df = pd.DataFrame()
@@ -149,6 +191,47 @@ def cost_of_sales_additional_keyword_filter(main_pg_cropped_df, main_pg_df):
             main_pg_cropped_df = main_pg_df
     main_pg_cropped_df.reset_index(drop=True,inplace=False)
     return main_pg_cropped_df
+
+
+
+
+def SMR_TAXES_filter(temp_dict):
+    notes_horizontal_df = temp_dict["notes_horizontal_table_df"]
+    main_page_df = temp_dict["main_page_cropped_df"]
+    main_page_notes_notfound_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+    main_non_year_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
+    main_page_df.reset_index(drop=True,inplace=True)
+    if len(main_page_df)>0:
+        year_cols = []
+        if len(main_page_df)>0:
+            year_cols = [int(i) for i in main_page_df.columns if i not in main_non_year_cols]
+        main_dfcols = []
+        for col in main_page_df.columns:
+            if col not in main_non_year_cols:
+                main_dfcols.append(int(col))
+            else:
+                main_dfcols.append(col)
+        main_page_df.columns = main_dfcols
+        years = year_cols
+        col_list = ["line_item","Note"] #new code to add note
+        col_list.extend(years)
+        # print(f"col_list={col_list}")
+        new_horizontal_note_df = pd.DataFrame(columns=col_list)
+        tmp_df = dict.fromkeys(col_list)
+        last_row_main_page = main_page_df.tail(1)
+        # print(f"last_row_main_page= {last_row_main_page}")
+        tmp_df["line_item"] =  last_row_main_page["Particulars"].values[0]
+        if "Notes" in last_row_main_page.columns:
+                tmp_df["Note"] = last_row_main_page["Notes"].values[0] #new code to add note
+        else:
+                tmp_df["Note"] = ""
+        for year in years:
+                tmp_df[year] = last_row_main_page[year].values[0]
+        # print(f"tmp_df={tmp_df}")
+        new_horizontal_note_df = new_horizontal_note_df.append(tmp_df, ignore_index=True)
+        temp_dict["notes_horizontal_table_df"] = new_horizontal_note_df
+    
+    return temp_dict
 
 
 
