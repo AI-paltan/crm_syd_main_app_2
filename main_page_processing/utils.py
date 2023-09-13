@@ -106,10 +106,29 @@ def get_years_and_positions_with_notes(df,notes_indices):
                                 raw_year_text.append(item)
             if len(year_list) == (len(df.columns) - note_y-1):
                 break
+
+        ### code to handle issue with TMCA 2023 Annual Report Signed FINAL file where year mentioned on different line for BS file 13 sept 2023
+        if len(year_list) < 1:
+            for col_idx,col in df.iteritems():
+                if col_idx > note_y:
+                    for idx,item in col.iteritems():
+                        if (note_x-2) <= idx <= (note_x+2):
+                            year = get_regex_year(str(item))
+                            if year:  #to avoid Nonetype issue
+                                if int(year) > 0:
+                                    year_list.append(int(year))
+                                    year_indices.append([idx,col_idx])
+                                    raw_year_text.append(item)
+                                    break
+        # print(f"year_list = {year_list}")
+        # print(f"year_indices = {year_indices}")
+        # print(f"raw_year_text = {raw_year_text}")
+
     except Exception as e:
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: get_years_and_positions_with_notes")
         Logger.logr.error(f"error occured: {e}")
+        # print(e)
     return year_list,year_indices,raw_year_text
 
 
