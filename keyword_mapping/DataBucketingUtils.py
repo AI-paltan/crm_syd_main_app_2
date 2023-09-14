@@ -164,12 +164,16 @@ def get_notes_tables_from_meta_dict_and_standardized_notes_dict(main_page_best_m
                                             # print(filtered_standardised_tables_dict[combo_key])
                                             filtered_transformed_standardised_tables_dict[combo_key] = trasnformed_standardised_cropped_dict.get(combo_key)
                                             # print(filtered_transformed_standardised_tables_dict[combo_key])
+                                            transformed_stdr_table = trasnformed_standardised_cropped_dict.get(combo_key)
                                             raw_note_list.append(refe_notes.get('raw_note_no'))
                                             note_number_list.append(note)
                                             subnote_number_list.append(subnote)
                                             tableid_list_main.append(tableid)
                                             prcoessed_tabelids.append(tableid)
-                                            notes_found_main_page_particular.append(account)
+                                            if len(transformed_stdr_table) > 0:
+                                                notes_found_main_page_particular.append(account)
+                                            else:
+                                                notes_notfound_main_page_particular.append(account)
                                             note_account_mapping_dict[account] = note
                                             account_visited = True
                                             # notes_found_main_page_note_number.append(note)

@@ -204,7 +204,7 @@ def SMR_TAXES_filter(temp_dict):
     if len(main_page_df)>0:
         year_cols = []
         if len(main_page_df)>0:
-            year_cols = [int(i) for i in main_page_df.columns if i not in main_page_df]
+            year_cols = [int(i) for i in main_page_df.columns if i not in main_non_year_cols]
         main_dfcols = []
         for col in main_page_df.columns:
             if col not in main_non_year_cols:
@@ -215,9 +215,11 @@ def SMR_TAXES_filter(temp_dict):
         years = year_cols
         col_list = ["line_item","Note"] #new code to add note
         col_list.extend(years)
+        # print(f"col_list={col_list}")
         new_horizontal_note_df = pd.DataFrame(columns=col_list)
         tmp_df = dict.fromkeys(col_list)
         last_row_main_page = main_page_df.tail(1)
+        # print(f"last_row_main_page= {last_row_main_page}")
         tmp_df["line_item"] =  last_row_main_page["Particulars"].values[0]
         if "Notes" in last_row_main_page.columns:
                 tmp_df["Note"] = last_row_main_page["Notes"].values[0] #new code to add note
@@ -225,6 +227,7 @@ def SMR_TAXES_filter(temp_dict):
                 tmp_df["Note"] = ""
         for year in years:
                 tmp_df[year] = last_row_main_page[year].values[0]
+        # print(f"tmp_df={tmp_df}")
         new_horizontal_note_df = new_horizontal_note_df.append(tmp_df, ignore_index=True)
         temp_dict["notes_horizontal_table_df"] = new_horizontal_note_df
     
