@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
-
+import string
 
 def second_filter_PPE(std_hrzntl_note_df,month):
     ## this function will filter PPE note further for month of given annual statemnt
@@ -594,6 +594,31 @@ def find_notes_found_line_items_from_hrzntl_df(temp_dict):
     temp_dict['notes_horizontal_table_df'] = standardized_hrzntl_df
     return temp_dict
 
+
+def string_cleaning(self, str_line):
+    remove = string.punctuation
+    remove = remove + '\n'
+    pattern = r"[{}]".format(remove)  # create the pattern
+
+    # Regular expression to replace "Non - <TEXT>" to "Non-<TEXT>"
+    particular_text = re.sub(r'(non)(\s+)(-)(\s+)', r'\1\3', str(str_line), flags=re.IGNORECASE)
+
+    return re.sub(pattern, "", particular_text.strip())
+
+
+
+def deffered_charges(cbs_whole_df,tmp_dict,obj_techfuzzy):
+    keywords = ["deffered tax assets","defferes tax liabilities"]
+
+    main_page_indices = []
+    cbs_whole_df.reset_index(drop=True,inplace=True)
+    for df_index, df_row in cbs_whole_df.iterrows():
+        particular_text = cbs_whole_df.iloc[df_index]['Particulars']
+        particular_text = string_cleaning(particular_text)
+        res_match = obj_techfuzzy.token_sort_pro(particular_text, keywords)
+        if res_match[0][1] >= 95:
+            main_page_indices.append(df_index)
+        
 
 
 
