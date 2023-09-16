@@ -606,18 +606,6 @@ def string_cleaning(self, str_line):
     return re.sub(pattern, "", particular_text.strip())
 
 
-
-def deffered_charges(cbs_whole_df,tmp_dict,obj_techfuzzy):
-    keywords = ["deffered tax assets","defferes tax liabilities"]
-
-    main_page_indices = []
-    cbs_whole_df.reset_index(drop=True,inplace=True)
-    for df_index, df_row in cbs_whole_df.iterrows():
-        particular_text = cbs_whole_df.iloc[df_index]['Particulars']
-        particular_text = string_cleaning(particular_text)
-        res_match = obj_techfuzzy.token_sort_pro(particular_text, keywords)
-        if res_match[0][1] >= 95:
-            main_page_indices.append(df_index)
         
 
 def remove_notes_not_found_line_items_from_hrzntl_df(temp_dict):
