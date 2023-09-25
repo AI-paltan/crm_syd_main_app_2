@@ -85,7 +85,7 @@ def net_keyword_filter(std_hrzntl_note_df):
 def carrying_amount_keyword_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
         std_hrzntl_note_df.reset_index(drop=True,inplace=True)
-        keywords = ['carrying amount','carrying amounts','carryingamount', 'carryingamounts']
+        keywords = ['carrying amount','carrying amounts','carryingamount', 'carryingamounts','carrying']
         indices = []
         std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
         for idx,row in std_hrzntl_note_df.iterrows():
@@ -603,7 +603,7 @@ def string_cleaning(self, str_line):
     # Regular expression to replace "Non - <TEXT>" to "Non-<TEXT>"
     particular_text = re.sub(r'(non)(\s+)(-)(\s+)', r'\1\3', str(str_line), flags=re.IGNORECASE)
 
-    return re.sub(pattern, "", particular_text.strip())
+    return re.sub(pattern, " ", particular_text.strip())
 
 
         
@@ -668,4 +668,29 @@ def handle_deffred_charges_deffered_taxes(temp_dict):
             
         temp_dict["notes_horizontal_table_df"] = new_horizontal_note_df
         
+    return temp_dict
+
+
+
+def make_all_positive(temp_dict):
+    ## convert values from notes_horizontal_table_df, main_page_cropped_df , main_page_year_total to positive
+    notes_horizontal_table_df = temp_dict['notes_horizontal_table_df']
+    main_page_cropped_df = temp_dict['main_page_cropped_df']
+    main_page_year_total = temp_dict['main_page_year_total']
+    notes_cols = ["line_item","Note"]
+    main_page_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
+    if len(notes_horizontal_table_df) > 0 :
+        if isinstance(notes_horizontal_table_df,pd.DataFrame):
+            year_cols = [i for i in notes_horizontal_table_df.columns if i not in notes_cols]
+            notes_horizontal_table_df[year_cols] = notes_horizontal_table_df[year_cols].abs()
+    if len(main_page_cropped_df) > 0:
+        if isinstance(main_page_cropped_df,pd.DataFrame):
+            year_cols = [i for i in main_page_cropped_df.columns if i not in main_page_cols]
+            main_page_cropped_df[year_cols] = main_page_cropped_df[year_cols].abs()
+    if len(main_page_year_total)>0:
+        main_page_year_total = [abs(x) for x in main_page_year_total]
+
+    temp_dict['notes_horizontal_table_df'] = notes_horizontal_table_df
+    temp_dict['main_page_cropped_df'] = main_page_cropped_df
+    temp_dict['main_page_year_total'] = main_page_year_total
     return temp_dict

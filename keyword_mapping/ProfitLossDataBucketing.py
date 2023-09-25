@@ -232,7 +232,7 @@ class ProfitLossDataBucketing():
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
-        kwds = ['admin expense','administration expense','administration expense']
+        kwds = ['admin expense','administration expense','administration expense','other expense']
         temp_dict = remove_specific_keywords_notes_not_found_line_items_from_hrzntl_df(temp_dict=temp_dict,keywords=kwds,obj_techfuzzy=self.obj_techfuzzy)
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
 

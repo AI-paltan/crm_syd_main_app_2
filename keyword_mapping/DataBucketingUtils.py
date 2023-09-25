@@ -472,6 +472,12 @@ def remove_0_value_line_items(std_horzntl_note_df):
 
     return std_horzntl_note_df
 
+def remove_duplicate_rows(std_horzntl_note_df):
+    std_horzntl_note_df = std_horzntl_note_df.drop_duplicates(keep='first', inplace=True)
+    std_horzntl_note_df.reset_index(drop=True,inplace=True)
+    return std_horzntl_note_df
+
+
 def postprocessing_note_df(std_hrzntl_nte_df):
     # print(f"postprocessing std_hrzntl_nte_df = {std_hrzntl_nte_df}")
     # print(len(std_hrzntl_nte_df))
@@ -483,6 +489,7 @@ def postprocessing_note_df(std_hrzntl_nte_df):
         std_hrzntl_nte_df = remove_0_value_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
         # print(f"after 3 fun std_hrzntl_nte_df = {std_hrzntl_nte_df}")
         std_hrzntl_nte_df = remove_total_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
+        std_hrzntl_nte_df = remove_duplicate_rows(std_horzntl_note_df=std_hrzntl_nte_df)
     # except Exception as e:
     #     print(e)
     return std_hrzntl_nte_df

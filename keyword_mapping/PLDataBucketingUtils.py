@@ -91,6 +91,22 @@ def interest_expense_filter(temp_dict):
 
     return temp_dict
     
+def exclude_net_keyword_filter(std_hrzntl_df):
+    if isinstance(std_hrzntl_note_df,pd.DataFrame):
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+        keywords = ['Net','net']
+        indices = []
+        std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+        for idx,row in std_hrzntl_note_df.iterrows():
+            for kwrd in keywords:
+                if kwrd in row["line_item"].lower():
+                    indices.append(idx)
+        
+        if len(indices)>0:
+            # std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+            std_hrzntl_note_df = std_hrzntl_note_df.iloc[~std_hrzntl_note_df.index.isin(indices)] 
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+    return std_hrzntl_note_df
 
 def interest_income_filter(temp_dict):
     not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
@@ -111,7 +127,9 @@ def interest_income_filter(temp_dict):
         
         if len(indices)>0:
             std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+        # if len(indices)>1:
+        #     std_hrzntl_note_df = exclude_net_keyword_filter(std_hrzntl_df=std_hrzntl_note_df)
+        #     std_hrzntl_note_df.reset_index(drop=True,inplace=True)
 
     temp_dict['notes_horizontal_table_df'] = temp_dict['notes_horizontal_table_df']
 
@@ -138,6 +156,10 @@ def interest_expense_filter_old(temp_dict):
 
     return temp_dict
 
+
+
+# def net_keyword_filtering_interest_income(temp_dict):
+#     std_hrzntl_note_df = temp_dict["notes_horizontal_table_df"]
 
 
 

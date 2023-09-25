@@ -99,7 +99,7 @@ class TechMagicFuzzy:
         str_line = str_line.replace("/", " ")               # replace "/" with space
         str_line = str_line.replace("\n", " ")              # replace "\n" with space
         str_line = re.sub(r'(non)(\s+)(-)(\s+)', r'\1\3', str(str_line), flags=re.IGNORECASE)   # Regex replace "Non - <TEXT>" to "Non-<TEXT>"
-        res_str = re.sub(pattern, "", str_line).strip()     # replace special chars with space
+        res_str = re.sub(pattern, " ", str_line).strip()     # replace special chars with space
         res_str = re.sub(r'\b[a-zA-Z]{1,2}\b', "", res_str)   # replace single letter with empty space
         res_str = res_str.translate(remove_digits)          # replace digits from string
         res_str = re.sub(r"\s{2,}", ' ', res_str)           # replace multiple spaces with single space
