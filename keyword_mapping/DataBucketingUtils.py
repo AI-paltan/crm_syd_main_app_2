@@ -730,12 +730,14 @@ def remove_specific_keywords_notes_not_found_line_items_from_hrzntl_df(temp_dict
     main_page_note_not_found_particulars = temp_dict['main_page_notes_notfound_main_page_particular']
     main_note_account_mapping_dict = temp_dict['main_note_account_mapping_dict']
     notes_list = []
+    pert_list = []
     for particulars in main_page_note_not_found_particulars:
         note = str(main_note_account_mapping_dict.get(particulars))
         txt_particular = strip_string_bullets(particulars,obj_techfuzzy)
         res_fuzz_match = obj_techfuzzy.partial_ratio_pro(txt_particular, keywords)
         if res_fuzz_match[0][1] >= 90:
             notes_list.append(note)
+            pert_list.append(particulars)
     standardized_hrzntl_df = temp_dict['notes_horizontal_table_df']
     standardized_hrzntl_df.reset_index(drop=True,inplace=True)
     include_indices = []
@@ -744,7 +746,8 @@ def remove_specific_keywords_notes_not_found_line_items_from_hrzntl_df(temp_dict
             txt_particular = strip_string_bullets(row['line_item'],obj_techfuzzy)
             res_fuzz_match = obj_techfuzzy.partial_ratio_pro(txt_particular, keywords)
             if res_fuzz_match[0][1] >= 90:
-                include_indices.append(idx)
+                if row['line_item'] in pert_list:
+                    include_indices.append(idx)
         except:
             pass
     standardized_hrzntl_df = standardized_hrzntl_df.iloc[~standardized_hrzntl_df.index.isin(include_indices)]
