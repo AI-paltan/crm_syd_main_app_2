@@ -193,7 +193,7 @@ class ClfCoreFlow():
                 self.month= self.find_month(data_line)
 
     def find_month(self,line_df_dict):
-        month_pattern_list = ["march","december"]
+        month_pattern_list = ["march","december","august"]
         month_found = None
         for k,v in line_df_dict.items():
             for idx,row in v.iterrows():

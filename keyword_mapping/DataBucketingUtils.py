@@ -472,6 +472,12 @@ def remove_0_value_line_items(std_horzntl_note_df):
 
     return std_horzntl_note_df
 
+def remove_duplicate_rows(std_horzntl_note_df):
+    std_horzntl_note_df = std_horzntl_note_df.drop_duplicates(keep='first', inplace=True)
+    std_horzntl_note_df.reset_index(drop=True,inplace=True)
+    return std_horzntl_note_df
+
+
 def postprocessing_note_df(std_hrzntl_nte_df):
     # print(f"postprocessing std_hrzntl_nte_df = {std_hrzntl_nte_df}")
     # print(len(std_hrzntl_nte_df))
@@ -483,6 +489,7 @@ def postprocessing_note_df(std_hrzntl_nte_df):
         std_hrzntl_nte_df = remove_0_value_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
         # print(f"after 3 fun std_hrzntl_nte_df = {std_hrzntl_nte_df}")
         std_hrzntl_nte_df = remove_total_line_items(std_horzntl_note_df=std_hrzntl_nte_df)
+        std_hrzntl_nte_df = remove_duplicate_rows(std_horzntl_note_df=std_hrzntl_nte_df)
     # except Exception as e:
     #     print(e)
     return std_hrzntl_nte_df
@@ -674,6 +681,87 @@ def include_main_page_value_if_no_notes_found(main_page_notes_notfound_main_page
     # print(f"temp_horizontal_df = {temp_horizontal_df}")
     
     return temp_horizontal_df
+
+
+
+
+
+
+def find_notes_found_line_items_from_hrzntl_df(temp_dict):
+    ## find line items from standardized notes df where notes found for main page line items
+    main_page_note_found_particulars = temp_dict['main_page_notes_found_main_page_particular']
+    main_note_account_mapping_dict = temp_dict['main_note_account_mapping_dict']
+    notes_list = []
+    for particulars in main_page_note_found_particulars:
+        note = str(main_note_account_mapping_dict.get(particulars))
+        notes_list.append(note)
+    standardized_hrzntl_df = temp_dict['notes_horizontal_table_df']
+    standardized_hrzntl_df.reset_index(drop=True,inplace=True)
+    include_indices = []
+    for idx,row in standardized_hrzntl_df.iterrows():
+        try:
+            if str(row['Note']) in notes_list:
+                include_indices.append(idx)
+        except:
+            pass
+    standardized_hrzntl_df = standardized_hrzntl_df.iloc[include_indices]
+    temp_dict['notes_horizontal_table_df'] = standardized_hrzntl_df
+    return temp_dict
+
+
+
+def remove_notes_not_found_line_items_from_hrzntl_df(temp_dict):
+    ## find and remove line items from standardized notes df where notes not found for main page line items
+    main_page_note_not_found_particulars = temp_dict['main_page_notes_notfound_main_page_particular']
+    main_note_account_mapping_dict = temp_dict['main_note_account_mapping_dict']
+    notes_list = []
+    for particulars in main_page_note_not_found_particulars:
+        note = str(main_note_account_mapping_dict.get(particulars))
+        notes_list.append(note)
+    standardized_hrzntl_df = temp_dict['notes_horizontal_table_df']
+    standardized_hrzntl_df.reset_index(drop=True,inplace=True)
+    include_indices = []
+    for idx,row in standardized_hrzntl_df.iterrows():
+        try:
+            if str(row['line_item']) in main_page_note_not_found_particulars:
+                include_indices.append(idx)
+        except:
+            pass
+    standardized_hrzntl_df = standardized_hrzntl_df.iloc[~standardized_hrzntl_df.index.isin(include_indices)]
+    temp_dict['notes_horizontal_table_df'] = standardized_hrzntl_df
+    return temp_dict
+
+
+def remove_specific_keywords_notes_not_found_line_items_from_hrzntl_df(temp_dict,keywords,obj_techfuzzy):
+    ## find and remove line items from standardized notes df where notes not found for main page line items which are provided in parameters
+    
+    main_page_note_not_found_particulars = temp_dict['main_page_notes_notfound_main_page_particular']
+    main_note_account_mapping_dict = temp_dict['main_note_account_mapping_dict']
+    notes_list = []
+    pert_list = []
+    for particulars in main_page_note_not_found_particulars:
+        note = str(main_note_account_mapping_dict.get(particulars))
+        txt_particular = strip_string_bullets(particulars,obj_techfuzzy)
+        res_fuzz_match = obj_techfuzzy.partial_ratio_pro(txt_particular, keywords)
+        if res_fuzz_match[0][1] >= 90:
+            notes_list.append(note)
+            pert_list.append(particulars)
+    standardized_hrzntl_df = temp_dict['notes_horizontal_table_df']
+    if (isinstance(standardized_hrzntl_df,pd.DataFrame)):
+        standardized_hrzntl_df.reset_index(drop=True,inplace=True)
+        include_indices = []
+        for idx,row in standardized_hrzntl_df.iterrows():
+            try:
+                txt_particular = strip_string_bullets(row['line_item'],obj_techfuzzy)
+                res_fuzz_match = obj_techfuzzy.partial_ratio_pro(txt_particular, keywords)
+                if res_fuzz_match[0][1] >= 90:
+                    if row['line_item'] in pert_list:
+                        include_indices.append(idx)
+            except:
+                pass
+        standardized_hrzntl_df = standardized_hrzntl_df.iloc[~standardized_hrzntl_df.index.isin(include_indices)]
+        temp_dict['notes_horizontal_table_df'] = standardized_hrzntl_df
+    return temp_dict
 
 
 

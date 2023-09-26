@@ -329,6 +329,7 @@ def find_data_block_location(note_df,date_block_coordinates):
     def find_first_row(df,year_rows,year_cols):
         col,row = -1,-1
         particular_col,particular_row = -1,-1
+        df.reset_index(drop=True,inplace=True)
         ## APEC International issue of PPE table where particular column 0 year value comes before data row
         df_copy = df.iloc[:,1:].copy()  ## issue solve test
         for idx, value in df_copy.iterrows():
@@ -375,6 +376,9 @@ def find_data_block_location(note_df,date_block_coordinates):
             for col in range(len(df.columns)):
                 df.iloc[:,col] = df.iloc[:,col].apply(clean_number).apply(pd.to_numeric , errors='coerce')
             year_rows,year_cols = get_year_coordinates(date_block_coordinates=date_block_coordinates)
+            # print(f"inside data block : year_rows = {year_rows}")
+            # print(f"inside data block : year_cols = {year_cols}")
+            # print(f"inside data block : df = {df}")
             try:
                 first_data_col, first_data_row ,particular_col= find_first_row(df=df,year_rows=year_rows,year_cols = year_cols)
                 particular_start_row = find_particulars_start_row(note_df,particular_col,first_data_row)
@@ -713,6 +717,8 @@ def numbers_processing(df):
 
 def set_totalKeyword_line_items(nte_df,particulars_endcol_coordinates,particulars_start_row):
     # year_columns = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
+    # nte_df.dropna(inplace=True)
+    # nte_df.reset_index(drop=True,inplace=True)
     blankrows = []
     for idx,row in nte_df.iterrows():
         if idx >= particulars_start_row:
@@ -926,7 +932,7 @@ def get_year_value_match_row_indices(year_dict,number_converted_df,index_dict):
                     # print(str(value).isdigit())
                     # print(float(value) == float(year_value))
                     # if str(value).isdigit():
-                    if float(value) == float(year_value):
+                    if abs(float(value)) == abs(float(year_value)):
                         row_idx.append(idx)
                         col_idx.append(colidx)
                         # print(f"row_idx={row_idx}")
