@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
+from .DataBucketingUtils import *
 
 
 
@@ -41,29 +42,29 @@ def extract_positive_values_rows(df):
 
 
 
-def interest_income_filter_old(temp_dict):
-    ## check if note df
-    ## if note df present extracts only positive value rows.
-    ## if not extract only positive value rows from main pages
-    std_hrzntl_note_df = temp_dict["notes_horizontal_table_df"]
-    main_page_cropped_df = temp_dict["main_page_cropped_df"]
-    positive_note_df = pd.DataFrame()
-    postive_main_page_df = pd.DataFrame()
-    if len(std_hrzntl_note_df) > 0:
-        if isinstance(std_hrzntl_note_df,pd.DataFrame):
-            positive_note_df,negative_df = extract_positive_values_rows(std_hrzntl_note_df)
-        else:
-            postive_main_page_df,negative_df = extract_positive_values_rows(main_page_cropped_df)
-    else:
-        postive_main_page_df,negative_df = extract_positive_values_rows(main_page_cropped_df)
+# def interest_income_filter_old(temp_dict):
+#     ## check if note df
+#     ## if note df present extracts only positive value rows.
+#     ## if not extract only positive value rows from main pages
+#     std_hrzntl_note_df = temp_dict["notes_horizontal_table_df"]
+#     main_page_cropped_df = temp_dict["main_page_cropped_df"]
+#     positive_note_df = pd.DataFrame()
+#     postive_main_page_df = pd.DataFrame()
+#     if len(std_hrzntl_note_df) > 0:
+#         if isinstance(std_hrzntl_note_df,pd.DataFrame):
+#             positive_note_df,negative_df = extract_positive_values_rows(std_hrzntl_note_df)
+#         else:
+#             postive_main_page_df,negative_df = extract_positive_values_rows(main_page_cropped_df)
+#     else:
+#         postive_main_page_df,negative_df = extract_positive_values_rows(main_page_cropped_df)
 
-    if len(positive_note_df) > 0 :
-        temp_dict["notes_horizontal_table_df"] = positive_note_df
+#     if len(positive_note_df) > 0 :
+#         temp_dict["notes_horizontal_table_df"] = positive_note_df
     
-    if len(postive_main_page_df) > 0 : 
-        temp_dict["main_page_cropped_df"] = postive_main_page_df
+#     if len(postive_main_page_df) > 0 : 
+#         temp_dict["main_page_cropped_df"] = postive_main_page_df
 
-    return temp_dict
+#     return temp_dict
 
 
 def interest_expense_filter(temp_dict):
@@ -91,7 +92,7 @@ def interest_expense_filter(temp_dict):
 
     return temp_dict
     
-def exclude_net_keyword_filter(std_hrzntl_df):
+def exclude_net_keyword_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
         std_hrzntl_note_df.reset_index(drop=True,inplace=True)
         keywords = ['Net','net']
@@ -107,6 +108,23 @@ def exclude_net_keyword_filter(std_hrzntl_df):
             std_hrzntl_note_df = std_hrzntl_note_df.iloc[~std_hrzntl_note_df.index.isin(indices)] 
         std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
+
+def net_keyword_filter(std_hrzntl_note_df):
+    if isinstance(std_hrzntl_note_df,pd.DataFrame):
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+        keywords = ['Net','net']
+        indices = []
+        std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+        for idx,row in std_hrzntl_note_df.iterrows():
+            for kwrd in keywords:
+                if kwrd in row["line_item"].lower():
+                    indices.append(idx)
+        
+        if len(indices)>0:
+            std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+    return std_hrzntl_note_df
+
 
 def interest_income_filter(temp_dict):
     not_found_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
@@ -125,8 +143,8 @@ def interest_income_filter(temp_dict):
                     if kwrd in row["line_item"].lower():
                         indices.append(idx)
         
-        if len(indices)>0:
-            std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
+            if len(indices)>0:
+                std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
         # if len(indices)>1:
         #     std_hrzntl_note_df = exclude_net_keyword_filter(std_hrzntl_df=std_hrzntl_note_df)
         #     std_hrzntl_note_df.reset_index(drop=True,inplace=True)
@@ -136,25 +154,78 @@ def interest_income_filter(temp_dict):
     return temp_dict 
     
 
-def interest_expense_filter_old(temp_dict):
-    std_hrzntl_note_df = temp_dict["notes_horizontal_table_df"]
-    main_page_cropped_df = temp_dict["main_page_cropped_df"]
-    negaive_note_df = pd.DataFrame()
-    negative_main_page_df = pd.DataFrame()
-    if len(std_hrzntl_note_df) > 0:
-        if isinstance(std_hrzntl_note_df,pd.DataFrame):
-            positive_df,negaive_note_df = extract_positive_values_rows(std_hrzntl_note_df)
-        else:
-            postive_df,negative_main_page_df = extract_positive_values_rows(main_page_cropped_df)
-    else:
-        postive_df,negative_main_page_df = extract_positive_values_rows(main_page_cropped_df)
+# def interest_expense_filter_old(temp_dict):
+#     std_hrzntl_note_df = temp_dict["notes_horizontal_table_df"]
+#     main_page_cropped_df = temp_dict["main_page_cropped_df"]
+#     negaive_note_df = pd.DataFrame()
+#     negative_main_page_df = pd.DataFrame()
+#     if len(std_hrzntl_note_df) > 0:
+#         if isinstance(std_hrzntl_note_df,pd.DataFrame):
+#             positive_df,negaive_note_df = extract_positive_values_rows(std_hrzntl_note_df)
+#         else:
+#             postive_df,negative_main_page_df = extract_positive_values_rows(main_page_cropped_df)
+#     else:
+#         postive_df,negative_main_page_df = extract_positive_values_rows(main_page_cropped_df)
 
-    if len(negaive_note_df) > 0 :
-        temp_dict["notes_horizontal_table_df"] = negaive_note_df
-    if len(negative_main_page_df) > 0 :
-        temp_dict["main_page_cropped_df"] = negative_main_page_df
+#     if len(negaive_note_df) > 0 :
+#         temp_dict["notes_horizontal_table_df"] = negaive_note_df
+#     if len(negative_main_page_df) > 0 :
+#         temp_dict["main_page_cropped_df"] = negative_main_page_df
+
+#     return temp_dict
+
+
+def interest_income_expense_filter_advance(temp_dict,datapoint_flag):
+    net_kywrds = ["net","Net"]
+    main_page_notes_found_main_page_particular = temp_dict["main_page_notes_found_main_page_particular"]
+    main_page_notes_notfound_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+    net_flag_notes_found = False
+    net_flag_notes_not_found = False
+    for i in main_page_notes_found_main_page_particular:
+        if "net" in i.lower():
+            if not net_flag_notes_found:
+                net_flag_notes_found = True
+    for i in main_page_notes_notfound_main_page_particular:
+        if "net" in i.lower():
+            if not net_flag_notes_not_found:
+                net_flag_notes_not_found = True
+    # print(f"net_flag_notes_found = {net_flag_notes_found}")
+    # print(f"net_flag_notes_not_found = {net_flag_notes_not_found}")
+
+    if net_flag_notes_not_found:
+        ### if net finance income note not found then ignore net wala line item and consider finance income/cost/expense line items
+        std_hrzntl_df = temp_dict["notes_horizontal_table_df"]
+        std_hrzntl_df = exclude_net_keyword_filter(std_hrzntl_note_df=std_hrzntl_df)
+        temp_dict["notes_horizontal_table_df"] = std_hrzntl_df
+        if datapoint_flag == "smr_interest_income":
+            temp_dict = interest_income_filter(temp_dict=temp_dict)
+
+        if datapoint_flag == "smr_interest_expense":
+            temp_dict = interest_expense_filter(temp_dict=temp_dict)
+
+
+    if net_flag_notes_found:
+        ### if net finance income note found then ignore finance income/cost/expense line items and consider net wala line
+        main_page_notes_notfound_main_page_particular = temp_dict['main_page_notes_notfound_main_page_particular']
+        std_hrzntl_df = temp_dict["notes_horizontal_table_df"]
+        exclude_indices = []
+        # print(f"main_page_notes_notfound_main_page_particular= {main_page_notes_notfound_main_page_particular}")
+        # print(f"std_hrzntl_df={std_hrzntl_df}")
+        for particular in main_page_notes_notfound_main_page_particular:
+            for idx,row in std_hrzntl_df.iterrows(): 
+                if particular in row["line_item"] and int(row["Note"]) == 0:
+                    exclude_indices.append(idx)
+        # print(f"exclude_indices={exclude_indices}")
+        if len(exclude_indices)>0:
+            std_hrzntl_df = std_hrzntl_df.iloc[~std_hrzntl_df.index.isin(exclude_indices)] 
+        std_hrzntl_df.reset_index(drop=True,inplace=True)
+        temp_dict["notes_horizontal_table_df"] = std_hrzntl_df
 
     return temp_dict
+
+        
+
+
 
 
 

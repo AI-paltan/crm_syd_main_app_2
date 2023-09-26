@@ -208,6 +208,8 @@ class ProfitLossDataBucketing():
         main_pg_df = self.df_datasheet
         main_pg_cropped_df = temp_dict["main_page_cropped_df"]        
         temp_dict['main_page_cropped_df'] = cost_of_sales_additional_keyword_filter(main_pg_cropped_df, main_pg_df)
+        kwds = ['finance cost']
+        temp_dict = remove_specific_keywords_notes_not_found_line_items_from_hrzntl_df(temp_dict=temp_dict,keywords=kwds,obj_techfuzzy=self.obj_techfuzzy)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
 
@@ -250,26 +252,30 @@ class ProfitLossDataBucketing():
 
     def get_INTEREST_INCOME(self):
         meta_keywrods = "smr_interest_income"
+        print(meta_keywrods)
         main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
-        temp_dict = interest_income_filter(temp_dict=temp_dict)
+        # temp_dict = interest_income_filter(temp_dict=temp_dict)
+        temp_dict = interest_income_expense_filter_advance(temp_dict=temp_dict,datapoint_flag="smr_interest_income")
         temp_dict = make_all_positive(temp_dict=temp_dict)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
     
     def get_INTEREST_EXPENSE(self):
         meta_keywrods = "smr_interest_expense"
+        print(meta_keywrods)
         main_page_targat_keywords = get_main_page_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_notes_keywords = get_notes_pages_keyowrds(df_nlp_bucket_master = self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
-        temp_dict = interest_expense_filter(temp_dict=temp_dict)
+        # temp_dict = interest_expense_filter(temp_dict=temp_dict)
+        temp_dict = interest_income_expense_filter_advance(temp_dict=temp_dict,datapoint_flag="smr_interest_expense")
         temp_dict = make_all_positive(temp_dict=temp_dict)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
@@ -331,7 +337,7 @@ class ProfitLossDataBucketing():
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
-        temp_dict = make_all_positive(temp_dict=temp_dict)
+        # temp_dict = make_all_positive(temp_dict=temp_dict)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
 

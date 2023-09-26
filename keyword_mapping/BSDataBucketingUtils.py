@@ -638,7 +638,8 @@ def handle_deffred_charges_deffered_taxes(temp_dict):
     main_page_df = temp_dict["main_page_cropped_df"]
     main_page_notes_notfound_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
     main_non_year_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
-    main_page_df.reset_index(drop=True,inplace=True)
+    if isinstance(main_page_df,pd.DataFrame):
+        main_page_df.reset_index(drop=True,inplace=True)
     if len(main_page_df)>0:
         year_cols = []
         if len(main_page_df)>0:

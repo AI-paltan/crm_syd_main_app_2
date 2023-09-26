@@ -322,50 +322,55 @@ def notes_number_processing(df,notes_indices,data_start_x,particulars_y,notes_di
     ref_list : list = []
     try:
         for idx,val in enumerate(notes_col):
-            notes_list = []
-            if not pd.isnull(val):
-                if len(str(val)) > 2 and str(val).isdigit():
-                    split_notes_list = split_numbers(val,60)
-                    notes_list = split_notes_list
-                elif ',' in str(val):
-                    split_notes_list = re.split(r',',str(val))
-                    notes_list = split_notes_list
-                elif 'and' in str(val):
-                    split_notes_list = re.split(r'and',str(val))
-                    notes_list = split_notes_list
-                else:
-                    notes_list = [str(val)]
-                notes_list = [i.strip() for i in notes_list]
-                note_no : list= []
-                subnote_no : list = []
-                for raw_note in notes_list:
-                    note,subnote = find_note_subnote_number(str(raw_note))
-                    note_no.extend([note])
-                    subnote_no.extend([subnote])
-                temp_dict = {}
-                temp_dict['particular'] = particulars_col.iloc[idx]
-                temp_dict['raw_note_no'] = val
-                temp_dict['processed_raw_note'] = notes_list
-                temp_dict['main_note_number']=note_no
-                temp_dict['subnote_number'] = subnote_no
-                if len(section_col)>0:
-                    temp_dict['section'] = section_col.iloc[idx]
-                    temp_dict['subsection'] = subsection_col.iloc[idx]
-                else:
-                    temp_dict['section'] = ''
-                    temp_dict['subsection'] = ''
-                tmp_year_value_dct = {}
-                for year in year_col_list:
-                    tmp_year_value_dct[year] = df.iloc[idx][year]
-                    # tmp_year_value_dct[year] = df.iat[idx][year]
-                temp_dict["year_values"] = tmp_year_value_dct
-                ref_list.append(temp_dict)
-                # print(note_no)
-                for noteno,subnoteno in zip(note_no,subnote_no):
-                    if notes_dict.get(noteno, {}).get(subnoteno):
-                        notes_dict[noteno][subnoteno].append(particulars_col.iloc[idx])
+            try:
+                notes_list = []
+                if not pd.isnull(val):
+                    if len(str(val)) > 2 and str(val).isdigit():
+                        split_notes_list = split_numbers(val,60)
+                        notes_list = split_notes_list
+                    elif ',' in str(val):
+                        split_notes_list = re.split(r',',str(val))
+                        notes_list = split_notes_list
+                    elif 'and' in str(val):
+                        split_notes_list = re.split(r'and',str(val))
+                        notes_list = split_notes_list
                     else:
-                        notes_dict[noteno][subnoteno] = [particulars_col.iloc[idx]]
+                        notes_list = [str(val)]
+                    notes_list = [i.strip() for i in notes_list]
+                    note_no : list= []
+                    subnote_no : list = []
+                    for raw_note in notes_list:
+                        note,subnote = find_note_subnote_number(str(raw_note))
+                        note_no.extend([note])
+                        subnote_no.extend([subnote])
+                    temp_dict = {}
+                    temp_dict['particular'] = particulars_col.iloc[idx]
+                    temp_dict['raw_note_no'] = val
+                    temp_dict['processed_raw_note'] = notes_list
+                    temp_dict['main_note_number']=note_no
+                    temp_dict['subnote_number'] = subnote_no
+                    if len(section_col)>0:
+                        temp_dict['section'] = section_col.iloc[idx]
+                        temp_dict['subsection'] = subsection_col.iloc[idx]
+                    else:
+                        temp_dict['section'] = ''
+                        temp_dict['subsection'] = ''
+                    tmp_year_value_dct = {}
+                    for year in year_col_list:
+                        tmp_year_value_dct[year] = df.iloc[idx][year]
+                        # tmp_year_value_dct[year] = df.iat[idx][year]
+                    temp_dict["year_values"] = tmp_year_value_dct
+                    ref_list.append(temp_dict)
+                    # print(note_no)
+                    for noteno,subnoteno in zip(note_no,subnote_no):
+                        if notes_dict.get(noteno, {}).get(subnoteno):
+                            notes_dict[noteno][subnoteno].append(particulars_col.iloc[idx])
+                        else:
+                            notes_dict[noteno][subnoteno] = [particulars_col.iloc[idx]]
+            except Exception as e:
+                from ..logging_module.logging_wrapper import Logger
+                Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: notes_number_processing")
+                Logger.logr.error(f"error occured: {e}")
     except Exception as e:
         from ..logging_module.logging_wrapper import Logger
         Logger.logr.debug("module: main_page_processing_service , File:utils.py,  function: notes_number_processing")
