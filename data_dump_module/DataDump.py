@@ -34,7 +34,7 @@ class DataDump:
         self.dump_cbs_data()
         self.dump_cpl_data()
         self.dump_ccf_data()
-        self.insert_client_info()
+        # self.insert_client_info()
         self.save_excel()
         # self.calculate_and_update_accuracy()
         # file_query = db.query(db_models.FileLogs).filter(db_models.FileLogs.fileid == self.fileid)

@@ -142,6 +142,7 @@ class mainPageProcess:
                     process_ccf,temp_df = RCB.start_refactoring()
                     self.ccf_df_dict[page.page_number] = process_ccf
                     self.meta_dict[page.page_number] = temp_df
+                    # print(process_ccf)
                     if len(self.years_list) == 0:
                         self.years_list = temp_df["year_list"]
                 except Exception as e:

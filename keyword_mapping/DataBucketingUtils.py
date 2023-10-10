@@ -29,6 +29,9 @@ def get_notes_pages_keyowrds(df_nlp_bucket_master,df_meta_keyword):
     return list_target_keywords
 
 def get_main_page_exclude_keywords(df_nlp_bucket_master,df_meta_keyword):
+    from ..logging_module.logging_wrapper import Logger
+    Logger.logr.debug("module: Keyword Mapping , File:DatabucketingUtils.py,  function: get_main_page_exclude_keywords")
+    Logger.logr.debug(f"df_meta_keyword = {df_meta_keyword}")
     bucket_row  = df_nlp_bucket_master[df_nlp_bucket_master['meta_keyword']==df_meta_keyword]
     # list_target_keywords = []
     # for idx,row in bucket_row.iterrows():
@@ -58,7 +61,7 @@ def strip_string_bullets(str_txt,obj_techfuzzy):
         strip_string_bullets_str = re.sub(r'\s\s+', " ", strip_string_bullets_str)
         return strip_string_bullets_str
 
-def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_score_thresh,match_type='partial'):
+def get_main_page_line_items(df_datasheet,keywords,exclude_keywords,curr_year,obj_techfuzzy,conf_score_thresh,match_type='partial'):
     from ..logging_module.logging_wrapper import Logger
     Logger.logr.debug("module: Keyword Mapping , File:DatabucketingUtils.py,  function: get_main_page_line_items")
     Logger.logr.debug(f"keywords = {keywords} , match_type = {match_type} , conf_score_thresh ={conf_score_thresh}")
@@ -72,15 +75,20 @@ def get_main_page_line_items(df_datasheet,keywords,curr_year,obj_techfuzzy,conf_
             # if data_row['flg_processed']:
             #     continue
             list_target_keywords = keywords
+            list_exclude_keywords = exclude_keywords
             txt_particular = strip_string_bullets(data_row["Particulars"],obj_techfuzzy)
 
             if match_type == 'partial':
                 res_fuzz_match = obj_techfuzzy.partial_ratio_pro(txt_particular, list_target_keywords)
+                exclude_res_fuzz_match = obj_techfuzzy.partial_ratio_pro(txt_particular, list_exclude_keywords)
             else:
                 res_fuzz_match = obj_techfuzzy.token_sort_pro(txt_particular, list_target_keywords)
+                exclude_res_fuzz_match = obj_techfuzzy.partial_ratio_pro(txt_particular, list_exclude_keywords)
             # app.logger.debug(f'\t\t{res_fuzz_match}')
-            Logger.logr.debug(f"txt_particular = {txt_particular} , res_fuzz_match = {res_fuzz_match}")
-            if res_fuzz_match[0][1] >= conf_score_thresh:
+            # Logger.logr.debug(f"txt_particular = {txt_particular} , res_fuzz_match = {res_fuzz_match}")
+            Logger.logr.debug(f"txt_particular = {txt_particular} , res_fuzz_match = {res_fuzz_match} , exclude_res_fuzz_match = {exclude_res_fuzz_match}")
+            # if res_fuzz_match[0][1] >= conf_score_thresh:
+            if res_fuzz_match[0][1] >= conf_score_thresh and exclude_res_fuzz_match[0][1]<= conf_score_thresh:
                 # if bucket_row['field_tag'] == 'multisum':
                 best_match['value'] += float(data_row[curr_year])
                 best_match['score'] = res_fuzz_match[0][1]

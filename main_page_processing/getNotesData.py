@@ -49,54 +49,65 @@ class getNotesDataTables:
         for note,v in self.final_notes_dict.items():
             for subnote, q in v.items():
                 for account in q:
+                    try:
                     # note_pattern = str(note)+str(subnote)
-                    note_pattern = get_note_pattern(note,subnote)
-                    notes_pages,notes_start_bbox= find_note_start_index(note_pattern,account,self.ocr_line_df_dict,self.max_main_page)
-                    notes_pages,notes_start_bbox = refinement(notes_pages,notes_start_bbox,self.max_main_page)
-                    next_note,next_subnote = find_next_note_subnote(note,subnote)
-                    # next_note_pattern = next_note+next_subnote
-                    if len(subnote)>0:
-                        next_note_pattern = get_note_pattern(note,next_subnote)
-                        notes_end_page,notes_end_bbox,pattern_found_flag = find_note_end_index(notes_pages,notes_start_bbox,self.ocr_line_df_dict,next_note_pattern)
-                    else:
-                        next_note_pattern = next_note
-                        notes_end_page,notes_end_bbox,pattern_found_flag = find_note_end_index(notes_pages,notes_start_bbox,self.ocr_line_df_dict,next_note_pattern)                
-                    if pattern_found_flag:
-                        notes_end_page,notes_end_bbox = refinement(notes_end_page,notes_end_bbox,self.max_main_page)
-                    # print(f"note_patter:{note_pattern} {account}")
-                    # print("notes pages and notes start bbox: ",notes_pages,notes_start_bbox)
-                    # print("nextnote pattern: ",next_note_pattern)
-                    # print("notes_endpage and notes end bbox:",notes_end_page,notes_end_bbox )
-                    if len(notes_pages)<=0:
-                        if len(subnote) > 0:
-                            # print(f"{subnote} {account}")
-                            note_pattern = str(subnote)
-                            notes_pages,notes_start_bbox= find_note_start_index(note_pattern,account,self.ocr_line_df_dict,self.max_main_page)
-                            next_note,next_subnote = find_next_note_subnote(note,subnote)
-                            next_note_pattern = next_subnote
+                        print(f"note = {note} , subnote = {subnote} , account = {account}")
+                        tmp_lst:list = []
+                        tmp_lst.append(note)
+                        tmp_lst.append(subnote)
+                        note_pattern = get_note_pattern(note,subnote)
+                        notes_pages,notes_start_bbox= find_note_start_index(note_pattern,account,self.ocr_line_df_dict,self.max_main_page)
+                        notes_pages,notes_start_bbox = refinement(notes_pages,notes_start_bbox,self.max_main_page)
+                        tmp_lst.append(notes_pages)
+                        next_note,next_subnote = find_next_note_subnote(note,subnote)
+                        # next_note_pattern = next_note+next_subnote
+                        if len(subnote)>0:
+                            next_note_pattern = get_note_pattern(note,next_subnote)
                             notes_end_page,notes_end_bbox,pattern_found_flag = find_note_end_index(notes_pages,notes_start_bbox,self.ocr_line_df_dict,next_note_pattern)
-                            if len(notes_end_page)<=0:
-                                next_note_pattern = next_note
-                                notes_end_page,notes_end_bbox,pattern_found_flag = find_note_end_index(notes_pages,notes_start_bbox,self.ocr_line_df_dict,next_note_pattern)
-                            if len(notes_end_page)<=0:
-                                pass
+                        else:
+                            next_note_pattern = next_note
+                            notes_end_page,notes_end_bbox,pattern_found_flag = find_note_end_index(notes_pages,notes_start_bbox,self.ocr_line_df_dict,next_note_pattern)                
                         if pattern_found_flag:
                             notes_end_page,notes_end_bbox = refinement(notes_end_page,notes_end_bbox,self.max_main_page)
+                        # print(f"note_patter:{note_pattern} {account}")
+                        # print("notes pages and notes start bbox: ",notes_pages,notes_start_bbox)
+                        # print("nextnote pattern: ",next_note_pattern)
+                        # print("notes_endpage and notes end bbox:",notes_end_page,notes_end_bbox )
+                        if len(notes_pages)<=0:
+                            if len(subnote) > 0:
+                                # print(f"{subnote} {account}")
+                                note_pattern = str(subnote)
+                                notes_pages,notes_start_bbox= find_note_start_index(note_pattern,account,self.ocr_line_df_dict,self.max_main_page)
+                                next_note,next_subnote = find_next_note_subnote(note,subnote)
+                                next_note_pattern = next_subnote
+                                notes_end_page,notes_end_bbox,pattern_found_flag = find_note_end_index(notes_pages,notes_start_bbox,self.ocr_line_df_dict,next_note_pattern)
+                                if len(notes_end_page)<=0:
+                                    next_note_pattern = next_note
+                                    notes_end_page,notes_end_bbox,pattern_found_flag = find_note_end_index(notes_pages,notes_start_bbox,self.ocr_line_df_dict,next_note_pattern)
+                                if len(notes_end_page)<=0:
+                                    pass
+                            if pattern_found_flag:
+                                notes_end_page,notes_end_bbox = refinement(notes_end_page,notes_end_bbox,self.max_main_page)
 
-                        # print(f"subnote note_patter:{note_pattern} {account}")
-                        # print("subnote notes pages and notes start bbox: ",notes_pages,notes_start_bbox)
-                        # print("subote nextnote and next subnote: ",next_note,next_subnote)
-                        # print("subnote notes_endpage and notes end bbox:",notes_end_page,notes_end_bbox )
-                    tmp_lst:list = []
-                    tmp_lst.append(note)
-                    tmp_lst.append(subnote)
-            #             tmp_lst.append(account)
-                    tmp_lst.append(notes_pages)
-                    tmp_lst.append(notes_start_bbox)
-                    tmp_lst.append(next_note_pattern)
-                    tmp_lst.append(notes_end_page)
-                    tmp_lst.append(notes_end_bbox)
-                    note_span_list.append(tmp_lst)
+                            # print(f"subnote note_patter:{note_pattern} {account}")
+                            # print("subnote notes pages and notes start bbox: ",notes_pages,notes_start_bbox)
+                            # print("subote nextnote and next subnote: ",next_note,next_subnote)
+                            # print("subnote notes_endpage and notes end bbox:",notes_end_page,notes_end_bbox )
+                        
+                        
+                #             tmp_lst.append(account)
+                        
+                        tmp_lst.append(notes_start_bbox)
+                        tmp_lst.append(next_note_pattern)
+                        tmp_lst.append(notes_end_page)
+                        tmp_lst.append(notes_end_bbox)
+                        note_span_list.append(tmp_lst)
+                        print(f"tmp_list = {tmp_lst}")
+                    except Exception as e:
+                        from ..logging_module.logging_wrapper import Logger
+                        Logger.logr.debug("module: MainPage_processing_Service , File:getNotesData.py,  function: findNotesArea")
+                        Logger.logr.error(f"error occured: {e}")
+                        print(e)
             notes_span_df = pd.DataFrame(note_span_list,columns=["note","subnote","start_page","star_bbox","next_note_pattern","end_page","end_bbox"])
             notes_span_df_cleaned = notes_span_df.loc[notes_span_df[["note","subnote","start_page","star_bbox","end_page","end_bbox"]].astype(str).drop_duplicates().index].reset_index(drop=True)
             self.notes_span_df = notes_span_df_cleaned

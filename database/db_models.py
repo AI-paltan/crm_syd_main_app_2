@@ -149,6 +149,7 @@ class CRM_nlp_bucketing(Base):
     fetch_type = Column(String)
     note_keyword = Column(String)
     exclude_note_keyword = Column(String)
+    # exclude_main_page_keywords = Column(String)
     flag_model_training = Column(String)
     field_tage = Column(String)
     meta_keyword = Column(String)

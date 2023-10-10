@@ -73,7 +73,7 @@ class ProfitLossDataBucketing():
     #     main_page_raw_note_list = []
     #     for year in self.years_list:
     #         # print(year)
-    #         main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh)
+    #         main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,main_page_exclude_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh)
     #         # print(f"main_page_best_match:= {main_page_best_match}")
     #         # main_page_data_indices.append(main_page_best_match.get("data_index"))
     #         main_page_data_indices = main_page_best_match.get("data_index")
@@ -94,7 +94,7 @@ class ProfitLossDataBucketing():
     #     temp_dict["notes_table_df"] = notes_table_df
     #     return temp_dict
 
-    def get_cdm_item_data_buckets(self,main_page_targat_keywords,match_type,note_page_include_keywords=[],notes_page_exclude_keywords=[]):
+    def get_cdm_item_data_buckets(self,main_page_targat_keywords,main_page_exclude_keywords,match_type,note_page_include_keywords=[],notes_page_exclude_keywords=[]):
         notes_table_df = pd.DataFrame(columns=["raw_note_no","note_no","subnote_no","line_item","year","value"])
         main_page_data_indices = []
         main_page_year_total_lst = []
@@ -118,7 +118,8 @@ class ProfitLossDataBucketing():
             self.df_datasheet = self.df_datasheet.reset_index(drop=True)
             for year in self.years_list:
                 # print(year)
-                main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh,match_type=match_type)
+                # main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,main_page_exclude_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh,match_type=match_type)
+                main_page_best_match= get_main_page_line_items(df_datasheet=self.df_datasheet,keywords=main_page_targat_keywords,exclude_keywords=main_page_exclude_keywords,curr_year=year,obj_techfuzzy=self.obj_techfuzzy,conf_score_thresh=self.conf_score_thresh,match_type=match_type)
                 # print(f"main_page_best_match:= {main_page_best_match}")
                 # main_page_data_indices.append(main_page_best_match.get("data_index"))
                 main_page_data_indices = main_page_best_match.get("data_index")
@@ -189,7 +190,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
 
@@ -201,7 +202,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
         
         #Sanjay code
@@ -220,7 +221,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
         
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
@@ -232,7 +233,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
         kwds = ['admin expense','administration expense','administration expense','other expense']
         temp_dict = remove_specific_keywords_notes_not_found_line_items_from_hrzntl_df(temp_dict=temp_dict,keywords=kwds,obj_techfuzzy=self.obj_techfuzzy)
@@ -245,7 +246,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
@@ -258,7 +259,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         # temp_dict = interest_income_filter(temp_dict=temp_dict)
         temp_dict = interest_income_expense_filter_advance(temp_dict=temp_dict,datapoint_flag="smr_interest_income")
         temp_dict = make_all_positive(temp_dict=temp_dict)
@@ -273,7 +274,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         # temp_dict = interest_expense_filter(temp_dict=temp_dict)
         temp_dict = interest_income_expense_filter_advance(temp_dict=temp_dict,datapoint_flag="smr_interest_expense")
         temp_dict = make_all_positive(temp_dict=temp_dict)
@@ -287,7 +288,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
     
@@ -298,7 +299,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
@@ -311,7 +312,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
         # print(temp_dict["notes_horizontal_table_df"])
         temp_dict = SMR_TAXES_filter(temp_dict=temp_dict)
@@ -324,7 +325,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
@@ -336,7 +337,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         # temp_dict = make_all_positive(temp_dict=temp_dict)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
@@ -348,7 +349,7 @@ class ProfitLossDataBucketing():
         main_page_exclude_keywords = get_main_page_exclude_keywords(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         note_page_exclude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords,main_page_exclude_keywords,match_type=match_type,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=note_page_exclude_keywords)
         temp_dict = make_all_positive(temp_dict=temp_dict)
 
         self.pl_bucketing_dict[meta_keywrods] = temp_dict
