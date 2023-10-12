@@ -51,7 +51,7 @@ class getNotesDataTables:
                 for account in q:
                     try:
                     # note_pattern = str(note)+str(subnote)
-                        print(f"note = {note} , subnote = {subnote} , account = {account}")
+                        # print(f"note = {note} , subnote = {subnote} , account = {account}")
                         tmp_lst:list = []
                         tmp_lst.append(note)
                         tmp_lst.append(subnote)
@@ -102,12 +102,12 @@ class getNotesDataTables:
                         tmp_lst.append(notes_end_page)
                         tmp_lst.append(notes_end_bbox)
                         note_span_list.append(tmp_lst)
-                        print(f"tmp_list = {tmp_lst}")
+                        # print(f"tmp_list = {tmp_lst}")
                     except Exception as e:
                         from ..logging_module.logging_wrapper import Logger
                         Logger.logr.debug("module: MainPage_processing_Service , File:getNotesData.py,  function: findNotesArea")
                         Logger.logr.error(f"error occured: {e}")
-                        print(e)
+                        # print(e)
             notes_span_df = pd.DataFrame(note_span_list,columns=["note","subnote","start_page","star_bbox","next_note_pattern","end_page","end_bbox"])
             notes_span_df_cleaned = notes_span_df.loc[notes_span_df[["note","subnote","start_page","star_bbox","end_page","end_bbox"]].astype(str).drop_duplicates().index].reset_index(drop=True)
             self.notes_span_df = notes_span_df_cleaned
@@ -122,33 +122,37 @@ class getNotesDataTables:
                 if len(row['start_page']) > 0:
                     # print(row['note'],row['subnote'])
                     # print(row['start_page'][0],row['star_bbox'][0],row['end_page'][0],row['end_bbox'][0])
-                    table_list,row_numbers = self.get_notes_tables(self.fileid,row['start_page'][0],row['star_bbox'][0],row['end_page'][0],row['end_bbox'][0])
-                    processed_tables = []
-                    # print(table_list,row_numbers)
-                    append_table_list = []
-                    append_row_num_list = []
-                    append_tableid_list = []
-                    for table,row_number in zip(table_list,row_numbers):
-                        if table.tableid not in processed_tables:
-                            try:
-                                table_df = pd.read_html(table.html_string)[0]
-                            except:
-                                pass
-                            unique_rows = list(np.array(list(set(row_number)))-1)
-                            if len(unique_rows) > 1:
-                                cropped_df = table_df.iloc[table_df.index.isin(unique_rows)]
-                                cropped_df = cropped_df.reset_index(drop=True)
-                                processed_tables.append(table.tableid)
-                                append_table_list.append(table)
-                                append_row_num_list.append(unique_rows)
-                                append_tableid_list.append(table.tableid)
-                                # self.cropped_table_dict[str(table.tableid)] = cropped_df
-                                tbale_combo_key = str(row["note"])+"_"+str(row["subnote"])+"_"+str(table.tableid)
-                                self.cropped_table_dict[tbale_combo_key] = cropped_df
-                    self.notes_span_df.at[idx, 'tableslist'] = append_table_list
-                    self.notes_span_df.at[idx,'tableid'] = append_tableid_list
-                    self.notes_span_df.at[idx, 'row_numbers'] = append_row_num_list
-
+                    try:
+                        table_list,row_numbers = self.get_notes_tables(self.fileid,row['start_page'][0],row['star_bbox'][0],row['end_page'][0],row['end_bbox'][0])
+                        processed_tables = []
+                        # print(table_list,row_numbers)
+                        append_table_list = []
+                        append_row_num_list = []
+                        append_tableid_list = []
+                        for table,row_number in zip(table_list,row_numbers):
+                            if table.tableid not in processed_tables:
+                                try:
+                                    table_df = pd.read_html(table.html_string)[0]
+                                except:
+                                    pass
+                                unique_rows = list(np.array(list(set(row_number)))-1)
+                                if len(unique_rows) > 1:
+                                    cropped_df = table_df.iloc[table_df.index.isin(unique_rows)]
+                                    cropped_df = cropped_df.reset_index(drop=True)
+                                    processed_tables.append(table.tableid)
+                                    append_table_list.append(table)
+                                    append_row_num_list.append(unique_rows)
+                                    append_tableid_list.append(table.tableid)
+                                    # self.cropped_table_dict[str(table.tableid)] = cropped_df
+                                    tbale_combo_key = str(row["note"])+"_"+str(row["subnote"])+"_"+str(table.tableid)
+                                    self.cropped_table_dict[tbale_combo_key] = cropped_df
+                        self.notes_span_df.at[idx, 'tableslist'] = append_table_list
+                        self.notes_span_df.at[idx,'tableid'] = append_tableid_list
+                        self.notes_span_df.at[idx, 'row_numbers'] = append_row_num_list
+                    except Exception as e:
+                        from ..logging_module.logging_wrapper import Logger
+                        Logger.logr.debug("module: MainPage_processing_Service , File:getNotesData.py,  function: getTableData")
+                        Logger.logr.error(f"error occured: {e}")
 
     def get_row_columns(self,tableid,start_bbox,end_bbox,scaling_factor):
         row_col_query = db.query(db_models.RowColLogs).filter(db_models.RowColLogs.tableid == tableid and db_models.RowColLogs.type=="row").order_by(db_models.RowColLogs.time.desc())

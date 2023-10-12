@@ -237,7 +237,7 @@ class BalanceSheetDataBucketing():
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         # print(section,subsection,match_type)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = ppe_total_keyword_filter(hrzntl_df)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
@@ -251,7 +251,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         # temp_dict["notes_horizontal_table_df"] = net_keyword_filter(hrzntl_df)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
@@ -266,7 +266,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = current_word_filter(std_hrzntl_note_df=hrzntl_df)
         kwds = ['other assets','trade and other receivables']
@@ -283,7 +283,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         # current noncurrent filtering
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = current_word_filter(std_hrzntl_note_df=hrzntl_df)
@@ -299,7 +299,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_ACCUMLATED_DEPRE(self):
@@ -311,7 +311,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         ### secodn level filtering based on month of annual report
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         # temp_dict["notes_horizontal_table_df"] = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
@@ -331,7 +331,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_OTHER_TANGIBLE_AST(self):
@@ -343,7 +343,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         month_filtered_df = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
         net_book_filtered = net_keyword_filter(std_hrzntl_note_df=month_filtered_df)
@@ -362,7 +362,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_GOODWILL(self):
@@ -376,7 +376,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         month_filtered_df = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
         net_book_filtered = net_keyword_filter(std_hrzntl_note_df=month_filtered_df)
@@ -393,7 +393,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         month_filtered_df = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
         net_book_filtered = net_keyword_filter(std_hrzntl_note_df=month_filtered_df)
@@ -410,7 +410,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_INVSTMENT(self):
@@ -422,7 +422,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_DEFFERED_CHARGES(self):
@@ -434,7 +434,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         temp_dict = handle_deffred_charges_deffered_taxes(temp_dict=temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
@@ -447,7 +447,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         ## noncurrent filtering
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = noncurrent_word_filter(std_hrzntl_note_df=hrzntl_df)
@@ -465,7 +465,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_SHORT_TERM_DEBT(self):
@@ -478,7 +478,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
          ### second level filtering for current keyword
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = current_word_filter(std_hrzntl_note_df=hrzntl_df)
@@ -493,7 +493,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_NOTE_PAYABLE(self):
@@ -505,7 +505,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_ACCOUNTS_PAYABLE(self):
@@ -519,7 +519,7 @@ class BalanceSheetDataBucketing():
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
         match_type = "NULL"
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = current_word_filter(std_hrzntl_note_df=hrzntl_df)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
@@ -533,7 +533,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         # hrzntl_df = temp_dict["notes_horizontal_table_df"]
         # print(hrzntl_df)
         # current_filtered_df = current_word_filter(std_hrzntl_note_df=hrzntl_df)
@@ -556,7 +556,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         kwds = ['provisions','trade and other payables','trade payable','other current liabilities']
         temp_dict = remove_specific_keywords_notes_not_found_line_items_from_hrzntl_df(temp_dict=temp_dict,keywords=kwds,obj_techfuzzy=self.obj_techfuzzy)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
@@ -571,7 +571,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = current_word_filter(std_hrzntl_note_df=hrzntl_df)
         temp_dict = calculate_other_current_liabilities(self.bs_bucketing_dict['cl_total_current_liabilities']['total_subset_df'],self.bs_bucketing_dict,temp_dict)
@@ -586,7 +586,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_LONG_TERM_DEBT(self):
@@ -598,7 +598,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         ### second level filtering for non-current keyword
         # hrzntl_df = temp_dict["notes_horizontal_table_df"]
         # temp_dict["notes_horizontal_table_df"] = noncurrent_word_filter(std_hrzntl_note_df=hrzntl_df)
@@ -613,7 +613,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         # hrzntl_df = temp_dict["notes_horizontal_table_df"]
         # temp_dict["notes_horizontal_table_df"] = noncurrent_word_filter(std_hrzntl_note_df=hrzntl_df)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
@@ -627,7 +627,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_SUBORDINATE_DEBT(self):
@@ -639,7 +639,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_DEFFERED_TAXES(self):
@@ -651,7 +651,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         temp_dict = handle_deffred_charges_deffered_taxes(temp_dict=temp_dict)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
@@ -664,7 +664,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         ## second level filtering for non-current keyword
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = noncurrent_word_filter(std_hrzntl_note_df=hrzntl_df)
@@ -680,7 +680,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_LONG_TERM_LIAB(self):
@@ -692,7 +692,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
@@ -705,7 +705,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = ppe_total_keyword_filter(hrzntl_df)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
@@ -719,7 +719,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_OTHER_RSRV(self):
@@ -731,7 +731,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         ### month wise filter
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         temp_dict["notes_horizontal_table_df"] = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
@@ -747,7 +747,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_OTHERS(self):
@@ -759,7 +759,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_SHAREHOLDERS_EQUITY(self):
@@ -771,7 +771,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_TOTAL_LIAB_AND_EQUITY(self):
@@ -783,7 +783,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_LIAB_TOTAL(self):
@@ -795,7 +795,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_TOTAL_AST(self):
@@ -807,7 +807,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         self.bs_bucketing_dict[meta_keywrods] = temp_dict
 
     def get_GROS_PLANT_PRPTY_AND_EQPMNT(self):
@@ -819,7 +819,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
          ### second level filtering based on month of annual report
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         # temp_dict["notes_horizontal_table_df"] = second_filter_PPE(std_hrzntl_note_df=hrzntl_df,month=self.month)
@@ -836,7 +836,7 @@ class BalanceSheetDataBucketing():
         notes_page_exlude_keywords = get_notes_pages_exclude_keyowrds(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         section,subsection,match_type = get_section_subsection_matchType(df_nlp_bucket_master=self.df_nlp_bucket_master,df_meta_keyword=meta_keywrods)
         df_data = self.df_datasheet[(self.df_datasheet["statement_section"].str.lower()==section)&(self.df_datasheet["statement_sub_section"].str.lower()==subsection)]
-        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_target_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
+        temp_dict = self.get_cdm_item_data_buckets(main_page_targat_keywords=main_page_targat_keywords,main_page_exclude_keywords=main_page_exclude_target_keywords,df_datasheet=df_data,match_type=match_type,section=section,subsection=subsection,note_page_include_keywords=note_page_notes_keywords,notes_page_exclude_keywords=notes_page_exlude_keywords)
         hrzntl_df = temp_dict["notes_horizontal_table_df"]
         cutrent_filtred_df = current_word_filter(std_hrzntl_note_df=hrzntl_df)
         temp_dict["notes_horizontal_table_df"] = net_keyword_filter(cutrent_filtred_df)
