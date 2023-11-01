@@ -6,7 +6,7 @@ from ..database.database import get_db1
 from ..database import db_models
 from .data_dump_config import datadump_core_settings
 from openpyxl.utils import get_column_letter
-from .get_client_currency import *
+from .insert_client_data_in_db import *
 
 db = get_db1()
 
@@ -257,9 +257,11 @@ class DataDump:
 
 #sanjay code:
     def insert_client_info(self) :
-        client_name,client_currency,input_units = get_client_nd_currency(fileid=self.fileid)
-
+        # client_name,client_currency,input_units = get_client_nd_currency(fileid=self.fileid) #get_client_details_from_CCIF
+        mizuho_ccif, cust_full_nm, currency, input_units,CCIF_num = get_client_details_from_CCIF(fileid=self.fileid)
         bs_main_worksheet = self.workbook["BS"]
-        bs_main_worksheet['B2'] = client_name
-        bs_main_worksheet['B7'] = client_currency
+        bs_main_worksheet['B2'] = cust_full_nm
+        bs_main_worksheet['B3'] = mizuho_ccif
+        bs_main_worksheet['B4'] = CCIF_num
+        bs_main_worksheet['B7'] = currency
         bs_main_worksheet['B8'] = input_units

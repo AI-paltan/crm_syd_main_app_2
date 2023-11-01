@@ -417,40 +417,66 @@ class mainPageProcess:
             os.mkdir(main_page_service_output_folder)
         except:
             pass
-        with open(os.path.join(main_page_service_output_folder,f"notes_account_dict.json"),"w") as f:
-            json.dump(self.final_notes_dict,f)
-        self.notes_region_meta_data.to_csv(os.path.join(main_page_service_output_folder,f"notes_region_meta_data.csv"),index=False)
-        with open(os.path.join(main_page_service_output_folder,f"notes_ref_list.json"),"w") as f:
-            json.dump(self.notes_ref_dict,f)
-        with open(os.path.join(main_page_service_output_folder,f"standradrd_notes_meta_dict.json"),"w") as f:
-            json.dump(self.standard_note_meta_dict,f)
-        writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_cropped_df.xlsx"), engine='xlsxwriter')
-        for key,value in self.cropped_table_dict.items():
-            value.to_excel(writer, sheet_name=key[:20],index=False)
-        writer.save() 
-        writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"main_pages.xlsx"), engine='xlsxwriter')
-        for key,value in self.cbs_df_dict.items():
-            value.to_excel(writer, sheet_name=f"cbs_{key}",index=False)
-        for key,value in self.cpl_df_dict.items():
-            value.to_excel(writer, sheet_name=f"cpl_{key}",index=False)
-        for key,value in self.ccf_df_dict.items():
-            value.to_excel(writer, sheet_name=f"ccf_{key}",index=False)
-        writer.save()
-        writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_standard_cropped_df.xlsx"), engine='xlsxwriter')
-        for key,value in self.standardised_cropped_dict.items():
-            if value is not None:
-                    value.to_excel(writer, sheet_name=key[:20],index=False)
-            else:
-                    temp_df = pd.DataFrame()
-                    temp_df.to_excel(writer, sheet_name=key[:20],index=False)
+        try:
+            with open(os.path.join(main_page_service_output_folder,f"notes_account_dict.json"),"w") as f:
+                json.dump(self.final_notes_dict,f)
+        except:
+            pass
+        try:
+            self.notes_region_meta_data.to_csv(os.path.join(main_page_service_output_folder,f"notes_region_meta_data.csv"),index=False)
+        except:
+            pass
+        try:
+            with open(os.path.join(main_page_service_output_folder,f"notes_ref_list.json"),"w") as f:
+                json.dump(self.notes_ref_dict,f)
+        except:
+            pass
+        try:
+            with open(os.path.join(main_page_service_output_folder,f"standradrd_notes_meta_dict.json"),"w") as f:
+                json.dump(self.standard_note_meta_dict,f)
+        except:
+            pass
+        try:
+            writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_cropped_df.xlsx"), engine='xlsxwriter')
+            for key,value in self.cropped_table_dict.items():
+                value.to_excel(writer, sheet_name=key[:20],index=False)
+            writer.save() 
+        except:
+            pass
+        try:
+            writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"main_pages.xlsx"), engine='xlsxwriter')
+            for key,value in self.cbs_df_dict.items():
+                value.to_excel(writer, sheet_name=f"cbs_{key}",index=False)
+            for key,value in self.cpl_df_dict.items():
+                value.to_excel(writer, sheet_name=f"cpl_{key}",index=False)
+            for key,value in self.ccf_df_dict.items():
+                value.to_excel(writer, sheet_name=f"ccf_{key}",index=False)
+            writer.save()
+        except:
+            pass
+        try:
+            writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_standard_cropped_df.xlsx"), engine='xlsxwriter')
+            for key,value in self.standardised_cropped_dict.items():
+                if value is not None:
+                        value.to_excel(writer, sheet_name=key[:20],index=False)
+                else:
+                        temp_df = pd.DataFrame()
+                        temp_df.to_excel(writer, sheet_name=key[:20],index=False)
 
-        writer.save()
-        writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_transformed_standard_cropped_df.xlsx"), engine='xlsxwriter')
-        for key,value in self.transformed_standardised_cropped_dict.items():
-            if value is not None:
-                    value.to_excel(writer, sheet_name=key[:20],index=False)
-            else:
-                    temp_df = pd.DataFrame()
-                    temp_df.to_excel(writer, sheet_name=key[:20],index=False)
+            writer.save()
+        except:
+            pass
+        try:
 
-        writer.save()
+            writer = pd.ExcelWriter(os.path.join(main_page_service_output_folder,f"notes_transformed_standard_cropped_df.xlsx"), engine='xlsxwriter')
+            for key,value in self.transformed_standardised_cropped_dict.items():
+                if value is not None:
+                        value.to_excel(writer, sheet_name=key[:20],index=False)
+                else:
+                        temp_df = pd.DataFrame()
+                        temp_df.to_excel(writer, sheet_name=key[:20],index=False)
+
+            writer.save()
+
+        except:
+            pass

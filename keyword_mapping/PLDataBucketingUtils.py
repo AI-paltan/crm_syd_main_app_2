@@ -261,69 +261,78 @@ def make_all_positive(temp_dict):
 def cost_of_sales_additional_keyword_filter(main_pg_cropped_df, main_pg_df):
 
     #first finding frommain page of PL if "Change in Invemtory" keyword present in any of line items
-    if isinstance(main_pg_df,pd.DataFrame):
-        main_pg_df.reset_index(drop=True,inplace=False)
-        keywords = ['change in inventory', 'changes in inventory', 'change in inventories', 'changes in inventories']
-        indices = []
-        main_pg_df = main_pg_df.reset_index(drop=True)
-        for idx,row in main_pg_df.iterrows():
-            for kwrd in keywords:
-                if kwrd in row["Particulars"].lower():
-                    indices.append(idx)
+    try:
+        if isinstance(main_pg_df,pd.DataFrame):
+            main_pg_df.reset_index(drop=True,inplace=False)
+            keywords = ['change in inventory', 'changes in inventory', 'change in inventories', 'changes in inventories']
+            indices = []
+            main_pg_df = main_pg_df.reset_index(drop=True)
+            for idx,row in main_pg_df.iterrows():
+                for kwrd in keywords:
+                    if kwrd in row["Particulars"].lower():
+                        indices.append(idx)
+            
+            if len(indices)>0:
+                main_pg_df = main_pg_df.iloc[indices]
+            main_pg_df.reset_index(drop=True,inplace=False)
         
-        if len(indices)>0:
-            main_pg_df = main_pg_df.iloc[indices]
-        main_pg_df.reset_index(drop=True,inplace=False)
-    
-    #appending the above data in main_pg_cropped_df    
-    if isinstance(main_pg_cropped_df,pd.DataFrame):
+        #appending the above data in main_pg_cropped_df    
+        if isinstance(main_pg_cropped_df,pd.DataFrame):
+            main_pg_cropped_df.reset_index(drop=True,inplace=False)
+            if len(main_pg_cropped_df) > 0:
+                main_pg_cropped_df.append(main_pg_df)
+            else:
+                main_pg_cropped_df = main_pg_df
         main_pg_cropped_df.reset_index(drop=True,inplace=False)
-        if len(main_pg_cropped_df) > 0:
-            main_pg_cropped_df.append(main_pg_df)
-        else:
-            main_pg_cropped_df = main_pg_df
-    main_pg_cropped_df.reset_index(drop=True,inplace=False)
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:PLDataBucketingUtils.py,  function: cost_of_sales_additional_keyword_filter")
+        Logger.logr.error(f"error occured: {e}")  
     return main_pg_cropped_df
 
 
 
 
 def SMR_TAXES_filter(temp_dict):
-    notes_horizontal_df = temp_dict["notes_horizontal_table_df"]
-    main_page_df = temp_dict["main_page_cropped_df"]
-    main_page_notes_notfound_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
-    main_non_year_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
-    main_page_df.reset_index(drop=True,inplace=True)
-    if len(main_page_df)>0:
-        year_cols = []
+    try:
+        notes_horizontal_df = temp_dict["notes_horizontal_table_df"]
+        main_page_df = temp_dict["main_page_cropped_df"]
+        main_page_notes_notfound_main_page_particular = temp_dict["main_page_notes_notfound_main_page_particular"]
+        main_non_year_cols = ["Particulars","Notes","statement_section","statement_sub_section"]
+        main_page_df.reset_index(drop=True,inplace=True)
         if len(main_page_df)>0:
-            year_cols = [int(i) for i in main_page_df.columns if i not in main_non_year_cols]
-        main_dfcols = []
-        for col in main_page_df.columns:
-            if col not in main_non_year_cols:
-                main_dfcols.append(int(col))
+            year_cols = []
+            if len(main_page_df)>0:
+                year_cols = [int(i) for i in main_page_df.columns if i not in main_non_year_cols]
+            main_dfcols = []
+            for col in main_page_df.columns:
+                if col not in main_non_year_cols:
+                    main_dfcols.append(int(col))
+                else:
+                    main_dfcols.append(col)
+            main_page_df.columns = main_dfcols
+            years = year_cols
+            col_list = ["line_item","Note"] #new code to add note
+            col_list.extend(years)
+            # print(f"col_list={col_list}")
+            new_horizontal_note_df = pd.DataFrame(columns=col_list)
+            tmp_df = dict.fromkeys(col_list)
+            last_row_main_page = main_page_df.tail(1)
+            # print(f"last_row_main_page= {last_row_main_page}")
+            tmp_df["line_item"] =  last_row_main_page["Particulars"].values[0]
+            if "Notes" in last_row_main_page.columns:
+                    tmp_df["Note"] = last_row_main_page["Notes"].values[0] #new code to add note
             else:
-                main_dfcols.append(col)
-        main_page_df.columns = main_dfcols
-        years = year_cols
-        col_list = ["line_item","Note"] #new code to add note
-        col_list.extend(years)
-        # print(f"col_list={col_list}")
-        new_horizontal_note_df = pd.DataFrame(columns=col_list)
-        tmp_df = dict.fromkeys(col_list)
-        last_row_main_page = main_page_df.tail(1)
-        # print(f"last_row_main_page= {last_row_main_page}")
-        tmp_df["line_item"] =  last_row_main_page["Particulars"].values[0]
-        if "Notes" in last_row_main_page.columns:
-                tmp_df["Note"] = last_row_main_page["Notes"].values[0] #new code to add note
-        else:
-                tmp_df["Note"] = ""
-        for year in years:
-                tmp_df[year] = last_row_main_page[year].values[0]
-        # print(f"tmp_df={tmp_df}")
-        new_horizontal_note_df = new_horizontal_note_df.append(tmp_df, ignore_index=True)
-        temp_dict["notes_horizontal_table_df"] = new_horizontal_note_df
-    
+                    tmp_df["Note"] = ""
+            for year in years:
+                    tmp_df[year] = last_row_main_page[year].values[0]
+            # print(f"tmp_df={tmp_df}")
+            new_horizontal_note_df = new_horizontal_note_df.append(tmp_df, ignore_index=True)
+            temp_dict["notes_horizontal_table_df"] = new_horizontal_note_df
+    except Exception as e:
+        from ..logging_module.logging_wrapper import Logger
+        Logger.logr.debug("module: keyword_mapping , File:PLDataBucketingUtils.py,  function: SMR_TAXES_filter")
+        Logger.logr.error(f"error occured: {e}")
     return temp_dict
 
 

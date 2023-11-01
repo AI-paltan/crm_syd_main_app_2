@@ -461,7 +461,7 @@ def remove_0_value_line_items(std_horzntl_note_df):
     ### convert year columns to pd.to_numeric to avoid summation error for NAN values and to get those rows removed from final output. Later do this
     try:
         std_horzntl_note_df.reset_index(drop=True,inplace=True)
-        year_cols = [i for i in std_horzntl_note_df.columns if i not in ["line_item"]]
+        year_cols = [i for i in std_horzntl_note_df.columns if i not in ["line_item","Note"]]
         std_horzntl_note_df[year_cols] = std_horzntl_note_df[year_cols].fillna(value=0)
         remove_indics = []
         for idx,row in std_horzntl_note_df.iterrows():

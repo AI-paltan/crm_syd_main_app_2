@@ -5,22 +5,127 @@ import string
 
 def second_filter_PPE(std_hrzntl_note_df,month):
     ## this function will filter PPE note further for month of given annual statemnt
-    month_indices = []
-    if isinstance(std_hrzntl_note_df,pd.DataFrame):
-        std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
-        for idx,row in std_hrzntl_note_df.iterrows():
-            if month in row["line_item"].lower():
-                month_indices.append(idx)
-        # print(month_indices)
-        if len(month_indices)>0:
-            std_hrzntl_note_df = std_hrzntl_note_df.iloc[month_indices]
-        std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+    try:
+        month_indices = []
+        if isinstance(std_hrzntl_note_df,pd.DataFrame):
+            std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+            for idx,row in std_hrzntl_note_df.iterrows():
+                if month in row["line_item"].lower():
+                    month_indices.append(idx)
+            # print(month_indices)
+            if len(month_indices)>0:
+                std_hrzntl_note_df = std_hrzntl_note_df.iloc[month_indices]
+            std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+    except: pass
     return std_hrzntl_note_df
+
+def second_filter_PPE_modified(std_hrzntl_note_df,remaining_notes_hrzntl_df,month):
+    ## this function will filter PPE note further for month of given annual statemnt
+    try:
+        month_indices = []
+        if isinstance(std_hrzntl_note_df,pd.DataFrame):
+            std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
+            for idx,row in std_hrzntl_note_df.iterrows():
+                if month in row["line_item"].lower():
+                    month_indices.append(idx)
+            # print(month_indices)
+            if len(month_indices)>0:
+                std_hrzntl_note_df = std_hrzntl_note_df.iloc[month_indices]
+            std_hrzntl_note_df.reset_index(drop=True,inplace=True)
+    except: pass
+    return std_hrzntl_note_df
+
+def PPE_month_additional_rechecking(std_hrznt_df,remaining_hrznt_df,month,year_list):
+    ## check how many year values are there. if its 1 then check for next month and if its 2 then leave it 
+    next_mont_dict = {'december':'january','august':'september','march':'april','april':'may'}
+    other_col_list = ["line_item","Note"]
+    if check_one_year_value_present(std_hrznt_df,year_list):
+        all_year_present_flag,which_year_missing = check_number_of_years_prsent(std_hrznt_df,year_list)
+        if all_year_present_flag:
+            std_hrznt_df = handle_all_year_prsnt_PPE(std_hrznt_df,remaining_hrznt_df,month,year_list)
+        else:
+            std_hrznt_df = handle_one_year_present_PPE(std_hrznt_df,remaining_hrznt_df,month,year_list)
+    # year_col_list =  year_list
+    # one_year_data_present_flag = False
+    # cnt = 0
+    # for year in year_col_list:
+    #     sum  = std_hrznt_df[year].sum()
+    #     if sum > 0.0:
+    #         cnt = cnt+1
+    
+    # if cnt==1:
+    #     one_year_data_present_flag =True 
+
+def handle_all_year_prsnt_PPE(std_hrznt_df,remaining_hrznt_df,month,year_list):
+    remaining_hrznt_df.reset_index(drop=True,inplace=True)
+    ### find next month value from remaining_hrznt_df and include it in std_hrznt_df
+    next_mont_dict = {'december':'january','august':'september','march':'april','april':'may'}
+    next_month = next_mont_dict.get(month.lower())
+    next_month_indices = []
+    if len(remaining_hrznt_df) > 0:
+        for idx,row in remaining_hrznt_df.iterrows():
+            if next_month in row["line_item"].lower():
+                next_month_indices.append(idx)
+    
+    std_hrznt_df = std_hrznt_df.append(remaining_hrznt_df.iloc[next_month_indices],ignore_index=True)
+    std_hrznt_df.reset_index(drop=True,inplace=True)
+    
+    return std_hrznt_df
+
+
+def handle_one_year_present_PPE(std_hrznt_df,remaining_hrznt_df,month, year_list):
+    ### add missing month std_hrznt_df, find next month value from remaining_hrznt_df and inclue it in std_hrzntl_df
+    next_month_dict = {'december':'january','august':'september','march':'april','april':'may'}
+    remaining_hrznt_df.reset_index(drop=True,inplace=True)
+    next_month = next_month_dict.get(month.lower())
+    next_month_indices = []
+    if len(remaining_hrznt_df) > 0:
+        for idx,row in remaining_hrznt_df.iterrows():
+            if next_month in row["line_item"].lower():
+                next_month_indices.append(idx)
+    
+    std_hrznt_df = std_hrznt_df.append(remaining_hrznt_df.iloc[next_month_indices],ignore_index=True)
+    std_hrznt_df.reset_index(drop=True,inplace=True)
+    
+    return std_hrznt_df
+
+
+def check_number_of_years_prsent(std_hrznt_df,year_list):
+    other_col_list = ["line_item","Note"]
+    year_cols = [i for i in std_hrznt_df.columns if i not in other_col_list]
+    all_year_present_flag = True
+    which_year_missing = []
+    if len(year_cols) == len(year_list):
+        all_year_present_flag = True
+    else:
+        all_year_present_flag = False
+        which_year_missing = list(set(year_list) - set(year_cols))
+
+    return all_year_present_flag,which_year_missing
+
+
+
+def check_one_year_value_present(std_hrznt_df,year_list):
+    year_col_list =  year_list
+    one_year_data_present_flag = False
+    cnt = 0
+    for year in year_col_list:
+        try:
+            sum  = std_hrznt_df[year].sum()
+            if sum > 0.0:
+                cnt = cnt+1
+        except:
+            pass
+    
+    if cnt==1:
+        one_year_data_present_flag =True 
+
+    return one_year_data_present_flag
 
 def gross_PPE_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
         std_hrzntl_note_df.reset_index(drop=True,inplace=True)
-        keywords = ['cost','gross']
+        keywords = ['cost','gross','fair value']
         indices = []
         for idx,row in std_hrzntl_note_df.iterrows():
             for kwrd in keywords:
@@ -36,7 +141,7 @@ def gross_PPE_filter(std_hrzntl_note_df):
 def accumulation_PPE_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
         std_hrzntl_note_df.reset_index(drop=True,inplace=True)
-        keywords = ['depreciatio','accumulated depreciation']
+        keywords = ['depreciatio','accumulated depreciation','depreciation']
         indices = []
         std_hrzntl_note_df = std_hrzntl_note_df.reset_index(drop=True)
         for idx,row in std_hrzntl_note_df.iterrows():
@@ -122,6 +227,8 @@ def current_word_filter(std_hrzntl_note_df):
         #     std_hrzntl_note_df = std_hrzntl_note_df.iloc[indices]
         std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     return std_hrzntl_note_df
+
+
 
 def noncurrent_word_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
