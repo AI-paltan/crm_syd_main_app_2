@@ -19,7 +19,7 @@ def second_filter_PPE(std_hrzntl_note_df,month):
     except: pass
     return std_hrzntl_note_df
 
-def second_filter_PPE_modified(std_hrzntl_note_df,remaining_notes_hrzntl_df,month):
+def second_filter_PPE_modified(std_hrzntl_note_df,remaining_notes_hrzntl_df,month,year_list):
     ## this function will filter PPE note further for month of given annual statemnt
     try:
         month_indices = []
@@ -31,6 +31,7 @@ def second_filter_PPE_modified(std_hrzntl_note_df,remaining_notes_hrzntl_df,mont
             # print(month_indices)
             if len(month_indices)>0:
                 std_hrzntl_note_df = std_hrzntl_note_df.iloc[month_indices]
+                std_hrzntl_note_df = PPE_month_additional_rechecking(std_hrznt_df=std_hrzntl_note_df,remaining_hrznt_df=remaining_notes_hrzntl_df,month=month,year_list=year_list)
             std_hrzntl_note_df.reset_index(drop=True,inplace=True)
     except: pass
     return std_hrzntl_note_df
@@ -54,7 +55,10 @@ def PPE_month_additional_rechecking(std_hrznt_df,remaining_hrznt_df,month,year_l
     #         cnt = cnt+1
     
     # if cnt==1:
-    #     one_year_data_present_flag =True 
+    #     one_year_data_present_flag =True
+    #  
+    return std_hrznt_df
+
 
 def handle_all_year_prsnt_PPE(std_hrznt_df,remaining_hrznt_df,month,year_list):
     remaining_hrznt_df.reset_index(drop=True,inplace=True)
@@ -67,9 +71,9 @@ def handle_all_year_prsnt_PPE(std_hrznt_df,remaining_hrznt_df,month,year_list):
             if next_month in row["line_item"].lower():
                 next_month_indices.append(idx)
     
-    std_hrznt_df = std_hrznt_df.append(remaining_hrznt_df.iloc[next_month_indices],ignore_index=True)
+    std_hrznt_df = insert_values_in_previous_column(std_hrznt_df=std_hrznt_df,remaining_hrznt_df=remaining_hrznt_df,year_list=year_list)
+    # std_hrznt_df = std_hrznt_df.append(remaining_hrznt_df.iloc[next_month_indices],ignore_index=True) ### need to put it in previous year column
     std_hrznt_df.reset_index(drop=True,inplace=True)
-    
     return std_hrznt_df
 
 
@@ -84,11 +88,35 @@ def handle_one_year_present_PPE(std_hrznt_df,remaining_hrznt_df,month, year_list
             if next_month in row["line_item"].lower():
                 next_month_indices.append(idx)
     
-    std_hrznt_df = std_hrznt_df.append(remaining_hrznt_df.iloc[next_month_indices],ignore_index=True)
+    # std_hrznt_df = std_hrznt_df.append(remaining_hrznt_df.iloc[next_month_indices],ignore_index=True)  ## need to put in previous year column
+    std_hrznt_df = insert_previous_year_column(std_hrznt_df,year_list)
+    std_hrznt_df = insert_values_in_previous_column(std_hrznt_df,remaining_hrznt_df,year_list)
+
     std_hrznt_df.reset_index(drop=True,inplace=True)
     
     return std_hrznt_df
 
+def insert_values_in_previous_column(std_hrznt_df, remaining_hrznt_df,year_list):
+    prev_year = min(year_list)
+    add_row = {}
+    for idx,row in remaining_hrznt_df.iterrows():
+        add_row['line_item'] = row['line_item']
+        add_row[prev_year] = row[prev_year + 1]
+        try:
+            add_row['Note'] = row['Note']
+        except:
+            pass
+        
+        std_hrznt_df = std_hrznt_df.append(add_row,ignore_index=True)
+
+    return std_hrznt_df
+
+def insert_previous_year_column(std_hrznt_df, year_list):
+    prev_year = min(year_list)
+    std_hrznt_df_cols = [i for i in std_hrznt_df.columns if i not in ["line_item","Note"]]
+    if len(std_hrznt_df_cols) != len(year_list):
+        std_hrznt_df[prev_year] = ''
+    return std_hrznt_df
 
 def check_number_of_years_prsent(std_hrznt_df,year_list):
     other_col_list = ["line_item","Note"]
@@ -121,6 +149,8 @@ def check_one_year_value_present(std_hrznt_df,year_list):
         one_year_data_present_flag =True 
 
     return one_year_data_present_flag
+
+
 
 def gross_PPE_filter(std_hrzntl_note_df):
     if isinstance(std_hrzntl_note_df,pd.DataFrame):
